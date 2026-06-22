@@ -17,14 +17,22 @@ El sitio es **100% estático**: lee archivos JSON pre-calculados. **No tiene bac
 
 ## Secciones
 
-| Sección | Qué muestra |
-|---------|-------------|
-| **Panorama** | KPIs macro (contratos, valor total, entidades, contratistas) + evolución por año + top sectores |
-| **Quién contrata** | Top entidades por valor, distribución por nivel de gobierno y por sector |
-| **Cómo contrata** | Modalidades de contratación, su evolución y el % de contratación directa |
-| **Dónde** | Mapa coroplético de Colombia por departamento + ranking territorial |
-| **Señales** | Estadística descriptiva (concentración, percentiles). Neutral, sin juicio |
-| **Acerca** | Metodología, fuentes, ventana de datos y límites |
+El dashboard se organiza por **preguntas ciudadanas** (cada una con su color):
+
+| Sección | Pregunta | Qué muestra |
+|---------|----------|-------------|
+| **Inicio** | — | Resumen nacional + navegación editorial |
+| **Quién contrata** | ¿Quién? | Top entidades/contratistas, nivel de gobierno, categoría de objeto |
+| **Cómo contrata** | ¿Cómo? | Modalidades, % directa y % adjudicado de los procesos |
+| **Qué se planea** | ¿Qué se planea? | Plan Anual de Adquisiciones (PAA) |
+| **En qué se invierte** | ¿En qué? | Presupuesto de inversión pública (BPIN) |
+| **Se ejecuta** | ¿Se ejecuta? | Contratado → facturado → pagado |
+| **Dónde** | ¿Dónde? | Mapa coroplético de Colombia por departamento |
+| **Hay señales** | ¿Hay señales? | Concentración, sanciones (SIRI), financiación electoral |
+| **Se cruzan los datos** | ¿Se cruzan? | Coincidencias factuales (donante↔contratista, sancionado↔contratista) |
+| **Acerca** | — | Metodología, fuentes y límites |
+
+📚 **Documentación completa en la [wiki](wiki/Home.md)** — fuentes, metodología, cruces, glosario, arquitectura, despliegue, auditoría de datos y caveats.
 
 ## Fork en 5 minutos
 
