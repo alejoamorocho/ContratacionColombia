@@ -7,6 +7,7 @@ Observatorio estático y open source de la contratación pública colombiana (SE
 - **[De dónde vienen los datos](01-Fuentes.md)** — la fuente SECOP II y el esquema.
 - **[Cómo se limpian y agregan](02-Datos-y-Materializacion.md)** — el materializador y las consultas.
 - **[Metodología](03-Metodologia.md)** — qué calculamos y qué NO (sin scoring, sin juicios).
+- **[Auditoría de datos](06-Auditoria-De-Datos.md)** — control de calidad y veracidad de las cifras.
 - **[Hacer un fork](04-Hacer-Un-Fork.md)** — clona, cambia, despliega lo tuyo.
 - **[FAQ](05-FAQ.md)** — preguntas frecuentes.
 
