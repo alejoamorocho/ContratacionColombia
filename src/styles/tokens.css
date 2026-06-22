@@ -27,6 +27,11 @@
   --color-data-pink: #e91e63;
   --color-data-green: #28a745;
 
+  /* Marca — acento teal/menta (logo ACUER2) */
+  --brand: #2dd4bf;
+  --brand-strong: #14b8a6;
+  --brand-subtle: rgba(45, 212, 191, 0.12);
+
   /* Gradients — brand (hex logo colors) */
   --gradient-brand: linear-gradient(135deg, #388bfd 0%, #7b8cee 50%, #bc8cff 100%);
   --gradient-brand-subtle: linear-gradient(135deg, rgba(56,139,253,0.13) 0%, rgba(188,140,255,0.13) 100%);

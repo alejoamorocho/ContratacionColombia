@@ -18,7 +18,7 @@
   font-weight: 700;
   letter-spacing: 0.04em;
   padding: var(--space-2) var(--space-4) var(--space-4);
-  color: var(--fg-default);
+  color: var(--brand);
 }
 
 .sidebar ul {
@@ -51,8 +51,8 @@
 
 .sidebar a.active {
   color: var(--fg-default);
-  background: var(--accent-subtle);
-  border-left-color: var(--accent);
+  background: var(--brand-subtle);
+  border-left-color: var(--brand);
 }
 
 .sidebar a svg {
@@ -87,6 +87,6 @@
   }
   .sidebar a.active {
     border-left: none;
-    border-bottom-color: var(--accent);
+    border-bottom-color: var(--brand);
   }
 }

@@ -44,9 +44,9 @@ function KPICard({ label, valor, unidad, tendencia, color, invertTrend }: KPICar
           position: 'absolute',
           top: 0,
           left: 0,
-          right: 0,
-          height: 2,
-          background: 'var(--gradient-brand)',
+          bottom: 0,
+          width: 3,
+          background: 'var(--brand)',
         }}
       />
       <p style={{ color: 'var(--fg-muted)', fontSize: 12, margin: '0 0 8px' }}>{label}</p>
