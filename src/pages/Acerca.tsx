@@ -64,9 +64,23 @@ export default function Acerca() {
         Código y licencia
       </h2>
       <p style={{ color: 'var(--fg-default)', maxWidth: '70ch', lineHeight: 1.6 }}>
-        <a href="#" style={{ color: 'var(--fg-default)' }}>Repositorio</a>
+        <a
+          href="https://github.com/alejoamorocho/ContratacionColombia"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: 'var(--brand)' }}
+        >
+          Repositorio en GitHub
+        </a>
         {' · '}
-        <a href="#" style={{ color: 'var(--fg-default)' }}>Wiki</a>
+        <a
+          href="https://github.com/alejoamorocho/ContratacionColombia/tree/main/wiki"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: 'var(--brand)' }}
+        >
+          Wiki
+        </a>
         <br />
         Open source bajo Apache 2.0.
       </p>

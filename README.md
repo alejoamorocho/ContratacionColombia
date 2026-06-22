@@ -29,7 +29,8 @@ El sitio es **100% estático**: lee archivos JSON pre-calculados. **No tiene bac
 ## Fork en 5 minutos
 
 ```bash
-git clone <este-repo> && cd vectorvi-public
+git clone https://github.com/alejoamorocho/ContratacionColombia.git
+cd ContratacionColombia
 npm install
 npm run dev          # usa el snapshot de datos ya incluido en public/data/
 ```
