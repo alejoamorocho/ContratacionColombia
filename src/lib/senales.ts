@@ -133,18 +133,6 @@ export const SENALES: Record<string, SenalConfig> = {
     ],
     nota: 'Coincidencia exacta de NIT; departamento de la entidad ≠ departamento de la sanción; contrato posterior a la sanción.',
   },
-  insolvente: {
-    label: 'Contratista insolvente',
-    tone: 'signal',
-    pregunta: '¿Contratan empresas con patrimonio negativo?',
-    contexto: 'Contratistas (≥ $100 M en contratos) cuyo patrimonio reportado a Supersociedades, en su corte más reciente, es negativo.',
-    callout: `El patrimonio negativo puede ser temporal y no impide contratar. ${NEUTRAL}`,
-    kpis: [
-      { metric: 'contratistas', label: 'Contratistas con patrimonio negativo' },
-      { metric: 'valor', label: 'Valor contratado', unidad: 'COP' },
-    ],
-    nota: 'Solo cubre empresas que reportan a Supersociedades; el corte financiero puede no coincidir con la fecha del contrato.',
-  },
   donante_post_eleccion: {
     label: 'Donante post-elección',
     tone: 'signal',

@@ -48,7 +48,8 @@ BASE_TABLE = f"{PROJECT}.{DATASET}._contratos_pub"
 _BASE_COLS = (
     "id, valor, valor_facturado, valor_pagado, fecha_firma, entidad_nit, "
     "entidad_nombre, contratista_nit, modalidad, objeto_clasificado, orden, "
-    "entidad_departamento"
+    "entidad_departamento, es_pyme, "
+    "recursos_pgn, recursos_sgp, recursos_regalias, recursos_propios"
 )
 
 FUENTES = [
@@ -462,6 +463,110 @@ def _write(nombre: str, data: dict[str, Any]) -> None:  # pragma: no cover - IO
     )
 
 
+def shape_genero(rows_kpi, rows_anio):
+    """GeneroData: género del REPRESENTANTE LEGAL (no de la propiedad), ~98% cobertura."""
+    k = rows_kpi[0] if rows_kpi else {}
+    return {
+        "kpis": {
+            "pct_contratos_mujer": _f(k.get("pct_contratos_mujer")),
+            "pct_valor_mujer": _f(k.get("pct_valor_mujer")),
+            "mediana_valor_mujer": _f(k.get("mediana_valor_mujer")),
+            "mediana_valor_hombre": _f(k.get("mediana_valor_hombre")),
+        },
+        "serie": [
+            {"anio": _i(r.get("anio")), "pct_contratos_mujer": _f(r.get("pct_contratos_mujer")), "pct_valor_mujer": _f(r.get("pct_valor_mujer"))}
+            for r in rows_anio
+        ],
+    }
+
+
+def shape_pyme(rows_kpi, rows_serie):
+    """PymeData: participación PYME (autodeclarada) + por modalidad."""
+    k = rows_kpi[0] if rows_kpi else {}
+    return {
+        "kpis": {
+            "pct_contratos_pyme": _f(k.get("pct_contratos_pyme")),
+            "pct_valor_pyme": _f(k.get("pct_valor_pyme")),
+            "valor_total_pyme": _f(k.get("valor_total_pyme")),
+        },
+        "serie": [
+            {"modalidad": _s(r.get("modalidad"), "Otras"), "contratos": _i(r.get("contratos")), "pct_contratos_pyme": _f(r.get("pct_contratos_pyme"))}
+            for r in rows_serie
+        ],
+    }
+
+
+def shape_duracion(rows_kpi, rows_serie):
+    """DuracionData: plazo CONTRATADO (fecha_inicio→fecha_fin), no ejecución real."""
+    k = rows_kpi[0] if rows_kpi else {}
+    return {
+        "kpis": {"mediana_dias": _i(k.get("mediana_dias")), "p25": _i(k.get("p25")), "p75": _i(k.get("p75")), "p90": _i(k.get("p90"))},
+        "serie": [
+            {"modalidad": _s(r.get("modalidad"), "Otras"), "mediana_dias": _i(r.get("mediana_dias"))}
+            for r in rows_serie
+        ],
+    }
+
+
+_MESES_ORDEN = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
+
+
+def shape_estacionalidad(rows_kpi, rows_serie):
+    """EstacionalidadData: kpis + serie por mes (Ene..Dic), años completos 2022-2025."""
+    k = rows_kpi[0] if rows_kpi else {}
+    by_mes = {_s(r.get("mes")): r for r in rows_serie}
+    return {
+        "kpis": {
+            "pct_contratos_enero": _f(k.get("pct_contratos_enero")),
+            "pct_valor_diciembre": _f(k.get("pct_valor_diciembre")),
+            "ratio_enero_promedio": _f(k.get("ratio_enero_promedio")),
+            "pct_contratos_q1": _f(k.get("pct_contratos_q1")),
+        },
+        "serie": [
+            {"mes": m, "contratos": _i(by_mes.get(m, {}).get("contratos")), "valor": _f(by_mes.get(m, {}).get("valor"))}
+            for m in _MESES_ORDEN
+        ],
+    }
+
+
+def shape_financiacion(rows_kpi, rows_fuente):
+    """FinanciacionData: valor contratado por fuente del gasto (~63% del total con fuente)."""
+    k = rows_kpi[0] if rows_kpi else {}
+    return {
+        "kpis": {
+            "pgn": _f(k.get("pgn")), "propios": _f(k.get("propios")), "sgp": _f(k.get("sgp")), "regalias": _f(k.get("regalias")),
+            "valor_con_fuente": _f(k.get("valor_con_fuente")), "valor_total": _f(k.get("valor_total")), "pct_con_fuente": _f(k.get("pct_con_fuente")),
+        },
+        "serie": [{"fuente": _s(r.get("fuente")), "valor": _f(r.get("valor"))} for r in rows_fuente],
+    }
+
+
+def shape_crecimiento(rows_kpi, rows_serie):
+    """CrecimientoData: variación nominal del valor por sector 2023→2025 (sin alzas de 1 solo contrato)."""
+    k = rows_kpi[0] if rows_kpi else {}
+    return {
+        "kpis": {
+            "valor_2025": _f(k.get("valor_2025")), "valor_2023": _f(k.get("valor_2023")),
+            "sector_mayor_alza": _s(k.get("sector_mayor_alza"), "—"), "var_mayor_alza": _f(k.get("var_mayor_alza")),
+            "n_sectores_cayeron": _i(k.get("n_sectores_cayeron")), "n_sectores": _i(k.get("n_sectores")),
+        },
+        "serie": [{"sector": _s(r.get("sector"), "Sin clasificar"), "var_pct": _f(r.get("var_pct"))} for r in rows_serie],
+    }
+
+
+def _build_analisis(client):  # pragma: no cover - requiere BQ
+    """Secciones analíticas (datos valiosos): género, PYME, duración, estacionalidad,
+    financiación, crecimiento. Agregados nacionales, ventana 2022-2026."""
+    return {"items": {
+        "genero": shape_genero(_q(client, "genero_kpis.sql"), _q(client, "genero_anio.sql")),
+        "pyme": shape_pyme(_q(client, "pyme_kpis.sql"), _q(client, "pyme_modalidad.sql")),
+        "duracion": shape_duracion(_q(client, "duracion_kpis.sql"), _q(client, "duracion_modalidad.sql")),
+        "estacionalidad": shape_estacionalidad(_q(client, "estacionalidad_kpis.sql"), _q(client, "estacionalidad_mes.sql")),
+        "financiacion": shape_financiacion(_q(client, "financiacion_kpis.sql"), _q(client, "financiacion_fuente.sql")),
+        "crecimiento": shape_crecimiento(_q(client, "crecimiento_kpis.sql"), _q(client, "crecimiento_sector.sql")),
+    }}
+
+
 def _build_senales_extra(client):  # pragma: no cover - requiere BQ
     """Señales/cruces adicionales — agregados NACIONALES neutrales (sin perfiles),
     ventana 2022-2026. NINGÚN dato es acusatorio: son coincidencias factuales que
@@ -481,7 +586,6 @@ def _build_senales_extra(client):  # pragma: no cover - requiere BQ
         "puerta_giratoria": f"WITH sv AS (SELECT CAST(numero_documento AS STRING) doc, entidad_normalizada ent FROM `{P}.{D}.sigep_servidores` WHERE numero_documento IS NOT NULL GROUP BY 1,2) SELECT COUNT(DISTINCT sv.doc) AS personas, SUM(c.valor) AS valor FROM sv JOIN {C} c ON CAST(sv.doc AS STRING) = c.contratista_nit AND sv.ent = c.entidad_nombre_normalizado WHERE {W}",
         "redes_relaciones": f"WITH r AS (SELECT nit_a, nit_b FROM `{P}.{D}.relaciones` WHERE tipo_relacion = 'REPRESENTANTE_COMPARTIDO') SELECT COUNT(DISTINCT c.contratista_nit) AS empresas, SUM(c.valor) AS valor FROM r JOIN {C} c ON c.contratista_nit IN (CAST(r.nit_a AS STRING), CAST(r.nit_b AS STRING)) WHERE {W}",
         "sancionado_otro_depto": f"WITH sa AS (SELECT sancionado_nit nit, UPPER(TRIM(departamento)) dp, MIN(fecha_inicio) f FROM `{P}.{D}.sanciones` WHERE sancionado_nit IS NOT NULL AND departamento IS NOT NULL GROUP BY 1,2) SELECT COUNT(DISTINCT sa.nit) AS contratistas, SUM(c.valor) AS valor FROM sa JOIN {C} c ON c.contratista_nit = sa.nit AND UPPER(TRIM(c.entidad_departamento)) != sa.dp AND c.fecha_firma > sa.f WHERE {W}",
-        "insolvente": f"WITH pat AS (SELECT CAST(nit AS STRING) nit, ARRAY_AGG(valor ORDER BY fecha_corte DESC LIMIT 1)[OFFSET(0)] p FROM `{P}.{D}.supersociedades_situacion` WHERE UPPER(concepto) LIKE '%PATRIMONIO%' AND valor IS NOT NULL GROUP BY 1) SELECT COUNT(DISTINCT c.contratista_nit) AS contratistas, SUM(c.valor) AS valor FROM pat JOIN {C} c ON c.contratista_nit = pat.nit WHERE {W} AND pat.p < 0 AND c.valor >= 1e8",
         "donante_post_eleccion": f"SELECT COUNT(DISTINCT c.contratista_nit) AS contratistas, SUM(c.valor) AS valor FROM `{P}.{D}.campanas` ca JOIN {C} c ON CAST(ca.nit_aportante AS STRING) = c.contratista_nit WHERE SAFE_CAST(ca.anio_eleccion AS INT64) >= 2022 AND c.fecha_firma > DATE(SAFE_CAST(ca.anio_eleccion AS INT64) + 1, 1, 1) AND {W}",
         "cluster_electoral": f"WITH cl AS (SELECT candidato, COUNT(DISTINCT CAST(ca.nit_aportante AS STRING)) na, COUNT(DISTINCT IF(co.id IS NOT NULL, CAST(ca.nit_aportante AS STRING), NULL)) nc FROM `{P}.{D}.campanas` ca LEFT JOIN {C} co ON CAST(ca.nit_aportante AS STRING) = co.contratista_nit AND co.fecha_firma BETWEEN '2022-01-01' AND '2026-12-31' GROUP BY candidato) SELECT COUNT(*) AS clusters, SUM(nc) AS aportantes_que_contratan FROM cl WHERE na >= 3 AND nc >= 2",
     }
@@ -583,6 +687,7 @@ def _run_aggregates(client) -> None:  # pragma: no cover - requiere BQ
         _q(client, "cruces_sancionado.sql"),
     ))
     _write("senales_extra", _build_senales_extra(client))
+    _write("analisis", _build_analisis(client))
 
     corte_rows = [
         dict(r)

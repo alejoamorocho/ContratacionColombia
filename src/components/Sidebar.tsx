@@ -11,7 +11,14 @@ type Entry =
 
 const NAV: Entry[] = [
   { type: 'link', to: '/', label: 'Inicio', icon: Home, tone: 'context', end: true },
-  { type: 'link', to: '/quien', label: 'Quién contrata', icon: Building2, tone: 'who' },
+  {
+    type: 'group', label: 'Quién contrata', icon: Building2, tone: 'who',
+    items: [
+      { to: '/quien', label: 'Entidades y contratistas', end: true },
+      { to: '/analisis/genero', label: 'Género' },
+      { to: '/analisis/pyme', label: 'PYMEs' },
+    ],
+  },
   {
     type: 'group', label: 'Cómo contrata', icon: GitBranch, tone: 'how',
     items: [
@@ -19,12 +26,21 @@ const NAV: Entry[] = [
       { to: '/planea', label: 'Planeación (PAA)' },
       { to: '/invierte', label: 'Inversión (BPIN)' },
       { to: '/ejecuta', label: 'Ejecución y pagos' },
+      { to: '/analisis/duracion', label: 'Duración' },
+      { to: '/analisis/estacionalidad', label: 'Estacionalidad' },
+      { to: '/analisis/financiacion', label: 'Financiación' },
       { to: '/senal/adiciones', label: 'Adiciones' },
       { to: '/senal/contratos_no_planeados', label: 'Contratos no planeados' },
       { to: '/senal/brechas_bpin', label: 'Brechas de inversión' },
     ],
   },
-  { type: 'link', to: '/donde', label: 'Dónde', icon: Map, tone: 'where' },
+  {
+    type: 'group', label: 'Dónde', icon: Map, tone: 'where',
+    items: [
+      { to: '/donde', label: 'Mapa por departamento' },
+      { to: '/analisis/crecimiento', label: 'Crecimiento 2023–2025' },
+    ],
+  },
   {
     type: 'group', label: 'Hay señales', icon: Activity, tone: 'signal',
     items: [
@@ -37,7 +53,6 @@ const NAV: Entry[] = [
       { to: '/senal/redes_relaciones', label: 'Redes de relaciones' },
       { to: '/senal/sancionado_otro_depto', label: 'Sancionado en otro depto.' },
       { to: '/senal/cluster_electoral', label: 'Cluster electoral' },
-      { to: '/senal/insolvente', label: 'Contratista insolvente' },
       { to: '/senal/donante_post_eleccion', label: 'Donante post-elección' },
     ],
   },

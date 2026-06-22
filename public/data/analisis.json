@@ -1,0 +1,280 @@
+{
+  "items": {
+    "genero": {
+      "kpis": {
+        "pct_contratos_mujer": 53.0,
+        "pct_valor_mujer": 40.6,
+        "mediana_valor_mujer": 19742044.0,
+        "mediana_valor_hombre": 20700000.0
+      },
+      "serie": [
+        {
+          "anio": 2022,
+          "pct_contratos_mujer": 50.8,
+          "pct_valor_mujer": 38.1
+        },
+        {
+          "anio": 2023,
+          "pct_contratos_mujer": 53.4,
+          "pct_valor_mujer": 37.2
+        },
+        {
+          "anio": 2024,
+          "pct_contratos_mujer": 53.7,
+          "pct_valor_mujer": 45.1
+        },
+        {
+          "anio": 2025,
+          "pct_contratos_mujer": 53.1,
+          "pct_valor_mujer": 41.3
+        },
+        {
+          "anio": 2026,
+          "pct_contratos_mujer": 54.2,
+          "pct_valor_mujer": 40.6
+        }
+      ]
+    },
+    "pyme": {
+      "kpis": {
+        "pct_contratos_pyme": 12.8,
+        "pct_valor_pyme": 20.7,
+        "valor_total_pyme": 120863718491807.0
+      },
+      "serie": [
+        {
+          "modalidad": "Selección abreviada",
+          "contratos": 65131,
+          "pct_contratos_pyme": 75.1
+        },
+        {
+          "modalidad": "Mínima cuantía",
+          "contratos": 189212,
+          "pct_contratos_pyme": 74.8
+        },
+        {
+          "modalidad": "Concurso de méritos",
+          "contratos": 9366,
+          "pct_contratos_pyme": 62.4
+        },
+        {
+          "modalidad": "Licitación pública",
+          "contratos": 14567,
+          "pct_contratos_pyme": 43.5
+        },
+        {
+          "modalidad": "Otras",
+          "contratos": 585,
+          "pct_contratos_pyme": 21.4
+        },
+        {
+          "modalidad": "Régimen especial",
+          "contratos": 581515,
+          "pct_contratos_pyme": 15.5
+        },
+        {
+          "modalidad": "Contratación directa",
+          "contratos": 3109064,
+          "pct_contratos_pyme": 6.9
+        }
+      ]
+    },
+    "duracion": {
+      "kpis": {
+        "mediana_dias": 151,
+        "p25": 89,
+        "p75": 252,
+        "p90": 333
+      },
+      "serie": [
+        {
+          "modalidad": "Licitación pública",
+          "mediana_dias": 270
+        },
+        {
+          "modalidad": "Concurso de méritos",
+          "mediana_dias": 242
+        },
+        {
+          "modalidad": "Contratación directa",
+          "mediana_dias": 159
+        },
+        {
+          "modalidad": "Selección abreviada",
+          "mediana_dias": 121
+        },
+        {
+          "modalidad": "Régimen especial",
+          "mediana_dias": 117
+        },
+        {
+          "modalidad": "Mínima cuantía",
+          "mediana_dias": 61
+        },
+        {
+          "modalidad": "Otras",
+          "mediana_dias": 45
+        }
+      ]
+    },
+    "estacionalidad": {
+      "kpis": {
+        "pct_contratos_enero": 19.4,
+        "pct_valor_diciembre": 18.1,
+        "ratio_enero_promedio": 2.3,
+        "pct_contratos_q1": 40.5
+      },
+      "serie": [
+        {
+          "mes": "Ene",
+          "contratos": 662919,
+          "valor": 53188705254724.0
+        },
+        {
+          "mes": "Feb",
+          "contratos": 459312,
+          "valor": 52407160843188.0
+        },
+        {
+          "mes": "Mar",
+          "contratos": 260166,
+          "valor": 34808553575591.0
+        },
+        {
+          "mes": "Abr",
+          "contratos": 185969,
+          "valor": 30982702903944.0
+        },
+        {
+          "mes": "May",
+          "contratos": 205129,
+          "valor": 35663200082505.0
+        },
+        {
+          "mes": "Jun",
+          "contratos": 211258,
+          "valor": 41045807349391.0
+        },
+        {
+          "mes": "Jul",
+          "contratos": 237850,
+          "valor": 34871733501888.0
+        },
+        {
+          "mes": "Ago",
+          "contratos": 253794,
+          "valor": 32214491602163.0
+        },
+        {
+          "mes": "Sep",
+          "contratos": 266812,
+          "valor": 34086768616024.0
+        },
+        {
+          "mes": "Oct",
+          "contratos": 257222,
+          "valor": 34705687002373.0
+        },
+        {
+          "mes": "Nov",
+          "contratos": 247911,
+          "valor": 46222647299333.0
+        },
+        {
+          "mes": "Dic",
+          "contratos": 168498,
+          "valor": 95239956661467.0
+        }
+      ]
+    },
+    "financiacion": {
+      "kpis": {
+        "pgn": 203635062722854.0,
+        "propios": 118510440354314.0,
+        "sgp": 24918796857407.0,
+        "regalias": 19147602903570.0,
+        "valor_con_fuente": 366211902838145.0,
+        "valor_total": 583796373548818.0,
+        "pct_con_fuente": 0.627293898062424
+      },
+      "serie": [
+        {
+          "fuente": "PGN",
+          "valor": 203635062722854.0
+        },
+        {
+          "fuente": "Propios",
+          "valor": 118510440354314.0
+        },
+        {
+          "fuente": "SGP",
+          "valor": 24918796857407.0
+        },
+        {
+          "fuente": "Regalías",
+          "valor": 19147602903570.0
+        }
+      ]
+    },
+    "crecimiento": {
+      "kpis": {
+        "valor_2025": 172658527055336.0,
+        "valor_2023": 127167860614556.0,
+        "sector_mayor_alza": "Aseo",
+        "var_mayor_alza": 140.4,
+        "n_sectores_cayeron": 6,
+        "n_sectores": 31
+      },
+      "serie": [
+        {
+          "sector": "Aseo",
+          "var_pct": 140.4
+        },
+        {
+          "sector": "Jurídico",
+          "var_pct": 138.3
+        },
+        {
+          "sector": "Agua y saneamiento",
+          "var_pct": 69.3
+        },
+        {
+          "sector": "Minas Energia",
+          "var_pct": 68.0
+        },
+        {
+          "sector": "Alimentación",
+          "var_pct": 61.1
+        },
+        {
+          "sector": "Social",
+          "var_pct": 55.7
+        },
+        {
+          "sector": "Suministro",
+          "var_pct": 55.3
+        },
+        {
+          "sector": "Tecnología",
+          "var_pct": 52.0
+        },
+        {
+          "sector": "Interventoría",
+          "var_pct": -12.5
+        },
+        {
+          "sector": "Seguridad",
+          "var_pct": -15.1
+        },
+        {
+          "sector": "Medio ambiente",
+          "var_pct": -16.7
+        },
+        {
+          "sector": "Arrendamiento",
+          "var_pct": -31.0
+        }
+      ]
+    }
+  }
+}

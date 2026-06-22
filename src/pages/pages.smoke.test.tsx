@@ -7,6 +7,7 @@ import { resolve } from 'node:path';
 import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import Senal from './Senal';
+import Analisis from './Analisis';
 import Inicio from './Inicio';
 import Quien from './Quien';
 import Como from './Como';
@@ -62,4 +63,15 @@ it('Senal (genérica) renderiza una señal con datos', async () => {
     </MemoryRouter>,
   );
   await waitFor(() => expect(screen.getAllByText(/prorrog/i).length).toBeGreaterThan(0));
+});
+
+it('Analisis (genérica) renderiza una analítica con datos', async () => {
+  render(
+    <MemoryRouter initialEntries={['/analisis/genero']}>
+      <Routes>
+        <Route path="/analisis/:key" element={<Analisis />} />
+      </Routes>
+    </MemoryRouter>,
+  );
+  await waitFor(() => expect(screen.getAllByText(/mujeres|firma/i).length).toBeGreaterThan(0));
 });
