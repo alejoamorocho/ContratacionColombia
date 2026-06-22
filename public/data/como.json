@@ -1,0 +1,21 @@
+{
+  "por_modalidad": [
+    { "modalidad": "Contratación directa", "contratos": 3100000, "valor": 190000000000000, "pct": 59.6 },
+    { "modalidad": "Licitación pública", "contratos": 480000, "valor": 160000000000000, "pct": 9.2 },
+    { "modalidad": "Selección abreviada", "contratos": 620000, "valor": 78000000000000, "pct": 11.9 },
+    { "modalidad": "Mínima cuantía", "contratos": 850000, "valor": 31000000000000, "pct": 16.3 },
+    { "modalidad": "Concurso de méritos", "contratos": 150000, "valor": 21000000000000, "pct": 2.9 }
+  ],
+  "modalidad_por_anio": [
+    { "anio": 2022, "modalidad": "Contratación directa", "valor": 48000000000000 },
+    { "anio": 2023, "modalidad": "Contratación directa", "valor": 52000000000000 },
+    { "anio": 2024, "modalidad": "Contratación directa", "valor": 41000000000000 },
+    { "anio": 2025, "modalidad": "Contratación directa", "valor": 49000000000000 },
+    { "anio": 2022, "modalidad": "Licitación pública", "valor": 30000000000000 },
+    { "anio": 2023, "modalidad": "Licitación pública", "valor": 34000000000000 },
+    { "anio": 2024, "modalidad": "Licitación pública", "valor": 41000000000000 },
+    { "anio": 2025, "modalidad": "Licitación pública", "valor": 38000000000000 }
+  ],
+  "pct_directa": 59.6,
+  "pct_competitiva": 40.4
+}

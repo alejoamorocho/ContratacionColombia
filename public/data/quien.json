@@ -1,0 +1,20 @@
+{
+  "top_entidades": [
+    { "nombre": "Instituto Nacional de Vías", "nit": "800215807", "valor": 28000000000000, "contratos": 12400 },
+    { "nombre": "Ecopetrol S.A.", "nit": "899999068", "valor": 24000000000000, "contratos": 9800 },
+    { "nombre": "Fondo Nacional de Salud", "nit": "830009783", "valor": 19000000000000, "contratos": 21500 },
+    { "nombre": "Bogotá D.C. — Secretaría de Movilidad", "nit": "899999061", "valor": 14000000000000, "contratos": 7300 },
+    { "nombre": "ICBF", "nit": "899999239", "valor": 11000000000000, "contratos": 18900 }
+  ],
+  "por_nivel": [
+    { "nivel": "Nacional", "valor": 290000000000000, "contratos": 2100000 },
+    { "nivel": "Territorial", "valor": 150000000000000, "contratos": 2600000 },
+    { "nivel": "Descentralizado", "valor": 40000000000000, "contratos": 500000 }
+  ],
+  "por_sector": [
+    { "sector": "Salud", "valor": 62000000000000, "contratos": 410000 },
+    { "sector": "Educación", "valor": 41000000000000, "contratos": 350000 },
+    { "sector": "Infraestructura", "valor": 58000000000000, "contratos": 280000 },
+    { "sector": "Transporte", "valor": 33000000000000, "contratos": 190000 }
+  ]
+}

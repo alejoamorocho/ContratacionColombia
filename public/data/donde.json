@@ -1,0 +1,11 @@
+{
+  "por_departamento": [
+    { "dane": "11", "departamento": "Bogotá D.C.", "valor": 142000000000000, "contratos": 980000 },
+    { "dane": "05", "departamento": "Antioquia", "valor": 61000000000000, "contratos": 540000 },
+    { "dane": "76", "departamento": "Valle del Cauca", "valor": 38000000000000, "contratos": 410000 },
+    { "dane": "08", "departamento": "Atlántico", "valor": 22000000000000, "contratos": 230000 },
+    { "dane": "68", "departamento": "Santander", "valor": 19000000000000, "contratos": 210000 },
+    { "dane": "25", "departamento": "Cundinamarca", "valor": 17000000000000, "contratos": 260000 },
+    { "dane": "13", "departamento": "Bolívar", "valor": 13000000000000, "contratos": 150000 }
+  ]
+}

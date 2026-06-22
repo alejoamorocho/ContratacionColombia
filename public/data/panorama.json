@@ -1,0 +1,17 @@
+{
+  "kpis": { "contratos": 5200000, "valor_total": 480000000000000, "entidades": 8200, "contratistas": 410000 },
+  "por_anio": [
+    { "anio": 2022, "contratos": 980000, "valor": 82000000000000 },
+    { "anio": 2023, "contratos": 1100000, "valor": 95000000000000 },
+    { "anio": 2024, "contratos": 1180000, "valor": 104000000000000 },
+    { "anio": 2025, "contratos": 1240000, "valor": 121000000000000 },
+    { "anio": 2026, "contratos": 700000, "valor": 78000000000000 }
+  ],
+  "top_sectores": [
+    { "sector": "Salud", "contratos": 410000, "valor": 62000000000000 },
+    { "sector": "Educación", "contratos": 350000, "valor": 41000000000000 },
+    { "sector": "Infraestructura", "contratos": 280000, "valor": 58000000000000 },
+    { "sector": "Transporte", "contratos": 190000, "valor": 33000000000000 },
+    { "sector": "Defensa", "contratos": 120000, "valor": 21000000000000 }
+  ]
+}
