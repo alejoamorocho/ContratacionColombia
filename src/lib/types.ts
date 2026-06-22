@@ -3,6 +3,7 @@ export interface MetaData {
   generado: string;          // ISO date
   corte_datos: string;       // ISO date del último dato
   fuentes: string[];
+  fuentes_detalle: { fuente: string; periodo: string; corte: string; ingesta: string }[];
   notas: string[];
 }
 export interface PanoramaData {

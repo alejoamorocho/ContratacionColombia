@@ -19,5 +19,49 @@
     "El valor es el del contrato firmado; no refleja adiciones ni ejecución posterior.",
     "El valor total es sensible a unos pocos contratos de cuantía extrema (que pueden incluir errores de digitación en la fuente); por eso se muestra también el valor mediano, robusto a esos casos.",
     "Los conteos están deduplicados por identificador de contrato; los departamentos se normalizan a código DANE para el mapa."
+  ],
+  "fuentes_detalle": [
+    {
+      "fuente": "Contratos (SECOP II)",
+      "periodo": "2022-2026",
+      "corte": "firmados hasta jun-2026",
+      "ingesta": "jun-2026"
+    },
+    {
+      "fuente": "Procesos (SECOP II)",
+      "periodo": "2022-2026",
+      "corte": "hasta jun-2026",
+      "ingesta": "jun-2026"
+    },
+    {
+      "fuente": "PAA - planeacion (SECOP II)",
+      "periodo": "2024-2026",
+      "corte": "planes publicados",
+      "ingesta": "may-2026"
+    },
+    {
+      "fuente": "BPIN - inversion (DNP)",
+      "periodo": "vigencias 2025-2026",
+      "corte": "presupuesto vigente",
+      "ingesta": "abr-2026"
+    },
+    {
+      "fuente": "Sanciones (SIRI / Procuraduria)",
+      "periodo": "2022-2026",
+      "corte": "registros vigentes",
+      "ingesta": "2026"
+    },
+    {
+      "fuente": "Aportes de campana (CNE)",
+      "periodo": "2022-2023",
+      "corte": "ciclos electorales",
+      "ingesta": "abr-2026"
+    },
+    {
+      "fuente": "RUES / Supersociedades (cruces)",
+      "periodo": "hasta 2024-2026",
+      "corte": "registro y finanzas",
+      "ingesta": "mar-may 2026"
+    }
   ]
 }

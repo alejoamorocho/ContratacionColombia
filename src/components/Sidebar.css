@@ -34,26 +34,15 @@
 }
 
 .sidebar__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
   font-family: var(--font-heading);
   font-size: 18px;
   font-weight: 800;
   letter-spacing: 0.04em;
   padding: var(--space-2) var(--space-4) var(--space-4);
-  color: var(--fg-default); /* "VECTOR" en color sólido */
-}
-
-/* "VI" cambia entre los colores de Colombia (amarillo, azul, rojo). */
-.sidebar__vi {
-  animation: vi-colombia 6s infinite;
-}
-@keyframes vi-colombia {
-  0%, 22%  { color: #ffcd00; } /* amarillo */
-  33%, 55% { color: #3a86ff; } /* azul */
-  66%, 88% { color: #ef3340; } /* rojo */
-  100%     { color: #ffcd00; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .sidebar__vi { animation: none; color: #ffcd00; }
+  color: var(--fg-default);
 }
 
 .sidebar ul {

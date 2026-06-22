@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { Home, Building2, GitBranch, Map, Activity, Info } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import HexLogo from './HexLogo';
 import './Sidebar.css';
 
 interface SubItem { to: string; label: string; end?: boolean }
@@ -46,7 +47,7 @@ const NAV: Entry[] = [
 export function Sidebar() {
   return (
     <nav className="sidebar">
-      <div className="sidebar__brand">VECTOR<span className="sidebar__vi">VI</span></div>
+      <div className="sidebar__brand"><HexLogo size={22} animated /> <span>VECTORVI</span></div>
       <ul>
         {NAV.map((e) =>
           e.type === 'link' ? (

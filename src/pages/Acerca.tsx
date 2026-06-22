@@ -44,6 +44,33 @@ export default function Acerca() {
         {data.fuentes.map((f, i) => <li key={i}>{f}</li>)}
       </ul>
 
+      <h2 style={h2}>Frescura de datos</h2>
+      <p style={{ color: 'var(--fg-muted)', maxWidth: '72ch', lineHeight: 1.6, marginBottom: 'var(--space-3)' }}>
+        Cada fuente tiene su propio corte e ingesta. Esto es de cuándo es cada dato:
+      </p>
+      <div style={{ overflowX: 'auto' }}>
+        <table style={{ borderCollapse: 'collapse', width: '100%', maxWidth: '72ch', fontSize: 13 }}>
+          <thead>
+            <tr style={{ color: 'var(--fg-muted)', textAlign: 'left' }}>
+              <th style={{ padding: '6px 10px', borderBottom: '1px solid var(--border-default)' }}>Fuente</th>
+              <th style={{ padding: '6px 10px', borderBottom: '1px solid var(--border-default)' }}>Periodo</th>
+              <th style={{ padding: '6px 10px', borderBottom: '1px solid var(--border-default)' }}>Corte</th>
+              <th style={{ padding: '6px 10px', borderBottom: '1px solid var(--border-default)' }}>Ingerido</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.fuentes_detalle?.map((f, i) => (
+              <tr key={i} style={{ color: 'var(--fg-default)' }}>
+                <td style={{ padding: '6px 10px', borderBottom: '1px solid var(--border-muted)' }}>{f.fuente}</td>
+                <td style={{ padding: '6px 10px', borderBottom: '1px solid var(--border-muted)', fontFamily: 'var(--font-mono)' }}>{f.periodo}</td>
+                <td style={{ padding: '6px 10px', borderBottom: '1px solid var(--border-muted)', color: 'var(--fg-muted)' }}>{f.corte}</td>
+                <td style={{ padding: '6px 10px', borderBottom: '1px solid var(--border-muted)', fontFamily: 'var(--font-mono)' }}>{f.ingesta}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
       <h2 style={h2}>Notas y límites</h2>
       <ul style={{ color: 'var(--fg-muted)', maxWidth: '72ch', lineHeight: 1.7 }}>
         {data.notas.map((n, i) => <li key={i}>{n}</li>)}

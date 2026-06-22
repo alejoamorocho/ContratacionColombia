@@ -59,6 +59,18 @@ FUENTES = [
     "Aportes a campañas — Cuentas Claras (CNE)",
 ]
 
+# Frescura por fuente: periodo que cubre el dato y cuándo se ingirió (verificado
+# contra BigQuery). Cada fuente tiene su propio corte; esto da la lógica temporal.
+FUENTES_DETALLE = [
+    {"fuente": "Contratos (SECOP II)", "periodo": "2022–2026", "corte": "firmados hasta jun-2026", "ingesta": "jun-2026"},
+    {"fuente": "Procesos (SECOP II)", "periodo": "2022–2026", "corte": "hasta jun-2026", "ingesta": "jun-2026"},
+    {"fuente": "PAA — planeación (SECOP II)", "periodo": "2024–2026", "corte": "planes publicados", "ingesta": "may-2026"},
+    {"fuente": "BPIN — inversión (DNP)", "periodo": "vigencias 2025–2026", "corte": "presupuesto vigente", "ingesta": "abr-2026"},
+    {"fuente": "Sanciones (SIRI / Procuraduría)", "periodo": "2022–2026", "corte": "registros vigentes", "ingesta": "2026"},
+    {"fuente": "Aportes de campaña (CNE)", "periodo": "2022–2023", "corte": "ciclos electorales", "ingesta": "abr-2026"},
+    {"fuente": "RUES / Supersociedades (cruces)", "periodo": "hasta 2024–2026", "corte": "registro y finanzas", "ingesta": "mar–may 2026"},
+]
+
 NOTAS = [
     "Cifras agregadas de SECOP II. Describe, no juzga.",
     f"{YEAR_TO} es un año parcial: solo incluye contratos firmados hasta el corte de datos.",
@@ -261,6 +273,7 @@ def shape_meta(corte_datos: str | None) -> dict[str, Any]:
         "generado": datetime.date.today().isoformat(),
         "corte_datos": _s(corte_datos),
         "fuentes": list(FUENTES),
+        "fuentes_detalle": list(FUENTES_DETALLE),
         "notas": list(NOTAS),
     }
 

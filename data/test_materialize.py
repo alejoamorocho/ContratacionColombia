@@ -45,7 +45,7 @@ SENALES_KEYS = {
 SENALES_CONC_KEYS = {"top10_pct_valor", "n_contratistas"}
 SENALES_PCTL_KEYS = {"p", "valor"}
 
-META_KEYS = {"ventana", "generado", "corte_datos", "fuentes", "notas"}
+META_KEYS = {"ventana", "generado", "corte_datos", "fuentes", "fuentes_detalle", "notas"}
 
 
 # ─── shape_panorama ─────────────────────────────────────────────────────────

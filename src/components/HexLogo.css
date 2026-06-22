@@ -1,0 +1,27 @@
+.hexnode {
+  fill: #ffcd00;
+}
+
+/* Cada nodo recorre amarillo -> azul -> rojo (Colombia), escalonado para
+   que el color "fluya" por el grafo. */
+.hexlogo--animated .hexnode {
+  animation: hex-colombia 5s infinite;
+}
+.hexlogo--animated .hexnode-1 { animation-delay: 0s; }
+.hexlogo--animated .hexnode-2 { animation-delay: 0.3s; }
+.hexlogo--animated .hexnode-3 { animation-delay: 0.6s; }
+.hexlogo--animated .hexnode-4 { animation-delay: 0.9s; }
+.hexlogo--animated .hexnode-5 { animation-delay: 1.2s; }
+.hexlogo--animated .hexnode-6 { animation-delay: 1.5s; }
+.hexlogo--animated .hexnode-c { animation-delay: 0.75s; }
+
+@keyframes hex-colombia {
+  0%, 22%  { fill: #ffcd00; } /* amarillo */
+  33%, 55% { fill: #3a86ff; } /* azul */
+  66%, 88% { fill: #ef3340; } /* rojo */
+  100%     { fill: #ffcd00; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hexlogo--animated .hexnode { animation: none; }
+}
