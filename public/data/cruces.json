@@ -1,0 +1,13 @@
+{
+  "donante": {
+    "nits": 27488,
+    "contratos": 120229,
+    "valor": 28603360608102.0,
+    "total_contratistas": 954767
+  },
+  "sancionado": {
+    "nits": 1560,
+    "contratos": 8970,
+    "valor": 6790177764720.0
+  }
+}

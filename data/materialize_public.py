@@ -346,6 +346,28 @@ def shape_ejecucion(rows_kpi, rows_anio):
     }
 
 
+def shape_cruces(rows_donante, rows_sancionado):
+    """CrucesData: solapamientos FACTUALES y neutrales entre registros públicos.
+
+    NO implica irregularidad; describe coincidencias de NIT (ventana 2022-2026).
+    """
+    d = rows_donante[0] if rows_donante else {}
+    s = rows_sancionado[0] if rows_sancionado else {}
+    return {
+        "donante": {
+            "nits": _i(d.get("nits")),
+            "contratos": _i(d.get("contratos")),
+            "valor": _f(d.get("valor")),
+            "total_contratistas": _i(d.get("total_contratistas")),
+        },
+        "sancionado": {
+            "nits": _i(s.get("nits")),
+            "contratos": _i(s.get("contratos")),
+            "valor": _f(s.get("valor")),
+        },
+    }
+
+
 def shape_sanciones(rows_kpi, rows_tipo, rows_anio, rows_gravedad):
     """SancionesData: registro factual del SIRI (agregado, sin nombres)."""
     k = rows_kpi[0] if rows_kpi else {}
@@ -504,6 +526,10 @@ def _run_aggregates(client) -> None:  # pragma: no cover - requiere BQ
         _q(client, "electoral_anio.sql"),
         _q(client, "electoral_partido.sql"),
         _q(client, "electoral_depto.sql"),
+    ))
+    _write("cruces", shape_cruces(
+        _q(client, "cruces_donante.sql"),
+        _q(client, "cruces_sancionado.sql"),
     ))
 
     corte_rows = [

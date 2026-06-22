@@ -14,6 +14,7 @@ import Invierte from './Invierte';
 import Ejecuta from './Ejecuta';
 import Donde from './Donde';
 import Senales from './Senales';
+import Cruces from './Cruces';
 import Acerca from './Acerca';
 
 class RO { observe() {} unobserve() {} disconnect() {} }
@@ -40,6 +41,7 @@ const PAGINAS: { nombre: string; Comp: React.ComponentType; texto: RegExp }[] = 
   { nombre: 'Ejecuta', Comp: Ejecuta, texto: /¿Se ejecuta\?/i },
   { nombre: 'Dónde', Comp: Donde, texto: /¿Dónde\?/i },
   { nombre: 'Señales', Comp: Senales, texto: /¿Hay señales\?/i },
+  { nombre: 'Cruces', Comp: Cruces, texto: /¿Se cruzan los datos\?/i },
   { nombre: 'Acerca', Comp: Acerca, texto: /laboratorio de datos/i },
 ];
 

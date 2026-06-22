@@ -62,6 +62,10 @@ export interface ElectoralData {
   top_partidos: { partido: string; monto: number; aportes: number }[];
   por_departamento: { departamento: string; monto: number }[];
 }
+export interface CrucesData {
+  donante: { nits: number; contratos: number; valor: number; total_contratistas: number };
+  sancionado: { nits: number; contratos: number; valor: number };
+}
 export type SeccionData = {
   meta: MetaData; panorama: PanoramaData; quien: QuienData;
   como: ComoData; donde: DondeData; senales: SenalesData;

@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { Home, Building2, GitBranch, ClipboardList, Landmark, Wallet, Map, Activity, Info } from 'lucide-react';
+import { Home, Building2, GitBranch, ClipboardList, Landmark, Wallet, Map, Activity, Share2, Info } from 'lucide-react';
 import './Sidebar.css';
 
 const SECCIONES = [
@@ -11,6 +11,7 @@ const SECCIONES = [
   { to: '/ejecuta', label: 'Se ejecuta', icon: Wallet, tone: 'exec' },
   { to: '/donde', label: 'Dónde', icon: Map, tone: 'where' },
   { to: '/senales', label: 'Hay señales', icon: Activity, tone: 'signal' },
+  { to: '/cruces', label: 'Se cruzan los datos', icon: Share2, tone: 'signal' },
   { to: '/acerca', label: 'Acerca', icon: Info, tone: 'context' },
 ];
 

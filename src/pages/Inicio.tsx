@@ -13,6 +13,7 @@ const MODULOS: { to: string; tone: string; q: string; blurb: string }[] = [
   { to: '/ejecuta', tone: 'exec', q: '¿Se ejecuta?', blurb: 'Cuánto se factura y se paga frente a lo que se contrata.' },
   { to: '/donde', tone: 'where', q: '¿Dónde?', blurb: 'Cómo se distribuye la contratación por departamento, en un mapa de Colombia.' },
   { to: '/senales', tone: 'signal', q: '¿Hay señales?', blurb: 'Concentración, sanciones y financiación electoral. Estadística descriptiva, sin juicios.' },
+  { to: '/cruces', tone: 'signal', q: '¿Se cruzan los datos?', blurb: 'Coincidencias factuales entre registros (donantes, sancionados). Sin acusar a nadie.' },
 ];
 
 export default function Inicio() {

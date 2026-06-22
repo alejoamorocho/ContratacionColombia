@@ -11,6 +11,7 @@ const Invierte = lazy(() => import('./pages/Invierte'));
 const Ejecuta = lazy(() => import('./pages/Ejecuta'));
 const Donde = lazy(() => import('./pages/Donde'));
 const Senales = lazy(() => import('./pages/Senales'));
+const Cruces = lazy(() => import('./pages/Cruces'));
 const Acerca = lazy(() => import('./pages/Acerca'));
 
 function AdminRedirect() {
@@ -36,6 +37,7 @@ export default function App() {
             <Route path="ejecuta" element={<Ejecuta />} />
             <Route path="donde" element={<Donde />} />
             <Route path="senales" element={<Senales />} />
+            <Route path="cruces" element={<Cruces />} />
             <Route path="acerca" element={<Acerca />} />
           </Route>
           <Route path="/admin" element={<AdminRedirect />} />
