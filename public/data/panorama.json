@@ -1,17 +1,97 @@
 {
-  "kpis": { "contratos": 5200000, "valor_total": 480000000000000, "entidades": 8200, "contratistas": 410000 },
+  "kpis": {
+    "contratos": 3982584,
+    "valor_total": 584793524167604.0,
+    "entidades": 4690,
+    "contratistas": 954767
+  },
   "por_anio": [
-    { "anio": 2022, "contratos": 980000, "valor": 82000000000000 },
-    { "anio": 2023, "contratos": 1100000, "valor": 95000000000000 },
-    { "anio": 2024, "contratos": 1180000, "valor": 104000000000000 },
-    { "anio": 2025, "contratos": 1240000, "valor": 121000000000000 },
-    { "anio": 2026, "contratos": 700000, "valor": 78000000000000 }
+    {
+      "anio": 2022,
+      "contratos": 703152,
+      "valor": 102650036455623.0
+    },
+    {
+      "anio": 2023,
+      "contratos": 829143,
+      "valor": 127167860614556.0
+    },
+    {
+      "anio": 2024,
+      "contratos": 875002,
+      "valor": 122960990567076.0
+    },
+    {
+      "anio": 2025,
+      "contratos": 1009543,
+      "valor": 172658527055336.0
+    },
+    {
+      "anio": 2026,
+      "contratos": 565744,
+      "valor": 59356109475013.0
+    }
   ],
   "top_sectores": [
-    { "sector": "Salud", "contratos": 410000, "valor": 62000000000000 },
-    { "sector": "Educación", "contratos": 350000, "valor": 41000000000000 },
-    { "sector": "Infraestructura", "contratos": 280000, "valor": 58000000000000 },
-    { "sector": "Transporte", "contratos": 190000, "valor": 33000000000000 },
-    { "sector": "Defensa", "contratos": 120000, "valor": 21000000000000 }
+    {
+      "sector": "CONSTRUCCION",
+      "contratos": 165322,
+      "valor": 75113166503269.0
+    },
+    {
+      "sector": "SALUD",
+      "contratos": 604385,
+      "valor": 59699687549868.0
+    },
+    {
+      "sector": "SOCIAL",
+      "contratos": 168262,
+      "valor": 45008511536344.0
+    },
+    {
+      "sector": "EDUCACION",
+      "contratos": 226043,
+      "valor": 35940244325741.0
+    },
+    {
+      "sector": "SEGURIDAD",
+      "contratos": 134801,
+      "valor": 32044889252876.0
+    },
+    {
+      "sector": "ALIMENTACION",
+      "contratos": 99889,
+      "valor": 29760209798553.0
+    },
+    {
+      "sector": "CONSULTORIA",
+      "contratos": 423379,
+      "valor": 29447127873662.0
+    },
+    {
+      "sector": "TECNOLOGIA",
+      "contratos": 148338,
+      "valor": 23865275365857.0
+    },
+    {
+      "sector": "FINANCIERO",
+      "contratos": 113306,
+      "valor": 21025753596444.0
+    },
+    {
+      "sector": "Sin clasificar",
+      "contratos": 105532,
+      "valor": 18412958675612.0
+    },
+    {
+      "sector": "TRANSPORTE",
+      "contratos": 98452,
+      "valor": 18210841677467.0
+    },
+    {
+      "sector": "JURIDICO",
+      "contratos": 208411,
+      "valor": 18078203062158.0
+    }
   ]
 }

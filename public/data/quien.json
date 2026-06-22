@@ -1,20 +1,178 @@
 {
   "top_entidades": [
-    { "nombre": "Instituto Nacional de Vías", "nit": "800215807", "valor": 28000000000000, "contratos": 12400 },
-    { "nombre": "Ecopetrol S.A.", "nit": "899999068", "valor": 24000000000000, "contratos": 9800 },
-    { "nombre": "Fondo Nacional de Salud", "nit": "830009783", "valor": 19000000000000, "contratos": 21500 },
-    { "nombre": "Bogotá D.C. — Secretaría de Movilidad", "nit": "899999061", "valor": 14000000000000, "contratos": 7300 },
-    { "nombre": "ICBF", "nit": "899999239", "valor": 11000000000000, "contratos": 18900 }
+    {
+      "nombre": "ICBF REGIONAL ATLANTICO",
+      "nit": "899999239",
+      "valor": 37169248770194.0,
+      "contratos": 89660
+    },
+    {
+      "nombre": "FONDO DE DESARROLLO LOCAL DE BOSA",
+      "nit": "899999061",
+      "valor": 27856285361096.0,
+      "contratos": 197492
+    },
+    {
+      "nombre": "CONCEJO MUNICIPAL DE MEDELLIN",
+      "nit": "890905211",
+      "valor": 19455709797845.0,
+      "contratos": 10655
+    },
+    {
+      "nombre": "CENTRO DE COMERCIO Y SERVICIOS - SENA REGIONAL CAUCA",
+      "nit": "899999034",
+      "valor": 12720528073611.0,
+      "contratos": 226038
+    },
+    {
+      "nombre": "DEPARTAMENTO DE ANTIOQUIA//",
+      "nit": "890900286",
+      "valor": 11883246391933.0,
+      "contratos": 6070
+    },
+    {
+      "nombre": "DEPARTAMENTO ADMINISTRATIVO DE GESTION DEL MEDIO AMBIENTE DAGMA",
+      "nit": "890399011",
+      "valor": 11498987625489.0,
+      "contratos": 137339
+    },
+    {
+      "nombre": "UNP",
+      "nit": "900475780",
+      "valor": 9621466064549.0,
+      "contratos": 11965
+    },
+    {
+      "nombre": "INVIAS",
+      "nit": "800215807",
+      "valor": 9196848319045.0,
+      "contratos": 14507
+    },
+    {
+      "nombre": "INSTITUTO DE DESARROLLO URBANO",
+      "nit": "899999081",
+      "valor": 9184943458591.0,
+      "contratos": 8677
+    },
+    {
+      "nombre": "DISTRITO ESPECIAL INDUSTRIAL Y PORTUARIO DE BARRANQUILLA",
+      "nit": "890102018",
+      "valor": 8428955801434.0,
+      "contratos": 35585
+    },
+    {
+      "nombre": "MINISTERIO DE MINAS Y ENERGIA",
+      "nit": "899999022",
+      "valor": 7442613035929.0,
+      "contratos": 7001
+    },
+    {
+      "nombre": "DEPARTAMENTO DE CUNDINAMARCA-SECRETARIA DE LA MUJER Y EQUIDAD DE GENERO+",
+      "nit": "899999114",
+      "valor": 6371116031950.0,
+      "contratos": 28121
+    },
+    {
+      "nombre": "SECRETARIA DE CULTURA VALLE",
+      "nit": "890399029",
+      "valor": 5725168902985.0,
+      "contratos": 62397
+    },
+    {
+      "nombre": "FONDO UNICO DE TECNOLOGÍAS DE LA INFORMACIÓN Y LAS COMUNICACIONES",
+      "nit": "800131648",
+      "valor": 5670139409126.0,
+      "contratos": 7313
+    },
+    {
+      "nombre": "AEROCIVIL",
+      "nit": "899999059",
+      "valor": 5656037824263.0,
+      "contratos": 6360
+    }
   ],
   "por_nivel": [
-    { "nivel": "Nacional", "valor": 290000000000000, "contratos": 2100000 },
-    { "nivel": "Territorial", "valor": 150000000000000, "contratos": 2600000 },
-    { "nivel": "Descentralizado", "valor": 40000000000000, "contratos": 500000 }
+    {
+      "nivel": "Territorial",
+      "valor": 272892249832087.0,
+      "contratos": 2234211
+    },
+    {
+      "nivel": "Nacional",
+      "valor": 213865058840801.0,
+      "contratos": 1039898
+    },
+    {
+      "nivel": "Sin clasificar",
+      "valor": 83913482461529.0,
+      "contratos": 660796
+    },
+    {
+      "nivel": "Corporación Autónoma",
+      "valor": 14122733033187.0,
+      "contratos": 47679
+    }
   ],
   "por_sector": [
-    { "sector": "Salud", "valor": 62000000000000, "contratos": 410000 },
-    { "sector": "Educación", "valor": 41000000000000, "contratos": 350000 },
-    { "sector": "Infraestructura", "valor": 58000000000000, "contratos": 280000 },
-    { "sector": "Transporte", "valor": 33000000000000, "contratos": 190000 }
+    {
+      "sector": "CONSTRUCCION",
+      "valor": 75113166503269.0,
+      "contratos": 165322
+    },
+    {
+      "sector": "SALUD",
+      "valor": 59699687549868.0,
+      "contratos": 604385
+    },
+    {
+      "sector": "SOCIAL",
+      "valor": 45008511536344.0,
+      "contratos": 168262
+    },
+    {
+      "sector": "EDUCACION",
+      "valor": 35940244325741.0,
+      "contratos": 226043
+    },
+    {
+      "sector": "SEGURIDAD",
+      "valor": 32044889252876.0,
+      "contratos": 134801
+    },
+    {
+      "sector": "ALIMENTACION",
+      "valor": 29760209798553.0,
+      "contratos": 99889
+    },
+    {
+      "sector": "CONSULTORIA",
+      "valor": 29447127873662.0,
+      "contratos": 423379
+    },
+    {
+      "sector": "TECNOLOGIA",
+      "valor": 23865275365857.0,
+      "contratos": 148338
+    },
+    {
+      "sector": "FINANCIERO",
+      "valor": 21025753596444.0,
+      "contratos": 113306
+    },
+    {
+      "sector": "Sin clasificar",
+      "valor": 18412958675612.0,
+      "contratos": 105532
+    },
+    {
+      "sector": "TRANSPORTE",
+      "valor": 18210841677467.0,
+      "contratos": 98452
+    },
+    {
+      "sector": "JURIDICO",
+      "valor": 18078203062158.0,
+      "contratos": 208411
+    }
   ]
 }

@@ -1,21 +1,200 @@
 {
   "por_modalidad": [
-    { "modalidad": "Contratación directa", "contratos": 3100000, "valor": 190000000000000, "pct": 59.6 },
-    { "modalidad": "Licitación pública", "contratos": 480000, "valor": 160000000000000, "pct": 9.2 },
-    { "modalidad": "Selección abreviada", "contratos": 620000, "valor": 78000000000000, "pct": 11.9 },
-    { "modalidad": "Mínima cuantía", "contratos": 850000, "valor": 31000000000000, "pct": 16.3 },
-    { "modalidad": "Concurso de méritos", "contratos": 150000, "valor": 21000000000000, "pct": 2.9 }
+    {
+      "modalidad": "Contratación directa",
+      "contratos": 3120897,
+      "valor": 265065194395154.0,
+      "pct": 78.4
+    },
+    {
+      "modalidad": "Régimen especial",
+      "contratos": 582540,
+      "valor": 127562680592362.0,
+      "pct": 14.6
+    },
+    {
+      "modalidad": "Mínima cuantía",
+      "contratos": 189454,
+      "valor": 9605303820038.0,
+      "pct": 4.8
+    },
+    {
+      "modalidad": "Selección abreviada",
+      "contratos": 65153,
+      "valor": 62984352949084.0,
+      "pct": 1.6
+    },
+    {
+      "modalidad": "Licitación pública",
+      "contratos": 14583,
+      "valor": 108090086065744.0,
+      "pct": 0.4
+    },
+    {
+      "modalidad": "Concurso de méritos",
+      "contratos": 9367,
+      "valor": 11094800227433.0,
+      "pct": 0.2
+    },
+    {
+      "modalidad": "Otras",
+      "contratos": 590,
+      "valor": 391106117789.0,
+      "pct": 0.0
+    }
   ],
   "modalidad_por_anio": [
-    { "anio": 2022, "modalidad": "Contratación directa", "valor": 48000000000000 },
-    { "anio": 2023, "modalidad": "Contratación directa", "valor": 52000000000000 },
-    { "anio": 2024, "modalidad": "Contratación directa", "valor": 41000000000000 },
-    { "anio": 2025, "modalidad": "Contratación directa", "valor": 49000000000000 },
-    { "anio": 2022, "modalidad": "Licitación pública", "valor": 30000000000000 },
-    { "anio": 2023, "modalidad": "Licitación pública", "valor": 34000000000000 },
-    { "anio": 2024, "modalidad": "Licitación pública", "valor": 41000000000000 },
-    { "anio": 2025, "modalidad": "Licitación pública", "valor": 38000000000000 }
+    {
+      "anio": 2022,
+      "modalidad": "Concurso de méritos",
+      "valor": 2772725910558.0
+    },
+    {
+      "anio": 2023,
+      "modalidad": "Concurso de méritos",
+      "valor": 2396852875709.0
+    },
+    {
+      "anio": 2024,
+      "modalidad": "Concurso de méritos",
+      "valor": 2259658149969.0
+    },
+    {
+      "anio": 2025,
+      "modalidad": "Concurso de méritos",
+      "valor": 3017065880993.0
+    },
+    {
+      "anio": 2026,
+      "modalidad": "Concurso de méritos",
+      "valor": 648497410204.0
+    },
+    {
+      "anio": 2022,
+      "modalidad": "Contratación directa",
+      "valor": 43049112002770.0
+    },
+    {
+      "anio": 2023,
+      "modalidad": "Contratación directa",
+      "valor": 52504019376597.0
+    },
+    {
+      "anio": 2024,
+      "modalidad": "Contratación directa",
+      "valor": 52582261302693.0
+    },
+    {
+      "anio": 2025,
+      "modalidad": "Contratación directa",
+      "valor": 87857881362559.0
+    },
+    {
+      "anio": 2026,
+      "modalidad": "Contratación directa",
+      "valor": 29071920350535.0
+    },
+    {
+      "anio": 2022,
+      "modalidad": "Licitación pública",
+      "valor": 25673472922808.0
+    },
+    {
+      "anio": 2023,
+      "modalidad": "Licitación pública",
+      "valor": 27489015087068.0
+    },
+    {
+      "anio": 2024,
+      "modalidad": "Licitación pública",
+      "valor": 19971381034505.0
+    },
+    {
+      "anio": 2025,
+      "modalidad": "Licitación pública",
+      "valor": 27216162629250.0
+    },
+    {
+      "anio": 2026,
+      "modalidad": "Licitación pública",
+      "valor": 7740054392113.0
+    },
+    {
+      "anio": 2022,
+      "modalidad": "Mínima cuantía",
+      "valor": 1191480909873.0
+    },
+    {
+      "anio": 2023,
+      "modalidad": "Mínima cuantía",
+      "valor": 1530890609665.0
+    },
+    {
+      "anio": 2024,
+      "modalidad": "Mínima cuantía",
+      "valor": 4005647046275.0
+    },
+    {
+      "anio": 2025,
+      "modalidad": "Mínima cuantía",
+      "valor": 2095889940482.0
+    },
+    {
+      "anio": 2026,
+      "modalidad": "Mínima cuantía",
+      "valor": 781395313743.0
+    },
+    {
+      "anio": 2022,
+      "modalidad": "Régimen especial",
+      "valor": 20605101699799.0
+    },
+    {
+      "anio": 2023,
+      "modalidad": "Régimen especial",
+      "valor": 24872890477117.0
+    },
+    {
+      "anio": 2024,
+      "modalidad": "Régimen especial",
+      "valor": 32651235899236.0
+    },
+    {
+      "anio": 2025,
+      "modalidad": "Régimen especial",
+      "valor": 31205900949780.0
+    },
+    {
+      "anio": 2026,
+      "modalidad": "Régimen especial",
+      "valor": 18227551566430.0
+    },
+    {
+      "anio": 2022,
+      "modalidad": "Selección abreviada",
+      "valor": 9296086636032.0
+    },
+    {
+      "anio": 2023,
+      "modalidad": "Selección abreviada",
+      "valor": 18287494336747.0
+    },
+    {
+      "anio": 2024,
+      "modalidad": "Selección abreviada",
+      "valor": 11415264231443.0
+    },
+    {
+      "anio": 2025,
+      "modalidad": "Selección abreviada",
+      "valor": 21210099639188.0
+    },
+    {
+      "anio": 2026,
+      "modalidad": "Selección abreviada",
+      "valor": 2775408105674.0
+    }
   ],
-  "pct_directa": 59.6,
-  "pct_competitiva": 40.4
+  "pct_directa": 78.4,
+  "pct_competitiva": 21.6
 }

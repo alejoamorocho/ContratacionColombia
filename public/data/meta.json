@@ -1,14 +1,17 @@
 {
-  "ventana": { "desde": 2022, "hasta": 2026 },
+  "ventana": {
+    "desde": 2022,
+    "hasta": 2026
+  },
   "generado": "2026-06-22",
-  "corte_datos": "2026-05-31",
+  "corte_datos": "2026-06-03",
   "fuentes": [
-    "SECOP II — Contratos (jbjy-vk9h)",
-    "Datos Abiertos Colombia"
+    "SECOP II — Contratos (jbjy-vk9h)"
   ],
   "notas": [
-    "2026 es un año parcial: solo incluye contratos firmados hasta la fecha de corte.",
-    "El primer semestre de 2022 presenta cobertura baja en SECOP II.",
-    "Las cifras son agregados descriptivos; describen, no juzgan."
+    "Cifras agregadas de SECOP II. Describe, no juzga.",
+    "2026 es un año parcial: solo incluye contratos firmados hasta el corte de datos.",
+    "El primer semestre de 2022 tiene cobertura baja en SECOP II frente al resto de la serie.",
+    "El valor es el del contrato firmado; no refleja adiciones ni ejecución posterior."
   ]
 }

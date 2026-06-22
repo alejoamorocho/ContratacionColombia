@@ -1,11 +1,202 @@
 {
   "por_departamento": [
-    { "dane": "11", "departamento": "Bogotá D.C.", "valor": 142000000000000, "contratos": 980000 },
-    { "dane": "05", "departamento": "Antioquia", "valor": 61000000000000, "contratos": 540000 },
-    { "dane": "76", "departamento": "Valle del Cauca", "valor": 38000000000000, "contratos": 410000 },
-    { "dane": "08", "departamento": "Atlántico", "valor": 22000000000000, "contratos": 230000 },
-    { "dane": "68", "departamento": "Santander", "valor": 19000000000000, "contratos": 210000 },
-    { "dane": "25", "departamento": "Cundinamarca", "valor": 17000000000000, "contratos": 260000 },
-    { "dane": "13", "departamento": "Bolívar", "valor": 13000000000000, "contratos": 150000 }
+    {
+      "dane": "05",
+      "departamento": "Antioquia",
+      "valor": 73937013274675.0,
+      "contratos": 406558
+    },
+    {
+      "dane": "76",
+      "departamento": "Valle del Cauca",
+      "valor": 34432393333742.0,
+      "contratos": 431079
+    },
+    {
+      "dane": "25",
+      "departamento": "Cundinamarca",
+      "valor": 21803528379887.0,
+      "contratos": 215758
+    },
+    {
+      "dane": "08",
+      "departamento": "Atlántico",
+      "valor": 20381202017363.0,
+      "contratos": 137784
+    },
+    {
+      "dane": "68",
+      "departamento": "Santander",
+      "valor": 17179976467855.0,
+      "contratos": 198234
+    },
+    {
+      "dane": "13",
+      "departamento": "Bolívar",
+      "valor": 16393303817437.0,
+      "contratos": 125828
+    },
+    {
+      "dane": "15",
+      "departamento": "Boyacá",
+      "valor": 13940452876542.0,
+      "contratos": 113748
+    },
+    {
+      "dane": "19",
+      "departamento": "Cauca",
+      "valor": 13432032554668.0,
+      "contratos": 67209
+    },
+    {
+      "dane": "73",
+      "departamento": "Tolima",
+      "valor": 9794460029003.0,
+      "contratos": 113562
+    },
+    {
+      "dane": "50",
+      "departamento": "Meta",
+      "valor": 9781000289540.0,
+      "contratos": 101235
+    },
+    {
+      "dane": "47",
+      "departamento": "Magdalena",
+      "valor": 9735632208583.0,
+      "contratos": 95335
+    },
+    {
+      "dane": "17",
+      "departamento": "Caldas",
+      "valor": 9537111517272.0,
+      "contratos": 70502
+    },
+    {
+      "dane": "11",
+      "departamento": "Bogotá D.C.",
+      "valor": 8942621498188.0,
+      "contratos": 34299
+    },
+    {
+      "dane": "54",
+      "departamento": "Norte de Santander",
+      "valor": 8811516858082.0,
+      "contratos": 110331
+    },
+    {
+      "dane": "20",
+      "departamento": "Cesar",
+      "valor": 8647876295223.0,
+      "contratos": 45293
+    },
+    {
+      "dane": "44",
+      "departamento": "La Guajira",
+      "valor": 8080236463104.0,
+      "contratos": 23368
+    },
+    {
+      "dane": "66",
+      "departamento": "Risaralda",
+      "valor": 7769012420368.0,
+      "contratos": 81418
+    },
+    {
+      "dane": "41",
+      "departamento": "Huila",
+      "valor": 6712073149588.0,
+      "contratos": 67285
+    },
+    {
+      "dane": "23",
+      "departamento": "Córdoba",
+      "valor": 6627151386256.0,
+      "contratos": 28981
+    },
+    {
+      "dane": "27",
+      "departamento": "Chocó",
+      "valor": 6184363210588.0,
+      "contratos": 22917
+    },
+    {
+      "dane": "52",
+      "departamento": "Nariño",
+      "valor": 5573011887979.0,
+      "contratos": 66176
+    },
+    {
+      "dane": "85",
+      "departamento": "Casanare",
+      "valor": 4993679994573.0,
+      "contratos": 60336
+    },
+    {
+      "dane": "63",
+      "departamento": "Quindío",
+      "valor": 3954300899867.0,
+      "contratos": 82539
+    },
+    {
+      "dane": "70",
+      "departamento": "Sucre",
+      "valor": 3742351612199.0,
+      "contratos": 32767
+    },
+    {
+      "dane": "18",
+      "departamento": "Caquetá",
+      "valor": 2438644735926.0,
+      "contratos": 21230
+    },
+    {
+      "dane": "81",
+      "departamento": "Arauca",
+      "valor": 2390588519534.0,
+      "contratos": 16142
+    },
+    {
+      "dane": "86",
+      "departamento": "Putumayo",
+      "valor": 2280002637099.0,
+      "contratos": 26272
+    },
+    {
+      "dane": "91",
+      "departamento": "Amazonas",
+      "valor": 1061010108898.0,
+      "contratos": 12526
+    },
+    {
+      "dane": "88",
+      "departamento": "San Andrés y Providencia",
+      "valor": 352432619233.0,
+      "contratos": 9368
+    },
+    {
+      "dane": "99",
+      "departamento": "Vichada",
+      "valor": 334489346460.0,
+      "contratos": 7966
+    },
+    {
+      "dane": "95",
+      "departamento": "Guaviare",
+      "valor": 228456260600.0,
+      "contratos": 2785
+    },
+    {
+      "dane": "94",
+      "departamento": "Guainía",
+      "valor": 175150485062.0,
+      "contratos": 2467
+    },
+    {
+      "dane": "97",
+      "departamento": "Vaupés",
+      "valor": 149771733881.0,
+      "contratos": 1225
+    }
   ]
 }

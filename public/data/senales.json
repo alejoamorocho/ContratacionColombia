@@ -1,14 +1,35 @@
 {
-  "concentracion": { "top10_pct_valor": 18.4, "n_contratistas": 410000 },
+  "concentracion": {
+    "top10_pct_valor": 7.0,
+    "n_contratistas": 954767
+  },
   "percentiles_valor": [
-    { "p": 10, "valor": 1200000 },
-    { "p": 25, "valor": 4500000 },
-    { "p": 50, "valor": 18000000 },
-    { "p": 75, "valor": 62000000 },
-    { "p": 90, "valor": 210000000 },
-    { "p": 99, "valor": 2400000000 }
+    {
+      "p": 10,
+      "valor": 5533333.0
+    },
+    {
+      "p": 25,
+      "valor": 10316000.0
+    },
+    {
+      "p": 50,
+      "valor": 20009250.0
+    },
+    {
+      "p": 75,
+      "valor": 40473335.0
+    },
+    {
+      "p": 90,
+      "valor": 83508158.0
+    },
+    {
+      "p": 99,
+      "valor": 1649999393.0
+    }
   ],
-  "pct_directa_nacional": 59.6,
+  "pct_directa_nacional": 78.4,
   "notas_metodologicas": [
     "La concentración del top-10 mide qué porcentaje del valor total fue adjudicado a los 10 mayores contratistas. No implica irregularidad.",
     "Los percentiles describen la distribución del valor por contrato. Un percentil alto solo indica un contrato de mayor cuantía.",
