@@ -99,7 +99,7 @@ function VLineChart({ data, xKey, lines, height = 300 }: VLineChartProps) {
           />
         )}
         {lines.map((l, i) => {
-          const color = l.color || chartPalette[i % chartPalette.length];
+          const color = l.color || (lines.length === 1 ? '#2dd4bf' : chartPalette[i % chartPalette.length]);
           return (
             <Area
               key={l.key}

@@ -5,7 +5,8 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { render, screen, waitFor } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, Routes, Route } from 'react-router-dom';
+import Senal from './Senal';
 import Inicio from './Inicio';
 import Quien from './Quien';
 import Como from './Como';
@@ -50,4 +51,15 @@ PAGINAS.forEach(({ nombre, Comp, texto }) => {
     wrap(<Comp />);
     await waitFor(() => expect(screen.getAllByText(texto).length).toBeGreaterThan(0));
   });
+});
+
+it('Senal (genérica) renderiza una señal con datos', async () => {
+  render(
+    <MemoryRouter initialEntries={['/senal/adiciones']}>
+      <Routes>
+        <Route path="/senal/:key" element={<Senal />} />
+      </Routes>
+    </MemoryRouter>,
+  );
+  await waitFor(() => expect(screen.getAllByText(/prorrog/i).length).toBeGreaterThan(0));
 });

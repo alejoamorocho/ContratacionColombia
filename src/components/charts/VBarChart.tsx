@@ -3,6 +3,7 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
+  Cell,
   Legend,
   ResponsiveContainer,
   Tooltip,
@@ -142,11 +143,17 @@ function VBarChart({ data, xKey, bars, height = 300, layout = 'vertical', onBarC
             key={b.key}
             dataKey={b.key}
             fill={b.color || chartPalette[i % chartPalette.length]}
-            radius={[4, 4, 0, 0]}
+            radius={layout === 'horizontal' ? [0, 4, 4, 0] : [4, 4, 0, 0]}
             maxBarSize={40}
             cursor={onBarClick ? 'pointer' : undefined}
             onClick={onBarClick ? (_: unknown, idx: number) => onBarClick(data[idx]) : undefined}
-          />
+          >
+            {/* Serie única: cada barra con su propio color (más vivo, menos monótono). */}
+            {bars.length === 1 &&
+              data.map((_, idx) => (
+                <Cell key={idx} fill={chartPalette[idx % chartPalette.length]} />
+              ))}
+          </Bar>
         ))}
       </BarChart>
     </ResponsiveContainer>

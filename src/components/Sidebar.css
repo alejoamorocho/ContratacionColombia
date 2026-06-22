@@ -10,6 +10,27 @@
   display: flex;
   flex-direction: column;
   padding: var(--space-4) 0;
+  overflow-y: auto;
+}
+
+.sidebar__group { margin-top: var(--space-3); }
+.sidebar__group-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--shell-tone, var(--fg-subtle));
+}
+.sidebar__sub { list-style: none; margin: 0; padding: 0; }
+.sidebar__sub a {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: calc(var(--space-4) + 22px);
+  font-size: 13px;
 }
 
 .sidebar__brand {

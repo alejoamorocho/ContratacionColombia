@@ -1,0 +1,52 @@
+{
+  "items": {
+    "adiciones": {
+      "contratos": 311567,
+      "valor": 60369854508545.0
+    },
+    "prorroga_sin_ejecucion": {
+      "contratos": 91238,
+      "valor": 20505604787283.0
+    },
+    "brechas_bpin": {
+      "proyectos": 14247,
+      "valor": 336825500502047.5
+    },
+    "contratos_no_planeados": {
+      "casos": 134,
+      "valor": 52140921537038.0
+    },
+    "monopolio_municipal": {
+      "municipios": 40,
+      "valor": 10494513346092.0
+    },
+    "supervisor_contratista": {
+      "personas": 2608,
+      "valor": 321491171166.0
+    },
+    "puerta_giratoria": {
+      "personas": 2628,
+      "valor": 186681336828.0
+    },
+    "redes_relaciones": {
+      "empresas": 631,
+      "valor": 41228297447201.0
+    },
+    "sancionado_otro_depto": {
+      "contratistas": 1495,
+      "valor": 142392977502.0
+    },
+    "insolvente": {
+      "contratistas": 19,
+      "valor": 177708161857.0
+    },
+    "donante_post_eleccion": {
+      "contratistas": 8963,
+      "valor": 820935048738934.0
+    },
+    "cluster_electoral": {
+      "clusters": 3648,
+      "aportantes_que_contratan": 11358
+    }
+  }
+}

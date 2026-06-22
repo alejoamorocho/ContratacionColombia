@@ -449,6 +449,44 @@ def _write(nombre: str, data: dict[str, Any]) -> None:  # pragma: no cover - IO
     )
 
 
+def _build_senales_extra(client):  # pragma: no cover - requiere BQ
+    """Señales/cruces adicionales — agregados NACIONALES neutrales (sin perfiles),
+    ventana 2022-2026. NINGÚN dato es acusatorio: son coincidencias factuales que
+    merecen verificación caso por caso. Usan contratos crudos (requieren columnas
+    fuera de la base); el ~0.3% de duplicados es marginal para estos agregados.
+    """
+    P, D = PROJECT, DATASET
+    C = f"`{P}.{D}.contratos`"
+    W = "c.fecha_firma BETWEEN '2022-01-01' AND '2026-12-31' AND c.valor > 0"
+    Q = {
+        "adiciones": f"SELECT COUNTIF(fecha_prorroga IS NOT NULL) AS contratos, SUM(IF(fecha_prorroga IS NOT NULL, valor, 0)) AS valor FROM {C} c WHERE {W}",
+        "prorroga_sin_ejecucion": f"SELECT COUNT(*) AS contratos, SUM(valor) AS valor FROM {C} c WHERE {W} AND fecha_prorroga IS NOT NULL AND SAFE_DIVIDE(valor_pagado, valor) < 0.30 AND DATE_DIFF(CURRENT_DATE(), fecha_firma, MONTH) >= 12",
+        "brechas_bpin": f"SELECT COUNT(*) AS proyectos, SUM(valor_vigente - valor_pagado) AS valor FROM `{P}.{D}.bpin_ejecucion` WHERE SAFE_CAST(vigencia AS INT64) BETWEEN 2022 AND 2026 AND valor_vigente >= 1e9 AND SAFE_DIVIDE(valor_pagado, valor_vigente) < 0.30",
+        "contratos_no_planeados": f"WITH paa AS (SELECT entidad_nit, anio, SUM(valor_total_esperado) vp FROM `{P}.{D}.paa` WHERE entidad_nit IS NOT NULL AND valor_total_esperado > 0 GROUP BY 1,2), ct AS (SELECT entidad_nit, EXTRACT(YEAR FROM fecha_firma) anio, SUM(valor) vc FROM {C} c WHERE {W} GROUP BY 1,2) SELECT COUNT(*) AS casos, SUM(vc) AS valor FROM ct JOIN paa USING(entidad_nit, anio) WHERE vc > 1.2 * vp",
+        "monopolio_municipal": f"SELECT COUNT(*) AS municipios, SUM(valor_c) AS valor FROM (SELECT entidad_municipio, contratista_nit, SUM(valor) valor_c, SUM(valor)/SUM(SUM(valor)) OVER (PARTITION BY entidad_municipio) sh, COUNT(*) OVER (PARTITION BY entidad_municipio) nm FROM {C} c WHERE {W} AND entidad_municipio IS NOT NULL GROUP BY 1,2) WHERE sh >= 0.5 AND nm BETWEEN 30 AND 5000",
+        "supervisor_contratista": f"WITH s AS (SELECT doc_supervisor d, entidad_nit e FROM {C} c WHERE {W} AND doc_supervisor IS NOT NULL GROUP BY 1,2 HAVING COUNT(*) >= 2), k AS (SELECT contratista_nit d, entidad_nit e, SUM(valor) v FROM {C} c WHERE {W} AND contratista_nit IS NOT NULL GROUP BY 1,2 HAVING COUNT(*) >= 2) SELECT COUNT(DISTINCT s.d) AS personas, SUM(k.v) AS valor FROM s JOIN k ON k.d = s.d AND k.e = s.e",
+        "puerta_giratoria": f"WITH sv AS (SELECT CAST(numero_documento AS STRING) doc, entidad_normalizada ent FROM `{P}.{D}.sigep_servidores` WHERE numero_documento IS NOT NULL GROUP BY 1,2) SELECT COUNT(DISTINCT sv.doc) AS personas, SUM(c.valor) AS valor FROM sv JOIN {C} c ON CAST(sv.doc AS STRING) = c.contratista_nit AND sv.ent = c.entidad_nombre_normalizado WHERE {W}",
+        "redes_relaciones": f"WITH r AS (SELECT nit_a, nit_b FROM `{P}.{D}.relaciones` WHERE tipo_relacion = 'REPRESENTANTE_COMPARTIDO') SELECT COUNT(DISTINCT c.contratista_nit) AS empresas, SUM(c.valor) AS valor FROM r JOIN {C} c ON c.contratista_nit IN (CAST(r.nit_a AS STRING), CAST(r.nit_b AS STRING)) WHERE {W}",
+        "sancionado_otro_depto": f"WITH sa AS (SELECT sancionado_nit nit, UPPER(TRIM(departamento)) dp, MIN(fecha_inicio) f FROM `{P}.{D}.sanciones` WHERE sancionado_nit IS NOT NULL AND departamento IS NOT NULL GROUP BY 1,2) SELECT COUNT(DISTINCT sa.nit) AS contratistas, SUM(c.valor) AS valor FROM sa JOIN {C} c ON c.contratista_nit = sa.nit AND UPPER(TRIM(c.entidad_departamento)) != sa.dp AND c.fecha_firma > sa.f WHERE {W}",
+        "insolvente": f"WITH pat AS (SELECT CAST(nit AS STRING) nit, ARRAY_AGG(valor ORDER BY fecha_corte DESC LIMIT 1)[OFFSET(0)] p FROM `{P}.{D}.supersociedades_situacion` WHERE UPPER(concepto) LIKE '%PATRIMONIO%' AND valor IS NOT NULL GROUP BY 1) SELECT COUNT(DISTINCT c.contratista_nit) AS contratistas, SUM(c.valor) AS valor FROM pat JOIN {C} c ON c.contratista_nit = pat.nit WHERE {W} AND pat.p < 0 AND c.valor >= 1e8",
+        "donante_post_eleccion": f"SELECT COUNT(DISTINCT c.contratista_nit) AS contratistas, SUM(c.valor) AS valor FROM `{P}.{D}.campanas` ca JOIN {C} c ON CAST(ca.nit_aportante AS STRING) = c.contratista_nit WHERE SAFE_CAST(ca.anio_eleccion AS INT64) >= 2022 AND c.fecha_firma > DATE(SAFE_CAST(ca.anio_eleccion AS INT64) + 1, 1, 1) AND {W}",
+        "cluster_electoral": f"WITH cl AS (SELECT candidato, COUNT(DISTINCT CAST(ca.nit_aportante AS STRING)) na, COUNT(DISTINCT IF(co.id IS NOT NULL, CAST(ca.nit_aportante AS STRING), NULL)) nc FROM `{P}.{D}.campanas` ca LEFT JOIN {C} co ON CAST(ca.nit_aportante AS STRING) = co.contratista_nit AND co.fecha_firma BETWEEN '2022-01-01' AND '2026-12-31' GROUP BY candidato) SELECT COUNT(*) AS clusters, SUM(nc) AS aportantes_que_contratan FROM cl WHERE na >= 3 AND nc >= 2",
+    }
+
+    def coerce(v):
+        if v is None:
+            return 0
+        if isinstance(v, (bool, int)):
+            return v
+        return float(v)
+
+    items = {}
+    for key, sql in Q.items():
+        rows = [dict(r) for r in client.query(sql).result()]
+        items[key] = {k: coerce(v) for k, v in (rows[0].items() if rows else {})}
+    return {"items": items}
+
+
 def run() -> None:  # pragma: no cover - requiere credenciales + BQ
     """Ejecuta todas las queries y escribe los seis JSON del snapshot."""
     OUT.mkdir(parents=True, exist_ok=True)
@@ -531,6 +569,7 @@ def _run_aggregates(client) -> None:  # pragma: no cover - requiere BQ
         _q(client, "cruces_donante.sql"),
         _q(client, "cruces_sancionado.sql"),
     ))
+    _write("senales_extra", _build_senales_extra(client))
 
     corte_rows = [
         dict(r)
