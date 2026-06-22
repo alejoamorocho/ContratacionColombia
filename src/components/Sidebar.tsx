@@ -18,7 +18,7 @@ const SECCIONES = [
 export function Sidebar() {
   return (
     <nav className="sidebar">
-      <div className="sidebar__brand">VECTORVI</div>
+      <div className="sidebar__brand">VECTOR<span className="sidebar__vi">VI</span></div>
       <ul>
         {SECCIONES.map((s) => (
           <li key={s.to}>

@@ -18,12 +18,21 @@
   font-weight: 800;
   letter-spacing: 0.04em;
   padding: var(--space-2) var(--space-4) var(--space-4);
-  /* Efecto bandera de Colombia (estático): amarillo dominante, azul, rojo. */
-  background: linear-gradient(90deg, #ffcd00 0%, #ffcd00 42%, #3a86ff 72%, #ef3340 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  width: fit-content;
+  color: var(--fg-default); /* "VECTOR" en color sólido */
+}
+
+/* "VI" cambia entre los colores de Colombia (amarillo, azul, rojo). */
+.sidebar__vi {
+  animation: vi-colombia 6s infinite;
+}
+@keyframes vi-colombia {
+  0%, 22%  { color: #ffcd00; } /* amarillo */
+  33%, 55% { color: #3a86ff; } /* azul */
+  66%, 88% { color: #ef3340; } /* rojo */
+  100%     { color: #ffcd00; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sidebar__vi { animation: none; color: #ffcd00; }
 }
 
 .sidebar ul {
