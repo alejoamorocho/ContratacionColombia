@@ -1,0 +1,82 @@
+/**
+ * @file tokens.css
+ * Sistema de tokens de color para datos y UI.
+ * Se integra con globals.css para mantener consistencia visual.
+ */
+
+:root {
+  /* Colores primarios — Datos */
+  --color-primary: #8957e5;        /* Violeta de marca */
+  --color-data-blue: #58a6ff;      /* Azul para valores primarios */
+  --color-data-amber: #d29922;     /* Amarillo para totales/énfasis */
+
+  /* Paleta secuencial fría para mapas (YlGnBu-like) */
+  --color-map-cool-1: #f7fcfd;     /* Muy claro */
+  --color-map-cool-2: #e1f3f7;
+  --color-map-cool-3: #b3e5fc;
+  --color-map-cool-4: #81d4fa;
+  --color-map-cool-5: #4fc3f7;     /* Punto medio */
+  --color-map-cool-6: #29b6f6;
+  --color-map-cool-7: #03a9f4;
+  --color-map-cool-8: #039be5;
+  --color-map-cool-9: #01579b;     /* Muy oscuro */
+
+  /* Paleta de datos complementaria */
+  --color-data-teal: #17a2b8;
+  --color-data-purple: #6f42c1;
+  --color-data-pink: #e91e63;
+  --color-data-green: #28a745;
+
+  /* Gradients — brand (hex logo colors) */
+  --gradient-brand: linear-gradient(135deg, #388bfd 0%, #7b8cee 50%, #bc8cff 100%);
+  --gradient-brand-subtle: linear-gradient(135deg, rgba(56,139,253,0.13) 0%, rgba(188,140,255,0.13) 100%);
+
+  /* Glow */
+  --glow-brand: 0 0 30px rgba(123,140,238,0.2);
+
+  /* Radius adicionales */
+  --radius-lg: 10px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+}
+
+/**
+ * Estilos responsivos para secciones.
+ * Se aplican via clases en Observatorio.tsx.
+ */
+@media (max-width: 640px) {
+  :root {
+    /* Espaciado más comprimido en móvil */
+    --space-section-y: 32px;
+  }
+
+  .section-responsive {
+    padding: 0 16px;
+  }
+
+  .chart-container-responsive {
+    min-height: 240px;
+  }
+}
+
+@media (min-width: 641px) {
+  :root {
+    --space-section-y: 48px;
+  }
+}
+
+/**
+ * Respeta preferencia de movimiento reducido.
+ */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
