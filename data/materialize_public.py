@@ -1,0 +1,322 @@
+"""Genera ``public/data/*.json`` (snapshot 2022-2026) desde BigQuery.
+
+Lee ``vectorvi.vectorvi.contratos`` (ventana 2022-2026, valor>0) y escribe
+seis JSON con EXACTAMENTE la forma de ``src/lib/types.ts`` del dashboard
+público (meta, panorama, quien, como, donde, senales).
+
+Las funciones ``shape_*`` son PURAS: transforman filas dict -> dict del tipo
+y no tocan BigQuery (testeables sin credenciales). La ejecución contra BQ vive
+en ``run()`` y sus helpers ``_client``/``_q``.
+
+Uso:
+    pip install -r requirements.txt
+    export GCP_PROJECT=vectorvi BQ_DATASET=vectorvi   # defaults: 'vectorvi'
+    python materialize_public.py
+
+Requiere ``gcloud auth application-default login`` (o credenciales de servicio).
+"""
+from __future__ import annotations
+
+import datetime
+import json
+import os
+from pathlib import Path
+from typing import Any
+
+# ─── Configuración por entorno ──────────────────────────────────────────────
+
+YEAR_FROM = int(os.environ.get("YEAR_FROM", "2022"))
+YEAR_TO = int(os.environ.get("YEAR_TO", "2026"))
+PROJECT = os.environ.get("GCP_PROJECT", "vectorvi")
+DATASET = os.environ.get("BQ_DATASET", "vectorvi")
+
+OUT = Path(__file__).resolve().parent.parent / "public" / "data"
+QUERIES_DIR = Path(__file__).resolve().parent / "queries"
+
+DATE_FROM = f"{YEAR_FROM}-01-01"
+DATE_TO = f"{YEAR_TO}-12-31"
+
+# Filtro común a todos los agregados (documentado; los .sql lo embeben literal).
+WHERE = (
+    f"fecha_firma BETWEEN '{DATE_FROM}' AND '{DATE_TO}' "
+    f"AND valor IS NOT NULL AND valor > 0"
+)
+
+FUENTES = ["SECOP II — Contratos (jbjy-vk9h)"]
+
+NOTAS = [
+    "Cifras agregadas de SECOP II. Describe, no juzga.",
+    f"{YEAR_TO} es un año parcial: solo incluye contratos firmados hasta el corte de datos.",
+    "El primer semestre de 2022 tiene cobertura baja en SECOP II frente al resto de la serie.",
+    "El valor es el del contrato firmado; no refleja adiciones ni ejecución posterior.",
+]
+
+NOTAS_METODOLOGICAS = [
+    "La concentración del top-10 mide qué porcentaje del valor total fue "
+    "adjudicado a los 10 mayores contratistas. No implica irregularidad.",
+    "Los percentiles describen la distribución del valor por contrato. Un "
+    "percentil alto solo indica un contrato de mayor cuantía.",
+    "El porcentaje de contratación directa es un dato estadístico; su uso es "
+    "legítimo en numerosos supuestos legales.",
+]
+
+
+# ─── Coerción a tipos JSON-safe ─────────────────────────────────────────────
+# BigQuery devuelve int para COUNT/EXTRACT y Decimal/float para SUM(NUMERIC).
+# El frontend espera number; normalizamos a int o float nativos de Python.
+
+
+def _i(v: Any) -> int:
+    """Entero JSON-safe (None -> 0)."""
+    return int(v) if v is not None else 0
+
+
+def _f(v: Any) -> float:
+    """Flotante JSON-safe (None -> 0.0). Acepta Decimal de BQ."""
+    return float(v) if v is not None else 0.0
+
+
+def _s(v: Any, default: str = "") -> str:
+    """String JSON-safe (None -> default)."""
+    return str(v) if v is not None else default
+
+
+# ─── Funciones PURAS de forma (filas dict -> dict del tipo) ─────────────────
+
+
+def shape_panorama(
+    rows_kpi: list[dict[str, Any]],
+    rows_anio: list[dict[str, Any]],
+    rows_sect: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """PanoramaData: kpis + por_anio + top_sectores."""
+    k = rows_kpi[0] if rows_kpi else {}
+    return {
+        "kpis": {
+            "contratos": _i(k.get("contratos")),
+            "valor_total": _f(k.get("valor_total")),
+            "entidades": _i(k.get("entidades")),
+            "contratistas": _i(k.get("contratistas")),
+        },
+        "por_anio": [
+            {
+                "anio": _i(r.get("anio")),
+                "contratos": _i(r.get("contratos")),
+                "valor": _f(r.get("valor")),
+            }
+            for r in rows_anio
+        ],
+        "top_sectores": [
+            {
+                "sector": _s(r.get("sector"), "Sin clasificar"),
+                "contratos": _i(r.get("contratos")),
+                "valor": _f(r.get("valor")),
+            }
+            for r in rows_sect
+        ],
+    }
+
+
+def shape_quien(
+    rows_ent: list[dict[str, Any]],
+    rows_nivel: list[dict[str, Any]],
+    rows_sector: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """QuienData: top_entidades + por_nivel + por_sector."""
+    return {
+        "top_entidades": [
+            {
+                "nombre": _s(r.get("nombre")),
+                "nit": _s(r.get("nit")),
+                "valor": _f(r.get("valor")),
+                "contratos": _i(r.get("contratos")),
+            }
+            for r in rows_ent
+        ],
+        "por_nivel": [
+            {
+                "nivel": _s(r.get("nivel"), "Sin clasificar"),
+                "valor": _f(r.get("valor")),
+                "contratos": _i(r.get("contratos")),
+            }
+            for r in rows_nivel
+        ],
+        "por_sector": [
+            {
+                "sector": _s(r.get("sector"), "Sin clasificar"),
+                "valor": _f(r.get("valor")),
+                "contratos": _i(r.get("contratos")),
+            }
+            for r in rows_sector
+        ],
+    }
+
+
+def _es_directa(modalidad: str) -> bool:
+    """True si la modalidad corresponde a contratación directa."""
+    return "DIRECTA" in (modalidad or "").upper()
+
+
+def shape_como(
+    rows_mod: list[dict[str, Any]],
+    rows_mod_anio: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """ComoData: por_modalidad + modalidad_por_anio + pct_directa/competitiva.
+
+    pct_directa se deriva sumando el ``pct`` de las modalidades 'directa';
+    pct_competitiva es el complemento a 100.
+    """
+    por_modalidad = [
+        {
+            "modalidad": _s(r.get("modalidad"), "Sin modalidad"),
+            "contratos": _i(r.get("contratos")),
+            "valor": _f(r.get("valor")),
+            "pct": _f(r.get("pct")),
+        }
+        for r in rows_mod
+    ]
+    pct_directa = round(
+        sum(m["pct"] for m in por_modalidad if _es_directa(m["modalidad"])), 1
+    )
+    pct_competitiva = round(100.0 - pct_directa, 1)
+    return {
+        "por_modalidad": por_modalidad,
+        "modalidad_por_anio": [
+            {
+                "anio": _i(r.get("anio")),
+                "modalidad": _s(r.get("modalidad"), "Sin modalidad"),
+                "valor": _f(r.get("valor")),
+            }
+            for r in rows_mod_anio
+        ],
+        "pct_directa": pct_directa,
+        "pct_competitiva": pct_competitiva,
+    }
+
+
+def shape_donde(rows_depto: list[dict[str, Any]]) -> dict[str, Any]:
+    """DondeData: por_departamento (dane, departamento, valor, contratos)."""
+    return {
+        "por_departamento": [
+            {
+                "dane": _s(r.get("dane")),
+                "departamento": _s(r.get("departamento")),
+                "valor": _f(r.get("valor")),
+                "contratos": _i(r.get("contratos")),
+            }
+            for r in rows_depto
+        ],
+    }
+
+
+def shape_senales(
+    rows_concentracion: list[dict[str, Any]],
+    rows_percentiles: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """SenalesData: concentracion + percentiles_valor + pct_directa_nacional.
+
+    La fila de concentración trae los tres escalares (top10_pct_valor,
+    n_contratistas, pct_directa_nacional) en una sola fila.
+    """
+    c = rows_concentracion[0] if rows_concentracion else {}
+    return {
+        "concentracion": {
+            "top10_pct_valor": _f(c.get("top10_pct_valor")),
+            "n_contratistas": _i(c.get("n_contratistas")),
+        },
+        "percentiles_valor": [
+            {"p": _i(r.get("p")), "valor": _f(r.get("valor"))}
+            for r in rows_percentiles
+        ],
+        "pct_directa_nacional": _f(c.get("pct_directa_nacional")),
+        "notas_metodologicas": list(NOTAS_METODOLOGICAS),
+    }
+
+
+def shape_meta(corte_datos: str | None) -> dict[str, Any]:
+    """MetaData: ventana + generado + corte_datos + fuentes + notas."""
+    return {
+        "ventana": {"desde": YEAR_FROM, "hasta": YEAR_TO},
+        "generado": datetime.date.today().isoformat(),
+        "corte_datos": _s(corte_datos),
+        "fuentes": list(FUENTES),
+        "notas": list(NOTAS),
+    }
+
+
+# ─── Ejecución contra BigQuery (separada de las shape_*) ────────────────────
+
+
+def _client():  # pragma: no cover - requiere credenciales
+    from google.cloud import bigquery
+
+    return bigquery.Client(project=PROJECT)
+
+
+def _sql(name: str) -> str:
+    """Lee un .sql de queries/ y sustituye los placeholders {p}.{d}."""
+    raw = QUERIES_DIR.joinpath(name).read_text(encoding="utf-8")
+    return raw.replace("{p}", PROJECT).replace("{d}", DATASET)
+
+
+def _q(client, name: str) -> list[dict[str, Any]]:  # pragma: no cover - BQ
+    """Ejecuta el .sql `name` y devuelve filas como lista de dicts."""
+    return [dict(r) for r in client.query(_sql(name)).result()]
+
+
+def _write(nombre: str, data: dict[str, Any]) -> None:  # pragma: no cover - IO
+    (OUT / f"{nombre}.json").write_text(
+        json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+
+
+def run() -> None:  # pragma: no cover - requiere credenciales + BQ
+    """Ejecuta todas las queries y escribe los seis JSON del snapshot."""
+    OUT.mkdir(parents=True, exist_ok=True)
+    client = _client()
+
+    panorama = shape_panorama(
+        _q(client, "panorama_kpis.sql"),
+        _q(client, "panorama_anio.sql"),
+        _q(client, "panorama_sectores.sql"),
+    )
+    _write("panorama", panorama)
+
+    quien = shape_quien(
+        _q(client, "quien_entidades.sql"),
+        _q(client, "quien_nivel.sql"),
+        _q(client, "quien_sector.sql"),
+    )
+    _write("quien", quien)
+
+    como = shape_como(
+        _q(client, "como_modalidad.sql"),
+        _q(client, "como_modalidad_anio.sql"),
+    )
+    _write("como", como)
+
+    donde = shape_donde(_q(client, "donde_departamento.sql"))
+    _write("donde", donde)
+
+    senales = shape_senales(
+        _q(client, "senales_concentracion.sql"),
+        _q(client, "senales_percentiles.sql"),
+    )
+    _write("senales", senales)
+
+    corte_rows = [
+        dict(r)
+        for r in client.query(
+            f"SELECT CAST(MAX(fecha_firma) AS STRING) AS d "
+            f"FROM `{PROJECT}.{DATASET}.contratos` "
+            f"WHERE fecha_firma BETWEEN '{DATE_FROM}' AND '{DATE_TO}'"
+        ).result()
+    ]
+    corte = corte_rows[0]["d"] if corte_rows else None
+    _write("meta", shape_meta(corte))
+
+    print("Snapshot generado en", OUT)
+
+
+if __name__ == "__main__":  # pragma: no cover
+    run()
