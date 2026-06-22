@@ -8,7 +8,6 @@ export function usePublicData<T = unknown>(seccion: string) {
 
   useEffect(() => {
     let alive = true;
-    setLoading(true);
     fetch(`${BASE}data/${seccion}.json`)
       .then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
       .then((j) => { if (alive) { setData(j as T); setError(null); } })

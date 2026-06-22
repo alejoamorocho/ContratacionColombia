@@ -22,7 +22,7 @@ El materializador agrega estas columnas de la tabla `contratos`:
 | `valor` | Monto del contrato (suma, percentiles) |
 | `fecha_firma` | Define el año del contrato |
 | `entidad_nit`, `entidad_nombre` | Entidad contratante |
-| `contratista_nit`, `contratista_nombre` | Contratista |
+| `contratista_nit` | Contratista (conteo de únicos, concentración) |
 | `modalidad` | Modalidad de contratación (directa, licitación, etc.) |
 | `objeto_clasificado` | Sector |
 | `orden` | Nivel de gobierno (nacional, territorial…) |

@@ -24,26 +24,6 @@ const FALLBACK = {
   fgMuted: '#8b949e',
 } as const;
 
-/** Colores principales por fuente de datos. */
-export const chartColors = {
-  secop: FALLBACK.accent,
-  siri: FALLBACK.riskCritical,
-  icij: FALLBACK.riskHigh,
-  campanas: FALLBACK.purple,
-  accent: FALLBACK.accent,
-  accentSecondary: FALLBACK.accentSecondary,
-  success: FALLBACK.success,
-  muted: FALLBACK.fgMuted,
-} as const;
-
-/** Mapa de colores por nivel de riesgo para graficas. */
-export const riskColors: Record<string, string> = {
-  CRITICO: FALLBACK.riskCritical,
-  ALTO: FALLBACK.riskHigh,
-  MEDIO: FALLBACK.riskMedium,
-  BAJO: FALLBACK.riskLow,
-};
-
 /** Paleta de 8 colores para series multiples en graficas. */
 export const chartPalette = [
   FALLBACK.accent,
@@ -78,7 +58,7 @@ export const axisStyle = {
 };
 
 /** Longitud maxima para etiquetas truncadas en ejes de graficas. */
-export const LABEL_MAX = 20;
+const LABEL_MAX = 20;
 
 /**
  * Trunca un texto para que quepa en etiquetas de graficas.
