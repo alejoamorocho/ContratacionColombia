@@ -1,73 +1,77 @@
-# React + TypeScript + Vite
+# VECTORVI — Observatorio público de contratación colombiana
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> **Describe. No juzga.** Datos abiertos de la contratación pública colombiana (2022–2026), organizados para entender qué pasó.
 
-Currently, two official plugins are available:
+![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
+![React](https://img.shields.io/badge/React-19-61dafb.svg)
+![Vite](https://img.shields.io/badge/Vite-build-646cff.svg)
+![Estático](https://img.shields.io/badge/100%25-est%C3%A1tico-3fb950.svg)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Qué es
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Un **dashboard estático y público** que muestra, con gráficas claras y tono neutral, cómo se movió la contratación pública colombiana (fuente: **SECOP II**) entre **2022 y 2026**. No interpreta ni acusa: presenta cifras agregadas para que cualquier persona se haga una idea de lo que ocurrió.
 
-## Expanding the ESLint configuration
+El sitio es **100% estático**: lee archivos JSON pre-calculados. **No tiene backend, no llama funciones, no usa base de datos ni autenticación.** La única superficie pública son archivos estáticos servidos por CDN. Esto lo hace barato, seguro y fácil de forkear.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Secciones
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+| Sección | Qué muestra |
+|---------|-------------|
+| **Panorama** | KPIs macro (contratos, valor total, entidades, contratistas) + evolución por año + top sectores |
+| **Quién contrata** | Top entidades por valor, distribución por nivel de gobierno y por sector |
+| **Cómo contrata** | Modalidades de contratación, su evolución y el % de contratación directa |
+| **Dónde** | Mapa coroplético de Colombia por departamento + ranking territorial |
+| **Señales** | Estadística descriptiva (concentración, percentiles). Neutral, sin juicio |
+| **Acerca** | Metodología, fuentes, ventana de datos y límites |
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Fork en 5 minutos
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+git clone <este-repo> && cd vectorvi-public
+npm install
+npm run dev          # usa el snapshot de datos ya incluido en public/data/
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+El sitio funciona de inmediato con el snapshot commiteado: **no necesitas BigQuery** para verlo o trabajar sobre él.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Regenerar los datos (opcional)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Si tienes tu propia fuente en BigQuery (una tabla `contratos` con el mismo esquema), puedes regenerar el snapshot:
+
+```bash
+cd data
+pip install -r requirements.txt
+export GCP_PROJECT=tu-proyecto BQ_DATASET=tu-dataset   # auth: gcloud application-default login
+python materialize_public.py                            # reescribe ../public/data/*.json
 ```
+
+La ventana (años) se controla con `YEAR_FROM` / `YEAR_TO`.
+
+### Desplegar
+
+```bash
+npm run build
+firebase deploy --only hosting     # o sube dist/ a Netlify, Vercel, GitHub Pages…
+```
+
+Al ser estático, se puede desplegar en cualquier hosting de archivos.
+
+## Cómo está hecho
+
+- **Frontend:** React 19 + TypeScript + Vite. Gráficas con Recharts; mapa con react-simple-maps. Cada sección lee su JSON vía el hook `usePublicData`.
+- **Datos:** `data/materialize_public.py` agrega los contratos en BigQuery y emite los JSON de `public/data/`. Las consultas SQL están en `data/queries/` para auditoría.
+- **Diseño:** tema oscuro tipo GitHub, tokens CSS centralizados, sin dependencias de UI pesadas.
+
+## Filosofía
+
+Este proyecto existe para que **cualquier colombiano** pueda ver y construir sobre datos públicos abiertos. No hace scoring, no señala culpables, no emite juicios: **organiza datos y los muestra bien**. Si quieres otra metodología o más fuentes, **forkéalo** — está pensado para eso.
+
+## Licencia y créditos
+
+Open source bajo **[Apache License 2.0](LICENSE)**.
+
+Creado por **Alejandro Amorocho** y **Juan José Amorocho**. Ver [NOTICE](NOTICE).
+
+> Contribuciones bienvenidas — ver [CONTRIBUTING.md](CONTRIBUTING.md).
