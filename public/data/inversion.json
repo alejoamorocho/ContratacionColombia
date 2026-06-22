@@ -1,0 +1,159 @@
+{
+  "kpis": {
+    "proyectos": 104695,
+    "valor_vigente": 424849203021621.25,
+    "valor_pagado": 144527212308756.25,
+    "pct_ejecucion": 0.340184732
+  },
+  "por_sector": [
+    {
+      "sector": "TRANSPORTE",
+      "vigente": 88189908792867.98,
+      "pagado": 23082597834955.227
+    },
+    {
+      "sector": "EDUCACION",
+      "vigente": 78879959011141.16,
+      "pagado": 38298906057163.63
+    },
+    {
+      "sector": "SALUD Y PROTECCION SOCIAL",
+      "vigente": 55827447991305.62,
+      "pagado": 23841623457455.95
+    },
+    {
+      "sector": "GOBIERNO TERRITORIAL",
+      "vigente": 55683281466532.79,
+      "pagado": 8013141349515.477
+    },
+    {
+      "sector": "INCLUSION SOCIAL Y RECONCILIACION",
+      "vigente": 29408458331726.9,
+      "pagado": 13186818042732.332
+    },
+    {
+      "sector": "VIVIENDA, CIUDAD Y TERRITORIO",
+      "vigente": 24438541764172.85,
+      "pagado": 6624641553993.99
+    },
+    {
+      "sector": "MINAS Y ENERGIA",
+      "vigente": 23624307487300.15,
+      "pagado": 8699281489475.65
+    },
+    {
+      "sector": "IGUALDAD Y EQUIDAD",
+      "vigente": 10094029890054.0,
+      "pagado": 3294696098671.89
+    },
+    {
+      "sector": "AGRICULTURA Y DESARROLLO RURAL",
+      "vigente": 8530618118853.96,
+      "pagado": 2507954073116.02
+    },
+    {
+      "sector": "TRABAJO",
+      "vigente": 7692220698873.29,
+      "pagado": 3112488569382.37
+    },
+    {
+      "sector": "DEPORTE Y RECREACION",
+      "vigente": 6835581755646.22,
+      "pagado": 2417394032202.07
+    },
+    {
+      "sector": "AMBIENTE Y DESARROLLO SOSTENIBLE",
+      "vigente": 6230736189958.61,
+      "pagado": 1568375101659.91
+    },
+    {
+      "sector": "CULTURA",
+      "vigente": 5418447693879.76,
+      "pagado": 1975421558182.445
+    },
+    {
+      "sector": "HACIENDA",
+      "vigente": 3962528087529.0,
+      "pagado": 1046984563766.06
+    },
+    {
+      "sector": "TECNOLOGIAS DE LA INFORMACION Y LAS COMUNICACIONES",
+      "vigente": 3374272632151.08,
+      "pagado": 1343477887972.66
+    }
+  ],
+  "por_vigencia": [
+    {
+      "anio": 2025,
+      "vigente": 204503357112156.94,
+      "pagado": 122354601615702.89
+    },
+    {
+      "anio": 2026,
+      "vigente": 220345845909464.28,
+      "pagado": 22172610693053.35
+    }
+  ],
+  "por_fuente": [
+    {
+      "fuente": "PROPIOS TERRITORIO",
+      "valor": 201545311949526.25
+    },
+    {
+      "fuente": "PGN - NACION - INVERSION",
+      "valor": 115658777714980.23
+    },
+    {
+      "fuente": "SGP - EDUCACION",
+      "valor": 45987043844532.46
+    },
+    {
+      "fuente": "PGN - PROPIOS",
+      "valor": 18153525845156.9
+    },
+    {
+      "fuente": "SGP - SALUD",
+      "valor": 13881315910648.78
+    },
+    {
+      "fuente": "SGP - PROPOSITO GENERAL LIBRE INVERSION",
+      "valor": 3947013712684.18
+    },
+    {
+      "fuente": "SGP - AGUA POTABLE Y SANEAMIENTO BASICO",
+      "valor": 3750436136825.23
+    },
+    {
+      "fuente": "SGR - ASIGNACIONES DIRECTAS",
+      "valor": 3667799870765.19
+    },
+    {
+      "fuente": "SGR - ASIGNACION PARA LA INVERSION REGIONAL 60%",
+      "valor": 3067372512827.45
+    },
+    {
+      "fuente": "SGR - ASIGNACION PARA LA PAZ",
+      "valor": 2822222338326.39
+    },
+    {
+      "fuente": "SGR - ASIGNACION PARA LA INVERSION REGIONAL 40%",
+      "valor": 1993241947493.43
+    },
+    {
+      "fuente": "PROPIOS EMPRESA",
+      "valor": 1937689127190.11
+    },
+    {
+      "fuente": "SGR - ASIGNACION PARA LA INVERSION LOCAL SEGUN NBI Y MUNICIPIOS DE CUARTA, QUINTA Y SEXTA CATEGORIA",
+      "valor": 1581758604316.78
+    },
+    {
+      "fuente": "OBRAS POR IMPUESTOS",
+      "valor": 1307142054796.76
+    },
+    {
+      "fuente": "SGR - 20% DE MAYOR RECAUDO DESTINADO A LA CONSERVACION DE LAS AREAS AMBIENTALES ESTRATEGICAS Y LA LUCHA NACIONAL CONTRA LA DEFORESTACION",
+      "valor": 914694877803.06
+    }
+  ]
+}

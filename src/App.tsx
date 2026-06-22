@@ -3,11 +3,12 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { DashboardLayout } from './components/DashboardLayout';
 import { ADMIN_URL } from './lib/config';
 
-// Carga diferida por sección: el chunk del mapa (react-simple-maps + d3-geo)
-// solo se baja al entrar a "Dónde"; Recharts solo donde hay gráficas.
-const Panorama = lazy(() => import('./pages/Panorama'));
+const Inicio = lazy(() => import('./pages/Inicio'));
 const Quien = lazy(() => import('./pages/Quien'));
 const Como = lazy(() => import('./pages/Como'));
+const Planea = lazy(() => import('./pages/Planea'));
+const Invierte = lazy(() => import('./pages/Invierte'));
+const Ejecuta = lazy(() => import('./pages/Ejecuta'));
 const Donde = lazy(() => import('./pages/Donde'));
 const Senales = lazy(() => import('./pages/Senales'));
 const Acerca = lazy(() => import('./pages/Acerca'));
@@ -27,9 +28,12 @@ export default function App() {
       <Suspense fallback={<Cargando />}>
         <Routes>
           <Route element={<DashboardLayout />}>
-            <Route index element={<Panorama />} />
+            <Route index element={<Inicio />} />
             <Route path="quien" element={<Quien />} />
             <Route path="como" element={<Como />} />
+            <Route path="planea" element={<Planea />} />
+            <Route path="invierte" element={<Invierte />} />
+            <Route path="ejecuta" element={<Ejecuta />} />
             <Route path="donde" element={<Donde />} />
             <Route path="senales" element={<Senales />} />
             <Route path="acerca" element={<Acerca />} />

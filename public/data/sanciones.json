@@ -1,0 +1,65 @@
+{
+  "kpis": {
+    "total": 13441,
+    "inhabilidad_vigente": 8839,
+    "inhabilidad_promedio_meses": 108.2
+  },
+  "por_tipo": [
+    {
+      "tipo": "DISCIPLINARIA",
+      "n": 13418
+    },
+    {
+      "tipo": "CONTRACTUAL",
+      "n": 23
+    }
+  ],
+  "por_anio": [
+    {
+      "anio": 2022,
+      "n": 2283
+    },
+    {
+      "anio": 2023,
+      "n": 3185
+    },
+    {
+      "anio": 2024,
+      "n": 2977
+    },
+    {
+      "anio": 2025,
+      "n": 4465
+    },
+    {
+      "anio": 2026,
+      "n": 531
+    }
+  ],
+  "por_gravedad": [
+    {
+      "gravedad": "MIEMBRO DE LA FUERZA PUBLICA",
+      "n": 8842
+    },
+    {
+      "gravedad": "SERVIDOR PUBLICO",
+      "n": 4296
+    },
+    {
+      "gravedad": "Sin clasificar",
+      "n": 181
+    },
+    {
+      "gravedad": "PARTICULAR QUE EJERCE FUNCION PUBLICA",
+      "n": 114
+    },
+    {
+      "gravedad": "CONTRATISTA",
+      "n": 4
+    },
+    {
+      "gravedad": "PARTICULAR",
+      "n": 4
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-import { SectionHeader } from '../components/SectionHeader';
+import { PageShell } from '../components/PageShell';
 import { usePublicData } from '../hooks/usePublicData';
 import { formatFechaColombia } from '../lib/formatters';
 import type { MetaData } from '../lib/types';
@@ -9,93 +9,65 @@ export default function Acerca() {
   if (loading) return <p style={{ color: 'var(--fg-muted)' }}>Cargando…</p>;
   if (error || !data) return <p style={{ color: 'var(--fg-muted)' }}>No se pudieron cargar los datos.</p>;
 
+  const h2: React.CSSProperties = { fontFamily: 'var(--font-heading)', margin: 'var(--space-6) 0 var(--space-3)' };
+  const link: React.CSSProperties = { color: 'var(--brand)' };
+
   return (
-    <div>
-      <SectionHeader
-        kicker="Acerca"
-        title="VECTORVI — Observatorio público"
-        desc="Datos abiertos de contratación pública colombiana, organizados para entender qué pasó."
-      />
-
-      <p style={{ color: 'var(--fg-default)', maxWidth: '70ch', lineHeight: 1.6 }}>
-        VECTORVI es un observatorio estadístico público de la contratación del Estado colombiano,
-        construido sobre los datos abiertos del SECOP II. Su propósito es organizar y describir lo
-        que muestran los registros, no calificar ni juzgar a las entidades o contratistas. Es un
-        proyecto de código abierto.
-      </p>
-
+    <PageShell
+      tone="context"
+      overline="// Acerca"
+      question="Un laboratorio de datos públicos"
+      context="VECTORVI organiza datos abiertos oficiales de la contratación del Estado colombiano para que cualquier persona los entienda. Describe, no juzga: ningún dato es acusatorio."
+    >
       <div
         style={{
           border: '1px solid var(--border-default)',
           borderRadius: 'var(--radius)',
           padding: 'var(--space-5)',
-          margin: 'var(--space-5) 0',
+          margin: 'var(--space-2) 0 var(--space-4)',
           background: 'var(--bg-overlay)',
         }}
       >
-        <div style={{ color: 'var(--fg-default)', marginBottom: 'var(--space-2)' }}>
+        <div style={{ marginBottom: 'var(--space-2)' }}>
           <strong>Ventana:</strong> {data.ventana.desde}–{data.ventana.hasta}
         </div>
-        <div style={{ color: 'var(--fg-default)', marginBottom: 'var(--space-2)' }}>
+        <div style={{ marginBottom: 'var(--space-2)' }}>
           <strong>Fecha de corte de datos:</strong> {formatFechaColombia(data.corte_datos)}
         </div>
-        <div style={{ color: 'var(--fg-default)' }}>
+        <div>
           <strong>Generado:</strong> {formatFechaColombia(data.generado)}
         </div>
       </div>
 
-      <h2 style={{ fontFamily: 'var(--font-heading)', marginTop: 'var(--space-6)' }}>Fuentes</h2>
-      <ul style={{ color: 'var(--fg-default)', maxWidth: '70ch', lineHeight: 1.7 }}>
-        {data.fuentes.map((f, i) => (
-          <li key={i}>{f}</li>
-        ))}
+      <h2 style={h2}>Fuentes oficiales</h2>
+      <ul style={{ color: 'var(--fg-default)', maxWidth: '72ch', lineHeight: 1.7 }}>
+        {data.fuentes.map((f, i) => <li key={i}>{f}</li>)}
       </ul>
 
-      <h2 style={{ fontFamily: 'var(--font-heading)', marginTop: 'var(--space-6)' }}>
-        Notas y límites
-      </h2>
-      <ul style={{ color: 'var(--fg-default)', maxWidth: '70ch', lineHeight: 1.7 }}>
-        {data.notas.map((n, i) => (
-          <li key={i}>{n}</li>
-        ))}
+      <h2 style={h2}>Notas y límites</h2>
+      <ul style={{ color: 'var(--fg-muted)', maxWidth: '72ch', lineHeight: 1.7 }}>
+        {data.notas.map((n, i) => <li key={i}>{n}</li>)}
       </ul>
 
-      <h2 style={{ fontFamily: 'var(--font-heading)', marginTop: 'var(--space-6)' }}>
-        Código y licencia
-      </h2>
-      <p style={{ color: 'var(--fg-default)', maxWidth: '70ch', lineHeight: 1.6 }}>
-        <a
-          href="https://github.com/alejoamorocho/ContratacionColombia"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ color: 'var(--brand)' }}
-        >
-          Repositorio en GitHub
-        </a>
+      <h2 style={h2}>Código y licencia</h2>
+      <p style={{ color: 'var(--fg-default)', maxWidth: '72ch', lineHeight: 1.6 }}>
+        <a href="https://github.com/alejoamorocho/ContratacionColombia" target="_blank" rel="noopener noreferrer" style={link}>Repositorio en GitHub</a>
         {' · '}
-        <a
-          href="https://github.com/alejoamorocho/ContratacionColombia/tree/main/wiki"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ color: 'var(--brand)' }}
-        >
-          Wiki
-        </a>
+        <a href="https://github.com/alejoamorocho/ContratacionColombia/tree/main/wiki" target="_blank" rel="noopener noreferrer" style={link}>Wiki</a>
+        {' · '}
+        <a href="https://github.com/alejoamorocho/ContratacionColombia/blob/main/wiki/06-Auditoria-De-Datos.md" target="_blank" rel="noopener noreferrer" style={link}>Auditoría de datos</a>
         <br />
         Open source bajo Apache 2.0.
       </p>
 
       <p
         style={{
-          color: 'var(--fg-muted)',
-          fontSize: 13,
-          marginTop: 'var(--space-6)',
-          borderTop: '1px solid var(--border-default)',
-          paddingTop: 'var(--space-4)',
+          color: 'var(--fg-muted)', fontSize: 13, marginTop: 'var(--space-6)',
+          borderTop: '1px solid var(--border-default)', paddingTop: 'var(--space-4)',
         }}
       >
         Creado por Alejandro Amorocho y Juan José Amorocho.
       </p>
-    </div>
+    </PageShell>
   );
 }

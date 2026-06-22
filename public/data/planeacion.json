@@ -1,0 +1,120 @@
+{
+  "kpis": {
+    "items": 155353,
+    "valor_planeado": 58645641027936.0,
+    "entidades": 644
+  },
+  "por_anio": [
+    {
+      "anio": 2024,
+      "valor": 14226089959188.0
+    },
+    {
+      "anio": 2025,
+      "valor": 32748570850761.0
+    },
+    {
+      "anio": 2026,
+      "valor": 11670980217987.0
+    }
+  ],
+  "top_categorias": [
+    {
+      "categoria": "Servicios de gestión y profesionales",
+      "valor": 9771325961141.0,
+      "items": 91146
+    },
+    {
+      "categoria": "Servicios políticos y comunitarios",
+      "valor": 8211161594377.0,
+      "items": 10741
+    },
+    {
+      "categoria": "Servicios de construcción y mantenimiento",
+      "valor": 7448330811522.0,
+      "items": 3547
+    },
+    {
+      "categoria": "Equipos de impresión, fotografía y audiovisuales",
+      "valor": 4250103621922.0,
+      "items": 282
+    },
+    {
+      "categoria": "Servicios editoriales, diseño y artes gráficas",
+      "valor": 3670317017320.0,
+      "items": 2222
+    },
+    {
+      "categoria": "Servicios medioambientales",
+      "valor": 3610172038666.0,
+      "items": 1177
+    },
+    {
+      "categoria": "Servicios de ingeniería e investigación",
+      "valor": 3427877811039.0,
+      "items": 4521
+    },
+    {
+      "categoria": "Servicios de salud",
+      "valor": 2672019409336.0,
+      "items": 8748
+    },
+    {
+      "categoria": "Servicios de seguridad y defensa nacional",
+      "valor": 1737726332606.0,
+      "items": 533
+    },
+    {
+      "categoria": "Materiales y componentes de construcción",
+      "valor": 1418140131840.0,
+      "items": 349
+    },
+    {
+      "categoria": "Servicios públicos (agua, energía, telecom.)",
+      "valor": 1152532015840.0,
+      "items": 593
+    },
+    {
+      "categoria": "Servicios de transporte y logística",
+      "valor": 1089159767619.0,
+      "items": 1553
+    }
+  ],
+  "por_modalidad": [
+    {
+      "modalidad": "Otras",
+      "valor": 22898411035008.0,
+      "items": 16154
+    },
+    {
+      "modalidad": "Contratación directa",
+      "valor": 18493258328342.0,
+      "items": 106015
+    },
+    {
+      "modalidad": "Régimen especial",
+      "valor": 8783333282299.0,
+      "items": 20687
+    },
+    {
+      "modalidad": "Licitación pública",
+      "valor": 4947876884100.0,
+      "items": 1306
+    },
+    {
+      "modalidad": "Selección abreviada",
+      "valor": 2335175760290.0,
+      "items": 4052
+    },
+    {
+      "modalidad": "Mínima cuantía",
+      "valor": 790689907390.0,
+      "items": 6601
+    },
+    {
+      "modalidad": "Concurso de méritos",
+      "valor": 396895830507.0,
+      "items": 538
+    }
+  ]
+}

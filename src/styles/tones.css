@@ -1,0 +1,73 @@
+/**
+ * Sistema de "tono" por módulo (replica el data-tone de la app privada).
+ * Cada sección declara data-tone y hereda --shell-tone, que colorea overline,
+ * callouts, bordes de acento y gráficas. Da identidad y riqueza visual sin
+ * recargar.
+ */
+:root {
+  --tone-who: #58a6ff;      /* ¿Quién contrata? — azul */
+  --tone-how: #bc8cff;      /* ¿Cómo contrata? — violeta */
+  --tone-plan: #2dd4bf;     /* ¿Qué se planea? — teal */
+  --tone-invest: #e3b341;   /* ¿En qué se invierte? — dorado */
+  --tone-exec: #79c0ff;     /* ¿Se ejecuta? — celeste */
+  --tone-where: #3fb950;    /* ¿Dónde? — verde */
+  --tone-signal: #f0883e;   /* ¿Hay señales? — ámbar */
+  --tone-context: #8b949e;  /* contexto — gris */
+}
+
+[data-tone='who'] { --shell-tone: var(--tone-who); }
+[data-tone='how'] { --shell-tone: var(--tone-how); }
+[data-tone='plan'] { --shell-tone: var(--tone-plan); }
+[data-tone='invest'] { --shell-tone: var(--tone-invest); }
+[data-tone='exec'] { --shell-tone: var(--tone-exec); }
+[data-tone='where'] { --shell-tone: var(--tone-where); }
+[data-tone='signal'] { --shell-tone: var(--tone-signal); }
+[data-tone='context'] { --shell-tone: var(--tone-context); }
+[data-tone] { --shell-tone: var(--tone-context); } /* fallback */
+
+/* Encabezado de página (pregunta ciudadana) */
+.shell-overline {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--shell-tone);
+  margin: 0 0 var(--space-2);
+}
+.shell-question {
+  font-family: var(--font-heading);
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 0 var(--space-3);
+  color: var(--fg-default);
+}
+.shell-context {
+  color: var(--fg-muted);
+  max-width: 72ch;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Callout narrativo (insight antes de los datos) */
+.shell-callout {
+  margin: var(--space-5) 0;
+  padding: 16px 20px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--shell-tone) 10%, transparent) 0%, transparent 60%),
+    var(--bg-overlay);
+  border: 1px solid var(--border-muted);
+  border-left: 3px solid var(--shell-tone);
+  border-radius: var(--radius);
+  color: var(--fg-default);
+  line-height: 1.6;
+}
+.shell-callout strong { color: var(--shell-tone); font-weight: 600; }
+
+/* Barra de acento superior reutilizable para tarjetas (riqueza visual) */
+.tone-topbar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--shell-tone), transparent);
+}

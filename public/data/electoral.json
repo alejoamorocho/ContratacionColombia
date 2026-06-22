@@ -1,0 +1,209 @@
+{
+  "kpis": {
+    "aportes": 350566,
+    "monto_total": 1337157474339.86,
+    "candidatos": 115036
+  },
+  "por_anio": [
+    {
+      "anio": 2022,
+      "monto": 679448926914.44
+    },
+    {
+      "anio": 2023,
+      "monto": 657708547425.4202
+    }
+  ],
+  "top_partidos": [
+    {
+      "partido": "PARTIDO LIBERAL COLOMBIANO",
+      "monto": 126942472888.70999,
+      "aportes": 29853
+    },
+    {
+      "partido": "PARTIDO CENTRO DEMOCRATICO",
+      "monto": 99806005606.58,
+      "aportes": 34814
+    },
+    {
+      "partido": "PARTIDO CAMBIO RADICAL",
+      "monto": 95143284722.82,
+      "aportes": 22163
+    },
+    {
+      "partido": "PARTIDO DE LA UNIÓN POR LA GENTE \"PARTIDO DE LA U\"",
+      "monto": 90362800159.98,
+      "aportes": 30306
+    },
+    {
+      "partido": "FONDO NACIONAL ECONOMICO PARTIDO CONSERVADOR COLOMBIANO",
+      "monto": 68336084219.0,
+      "aportes": 13682
+    },
+    {
+      "partido": "COALICIÓN PACTO HISTÓRICO",
+      "monto": 51997977929.0,
+      "aportes": 4878
+    },
+    {
+      "partido": "PARTIDO ALIANZA VERDE",
+      "monto": 48365331774.59,
+      "aportes": 22352
+    },
+    {
+      "partido": "PARTIDO CONSERVADOR COLOMBIANO",
+      "monto": 39116607822.899994,
+      "aportes": 12244
+    },
+    {
+      "partido": "COALICION ALIANZA VERDE Y CENTRO ESPERANZA - SENADO NACIONAL",
+      "monto": 35588452174.0,
+      "aportes": 12308
+    },
+    {
+      "partido": "PARTIDO NUEVO LIBERALISMO",
+      "monto": 34182598975.0,
+      "aportes": 11900
+    },
+    {
+      "partido": "PACTO HISTÓRICO - SENADO NACIONAL",
+      "monto": 32133421004.0,
+      "aportes": 3824
+    },
+    {
+      "partido": "COALICIÓN EQUIPO POR COLOMBIA",
+      "monto": 25459398058.0,
+      "aportes": 267
+    }
+  ],
+  "por_departamento": [
+    {
+      "departamento": "Antioquia",
+      "monto": 118673610047.51999
+    },
+    {
+      "departamento": "Valle del Cauca",
+      "monto": 71538442571.59
+    },
+    {
+      "departamento": "Bogotá D.C.",
+      "monto": 69385279811.75
+    },
+    {
+      "departamento": "Cundinamarca",
+      "monto": 62849789640.15
+    },
+    {
+      "departamento": "Santander",
+      "monto": 58118639305.79999
+    },
+    {
+      "departamento": "Atlántico",
+      "monto": 41006816909.020004
+    },
+    {
+      "departamento": "Córdoba",
+      "monto": 39253567978.5
+    },
+    {
+      "departamento": "Bolívar",
+      "monto": 39006716535.0
+    },
+    {
+      "departamento": "Boyacá",
+      "monto": 37557576948.06
+    },
+    {
+      "departamento": "Nariño",
+      "monto": 33636108260.059998
+    },
+    {
+      "departamento": "Magdalena",
+      "monto": 31836850769.02
+    },
+    {
+      "departamento": "Norte de Santander",
+      "monto": 29790747896.42001
+    },
+    {
+      "departamento": "Cesar",
+      "monto": 29236334064.0
+    },
+    {
+      "departamento": "Meta",
+      "monto": 28515733788.14
+    },
+    {
+      "departamento": "Cauca",
+      "monto": 26903752114.93
+    },
+    {
+      "departamento": "Tolima",
+      "monto": 26498884522.72
+    },
+    {
+      "departamento": "Sucre",
+      "monto": 23246803118.0
+    },
+    {
+      "departamento": "Huila",
+      "monto": 22859833761.04
+    },
+    {
+      "departamento": "Caldas",
+      "monto": 21665189478.39
+    },
+    {
+      "departamento": "La Guajira",
+      "monto": 19390883491.21
+    },
+    {
+      "departamento": "Risaralda",
+      "monto": 18380622172.99
+    },
+    {
+      "departamento": "Chocó",
+      "monto": 16184270525.0
+    },
+    {
+      "departamento": "Casanare",
+      "monto": 15615004289.0
+    },
+    {
+      "departamento": "Quindío",
+      "monto": 11201814389.52
+    },
+    {
+      "departamento": "Arauca",
+      "monto": 10201979887.0
+    },
+    {
+      "departamento": "Caquetá",
+      "monto": 8803232333.77
+    },
+    {
+      "departamento": "Putumayo",
+      "monto": 8773054416.62
+    },
+    {
+      "departamento": "Vichada",
+      "monto": 5212921931.0
+    },
+    {
+      "departamento": "Guaviare",
+      "monto": 3801820450.0
+    },
+    {
+      "departamento": "Guainía",
+      "monto": 2868044222.0
+    },
+    {
+      "departamento": "Amazonas",
+      "monto": 2502616809.2
+    },
+    {
+      "departamento": "Vaupés",
+      "monto": 2063363049.0
+    }
+  ]
+}

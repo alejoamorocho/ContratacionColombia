@@ -1,20 +1,21 @@
 /**
  * Smoke test de runtime: monta cada sección con el snapshot real de public/data/
- * y verifica que renderiza sin lanzar (incluye las gráficas y el mapa).
- * Sustituye a la verificación visual cuando el navegador headless no está disponible.
+ * y verifica que renderiza sin lanzar (incluye gráficas, mapa y el shell).
  */
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import Panorama from './Panorama';
+import Inicio from './Inicio';
 import Quien from './Quien';
 import Como from './Como';
+import Planea from './Planea';
+import Invierte from './Invierte';
+import Ejecuta from './Ejecuta';
 import Donde from './Donde';
 import Senales from './Senales';
 import Acerca from './Acerca';
 
-// Polyfill mínimo para Recharts (ResponsiveContainer usa ResizeObserver, ausente en jsdom)
 class RO { observe() {} unobserve() {} disconnect() {} }
 (globalThis as unknown as { ResizeObserver: unknown }).ResizeObserver = RO;
 
@@ -30,34 +31,21 @@ beforeEach(() => {
 
 const wrap = (ui: React.ReactNode) => render(<MemoryRouter>{ui}</MemoryRouter>);
 
-it('Panorama renderiza KPIs y títulos', async () => {
-  wrap(<Panorama />);
-  await waitFor(() => expect(screen.getByText(/Panorama nacional/i)).toBeTruthy());
-  expect(screen.getByText(/Top categorías de objeto/i)).toBeTruthy();
-});
+const PAGINAS: { nombre: string; Comp: React.ComponentType; texto: RegExp }[] = [
+  { nombre: 'Inicio', Comp: Inicio, texto: /Laboratorio de datos/i },
+  { nombre: 'Quién', Comp: Quien, texto: /¿Quién contrata\?/i },
+  { nombre: 'Cómo', Comp: Como, texto: /¿Cómo contrata\?/i },
+  { nombre: 'Planea', Comp: Planea, texto: /¿Qué se planea\?/i },
+  { nombre: 'Invierte', Comp: Invierte, texto: /¿En qué se invierte\?/i },
+  { nombre: 'Ejecuta', Comp: Ejecuta, texto: /¿Se ejecuta\?/i },
+  { nombre: 'Dónde', Comp: Donde, texto: /¿Dónde\?/i },
+  { nombre: 'Señales', Comp: Senales, texto: /¿Hay señales\?/i },
+  { nombre: 'Acerca', Comp: Acerca, texto: /laboratorio de datos/i },
+];
 
-it('Quién contrata renderiza', async () => {
-  wrap(<Quien />);
-  await waitFor(() => expect(screen.getByText(/Quién contrata/i)).toBeTruthy());
-});
-
-it('Cómo contrata renderiza', async () => {
-  wrap(<Como />);
-  await waitFor(() => expect(screen.getByText(/Cómo contrata/i)).toBeTruthy());
-});
-
-it('Dónde renderiza (incluye el mapa)', async () => {
-  wrap(<Donde />);
-  await waitFor(() => expect(screen.getByText(/Distribución territorial/i)).toBeTruthy());
-});
-
-it('Señales renderiza con tono neutral', async () => {
-  wrap(<Senales />);
-  await waitFor(() => expect(screen.getByText(/Estadística descriptiva/i)).toBeTruthy());
-  expect(screen.getByText(/METODOLOGÍA/i)).toBeTruthy();
-});
-
-it('Acerca renderiza créditos', async () => {
-  wrap(<Acerca />);
-  await waitFor(() => expect(screen.getByText(/Amorocho/i)).toBeTruthy());
+PAGINAS.forEach(({ nombre, Comp, texto }) => {
+  it(`${nombre} renderiza sin romperse`, async () => {
+    wrap(<Comp />);
+    await waitFor(() => expect(screen.getAllByText(texto).length).toBeGreaterThan(0));
+  });
 });

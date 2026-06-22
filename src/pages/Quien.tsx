@@ -1,4 +1,5 @@
-import { SectionHeader } from '../components/SectionHeader';
+import { PageShell } from '../components/PageShell';
+import { MethodologyNote } from '../components/MethodologyNote';
 import VBarChart from '../components/charts/VBarChart';
 import { usePublicData } from '../hooks/usePublicData';
 import type { QuienData } from '../lib/types';
@@ -9,52 +10,31 @@ export default function Quien() {
   if (loading) return <p style={{ color: 'var(--fg-muted)' }}>Cargando…</p>;
   if (error || !data) return <p style={{ color: 'var(--fg-muted)' }}>No se pudieron cargar los datos.</p>;
 
-  const h2Style: React.CSSProperties = {
-    fontFamily: 'var(--font-heading)',
-    margin: '0 0 var(--space-3)',
-  };
-  const blockStyle: React.CSSProperties = {
-    marginBottom: 'var(--space-6)',
-  };
+  const h2: React.CSSProperties = { fontFamily: 'var(--font-heading)', margin: 'var(--space-6) 0 var(--space-3)' };
 
   return (
-    <div>
-      <SectionHeader
-        kicker="Quién contrata"
-        title="¿Quiénes reciben la contratación?"
-        desc="Entidades contratantes por valor y volumen (2022–2026)."
-      />
+    <PageShell
+      tone="who"
+      overline="// ¿Quién contrata?"
+      question="¿Quiénes reciben la contratación pública?"
+      context="Las entidades que más gastan y los contratistas que más recursos reciben, por valor contratado (2022–2026). Muestra cómo se reparte el gasto público entre proveedores."
+      methodology={
+        <MethodologyNote>
+          Se suma el campo <code>valor</code> de los contratos de SECOP II por
+          entidad y por contratista (deduplicados por identificador de contrato,
+          valor &gt; 0). El "nivel de gobierno" viene del campo <code>orden</code>;
+          un 17 % de contratos no lo reporta y aparece como "Sin clasificar".
+        </MethodologyNote>
+      }
+    >
+      <h2 style={{ ...h2, marginTop: 0 }}>Entidades que más contratan (por valor)</h2>
+      <VBarChart data={data.top_entidades.slice(0, 15)} xKey="nombre" bars={[{ key: 'valor' }]} layout="horizontal" height={480} />
 
-      <section style={blockStyle}>
-        <h2 style={h2Style}>Top entidades por valor</h2>
-        <VBarChart
-          data={data.top_entidades.slice(0, 15)}
-          xKey="nombre"
-          bars={[{ key: 'valor' }]}
-          layout="horizontal"
-          height={480}
-        />
-      </section>
+      <h2 style={h2}>Por nivel de gobierno</h2>
+      <VBarChart data={data.por_nivel} xKey="nivel" bars={[{ key: 'valor' }]} />
 
-      <section style={blockStyle}>
-        <h2 style={h2Style}>Por nivel de gobierno</h2>
-        <VBarChart
-          data={data.por_nivel}
-          xKey="nivel"
-          bars={[{ key: 'valor' }]}
-        />
-      </section>
-
-      <section style={blockStyle}>
-        <h2 style={h2Style}>Por categoría de objeto</h2>
-        <VBarChart
-          data={data.por_sector.slice(0, 15)}
-          xKey="sector"
-          bars={[{ key: 'valor' }]}
-          layout="horizontal"
-          height={420}
-        />
-      </section>
-    </div>
+      <h2 style={h2}>Por categoría de objeto</h2>
+      <VBarChart data={data.por_sector.slice(0, 15)} xKey="sector" bars={[{ key: 'valor' }]} layout="horizontal" height={420} />
+    </PageShell>
   );
 }

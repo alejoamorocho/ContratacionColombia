@@ -15,10 +15,15 @@
 .sidebar__brand {
   font-family: var(--font-heading);
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.04em;
   padding: var(--space-2) var(--space-4) var(--space-4);
-  color: var(--brand);
+  /* Efecto bandera de Colombia (estático): amarillo dominante, azul, rojo. */
+  background: linear-gradient(90deg, #ffcd00 0%, #ffcd00 42%, #3a86ff 72%, #ef3340 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  width: fit-content;
 }
 
 .sidebar ul {
@@ -51,9 +56,10 @@
 
 .sidebar a.active {
   color: var(--fg-default);
-  background: var(--brand-subtle);
-  border-left-color: var(--brand);
+  background: color-mix(in srgb, var(--shell-tone, var(--brand)) 12%, transparent);
+  border-left-color: var(--shell-tone, var(--brand));
 }
+.sidebar a.active svg { color: var(--shell-tone, var(--brand)); }
 
 .sidebar a svg {
   flex-shrink: 0;

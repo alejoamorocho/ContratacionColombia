@@ -30,6 +30,38 @@ export interface SenalesData {
   pct_directa_nacional: number;
   notas_metodologicas: string[];
 }
+export interface ProcesosData {
+  kpis: { total: number; pct_adjudicado: number; pct_cancelado: number };
+  por_modalidad: { modalidad: string; procesos: number; pct_adjudicado: number }[];
+}
+export interface PlaneacionData {
+  kpis: { items: number; valor_planeado: number; entidades: number };
+  por_anio: { anio: number; valor: number }[];
+  top_categorias: { categoria: string; valor: number; items: number }[];
+  por_modalidad: { modalidad: string; valor: number; items: number }[];
+}
+export interface InversionData {
+  kpis: { proyectos: number; valor_vigente: number; valor_pagado: number; pct_ejecucion: number };
+  por_sector: { sector: string; vigente: number; pagado: number }[];
+  por_vigencia: { anio: number; vigente: number; pagado: number }[];
+  por_fuente: { fuente: string; valor: number }[];
+}
+export interface EjecucionData {
+  kpis: { contratado: number; facturado: number; pagado: number; pct_facturado: number; pct_pagado: number };
+  por_anio: { anio: number; contratado: number; facturado: number; pagado: number }[];
+}
+export interface SancionesData {
+  kpis: { total: number; inhabilidad_vigente: number; inhabilidad_promedio_meses: number };
+  por_tipo: { tipo: string; n: number }[];
+  por_anio: { anio: number; n: number }[];
+  por_gravedad: { gravedad: string; n: number }[];
+}
+export interface ElectoralData {
+  kpis: { aportes: number; monto_total: number; candidatos: number };
+  por_anio: { anio: number; monto: number }[];
+  top_partidos: { partido: string; monto: number; aportes: number }[];
+  por_departamento: { departamento: string; monto: number }[];
+}
 export type SeccionData = {
   meta: MetaData; panorama: PanoramaData; quien: QuienData;
   como: ComoData; donde: DondeData; senales: SenalesData;

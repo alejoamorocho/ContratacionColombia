@@ -46,11 +46,18 @@ WHERE = (
 # leen de aquí (vía _sql), garantizando que ningún contrato se cuente dos veces.
 BASE_TABLE = f"{PROJECT}.{DATASET}._contratos_pub"
 _BASE_COLS = (
-    "id, valor, fecha_firma, entidad_nit, entidad_nombre, contratista_nit, "
-    "modalidad, objeto_clasificado, orden, entidad_departamento"
+    "id, valor, valor_facturado, valor_pagado, fecha_firma, entidad_nit, "
+    "entidad_nombre, contratista_nit, modalidad, objeto_clasificado, orden, "
+    "entidad_departamento"
 )
 
-FUENTES = ["SECOP II — Contratos (jbjy-vk9h)"]
+FUENTES = [
+    "SECOP II — Contratos y Procesos (Colombia Compra Eficiente)",
+    "PAA — Plan Anual de Adquisiciones (SECOP II)",
+    "BPIN — Inversión pública (DNP)",
+    "Sanciones — SIRI (Procuraduría)",
+    "Aportes a campañas — Cuentas Claras (CNE)",
+]
 
 NOTAS = [
     "Cifras agregadas de SECOP II. Describe, no juzga.",
@@ -258,6 +265,117 @@ def shape_meta(corte_datos: str | None) -> dict[str, Any]:
     }
 
 
+def shape_procesos(rows_kpi, rows_mod):
+    """ProcesosData: total + % adjudicado/cancelado + por modalidad.
+
+    Solo se publican señales representativas: la competencia (nº de oferentes)
+    está vacía en la fuente (~0 %) y la serie por año es un snapshot, así que se
+    omiten. 'adjudicado'=estado Seleccionado; 'cancelado'=estado Cancelado.
+    """
+    k = rows_kpi[0] if rows_kpi else {}
+    return {
+        "kpis": {
+            "total": _i(k.get("total")),
+            "pct_adjudicado": _f(k.get("pct_adjudicado")),
+            "pct_cancelado": _f(k.get("pct_desierto")),
+        },
+        "por_modalidad": [
+            {
+                "modalidad": _s(r.get("modalidad"), "Otras"),
+                "procesos": _i(r.get("procesos")),
+                "pct_adjudicado": _f(r.get("pct_adjudicado")),
+            }
+            for r in rows_mod
+        ],
+    }
+
+
+def shape_planeacion(rows_kpi, rows_anio, rows_cat, rows_mod):
+    """PlaneacionData (PAA): qué planea comprar el Estado. Solo 2024-2026."""
+    k = rows_kpi[0] if rows_kpi else {}
+    return {
+        "kpis": {
+            "items": _i(k.get("items")),
+            "valor_planeado": _f(k.get("valor_planeado")),
+            "entidades": _i(k.get("entidades")),
+        },
+        "por_anio": [{"anio": _i(r.get("anio")), "valor": _f(r.get("valor"))} for r in rows_anio],
+        "top_categorias": [
+            {"categoria": _s(r.get("categoria"), "Sin clasificar"), "valor": _f(r.get("valor")), "items": _i(r.get("items"))}
+            for r in rows_cat
+        ],
+        "por_modalidad": [
+            {"modalidad": _s(r.get("modalidad"), "Otras"), "valor": _f(r.get("valor")), "items": _i(r.get("items"))}
+            for r in rows_mod
+        ],
+    }
+
+
+def shape_inversion(rows_kpi, rows_sector, rows_vigencia, rows_fuente):
+    """InversionData (BPIN): presupuesto de inversión vigente y ejecutado."""
+    k = rows_kpi[0] if rows_kpi else {}
+    return {
+        "kpis": {
+            "proyectos": _i(k.get("proyectos")),
+            "valor_vigente": _f(k.get("valor_vigente")),
+            "valor_pagado": _f(k.get("valor_pagado")),
+            "pct_ejecucion": _f(k.get("pct_ejecucion")),
+        },
+        "por_sector": [{"sector": _s(r.get("sector")), "vigente": _f(r.get("vigente")), "pagado": _f(r.get("pagado"))} for r in rows_sector],
+        "por_vigencia": [{"anio": _i(r.get("anio")), "vigente": _f(r.get("vigente")), "pagado": _f(r.get("pagado"))} for r in rows_vigencia],
+        "por_fuente": [{"fuente": _s(r.get("fuente")), "valor": _f(r.get("valor"))} for r in rows_fuente],
+    }
+
+
+def shape_ejecucion(rows_kpi, rows_anio):
+    """EjecucionData: contratado vs facturado vs pagado (columnas de contratos)."""
+    k = rows_kpi[0] if rows_kpi else {}
+    return {
+        "kpis": {
+            "contratado": _f(k.get("contratado")),
+            "facturado": _f(k.get("facturado")),
+            "pagado": _f(k.get("pagado")),
+            "pct_facturado": _f(k.get("pct_facturado")),
+            "pct_pagado": _f(k.get("pct_pagado")),
+        },
+        "por_anio": [
+            {"anio": _i(r.get("anio")), "contratado": _f(r.get("contratado")),
+             "facturado": _f(r.get("facturado")), "pagado": _f(r.get("pagado"))}
+            for r in rows_anio
+        ],
+    }
+
+
+def shape_sanciones(rows_kpi, rows_tipo, rows_anio, rows_gravedad):
+    """SancionesData: registro factual del SIRI (agregado, sin nombres)."""
+    k = rows_kpi[0] if rows_kpi else {}
+    return {
+        "kpis": {
+            "total": _i(k.get("total")),
+            "inhabilidad_vigente": _i(k.get("inhabilidad_vigente")),
+            "inhabilidad_promedio_meses": _f(k.get("inhabilidad_promedio_meses")),
+        },
+        "por_tipo": [{"tipo": _s(r.get("tipo"), "Sin clasificar"), "n": _i(r.get("n"))} for r in rows_tipo],
+        "por_anio": [{"anio": _i(r.get("anio")), "n": _i(r.get("n"))} for r in rows_anio],
+        "por_gravedad": [{"gravedad": _s(r.get("gravedad"), "Sin clasificar"), "n": _i(r.get("n"))} for r in rows_gravedad],
+    }
+
+
+def shape_electoral(rows_kpi, rows_anio, rows_partido, rows_depto):
+    """ElectoralData: aportes a campañas (CNE), agregado (sin cruces)."""
+    k = rows_kpi[0] if rows_kpi else {}
+    return {
+        "kpis": {
+            "aportes": _i(k.get("aportes")),
+            "monto_total": _f(k.get("monto_total")),
+            "candidatos": _i(k.get("candidatos")),
+        },
+        "por_anio": [{"anio": _i(r.get("anio")), "monto": _f(r.get("monto"))} for r in rows_anio],
+        "top_partidos": [{"partido": _s(r.get("partido"), "Sin partido"), "monto": _f(r.get("monto")), "aportes": _i(r.get("aportes"))} for r in rows_partido],
+        "por_departamento": [{"departamento": _s(r.get("departamento")), "monto": _f(r.get("monto"))} for r in rows_depto],
+    }
+
+
 # ─── Ejecución contra BigQuery (separada de las shape_*) ────────────────────
 
 
@@ -352,6 +470,41 @@ def _run_aggregates(client) -> None:  # pragma: no cover - requiere BQ
         _q(client, "senales_percentiles.sql"),
     )
     _write("senales", senales)
+
+    # ── Fuentes adicionales (cada una su tabla; el redirect a _contratos_pub
+    #    solo aplica a referencias a `contratos`) ────────────────────────────
+    _write("procesos", shape_procesos(
+        _q(client, "procesos_kpis.sql"),
+        _q(client, "procesos_modalidad.sql"),
+    ))
+    _write("planeacion", shape_planeacion(
+        _q(client, "planeacion_kpis.sql"),
+        _q(client, "planeacion_anio.sql"),
+        _q(client, "planeacion_categorias.sql"),
+        _q(client, "planeacion_modalidad.sql"),
+    ))
+    _write("inversion", shape_inversion(
+        _q(client, "inversion_kpis.sql"),
+        _q(client, "inversion_sector.sql"),
+        _q(client, "inversion_vigencia.sql"),
+        _q(client, "inversion_fuente.sql"),
+    ))
+    _write("ejecucion", shape_ejecucion(
+        _q(client, "ejecucion_kpis.sql"),
+        _q(client, "ejecucion_anio.sql"),
+    ))
+    _write("sanciones", shape_sanciones(
+        _q(client, "sanciones_kpis.sql"),
+        _q(client, "sanciones_tipo.sql"),
+        _q(client, "sanciones_anio.sql"),
+        _q(client, "sanciones_gravedad.sql"),
+    ))
+    _write("electoral", shape_electoral(
+        _q(client, "electoral_kpis.sql"),
+        _q(client, "electoral_anio.sql"),
+        _q(client, "electoral_partido.sql"),
+        _q(client, "electoral_depto.sql"),
+    ))
 
     corte_rows = [
         dict(r)
