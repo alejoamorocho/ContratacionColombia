@@ -33,7 +33,7 @@ const wrap = (ui: React.ReactNode) => render(<MemoryRouter>{ui}</MemoryRouter>);
 it('Panorama renderiza KPIs y títulos', async () => {
   wrap(<Panorama />);
   await waitFor(() => expect(screen.getByText(/Panorama nacional/i)).toBeTruthy());
-  expect(screen.getByText(/Top sectores/i)).toBeTruthy();
+  expect(screen.getByText(/Top categorías de objeto/i)).toBeTruthy();
 });
 
 it('Quién contrata renderiza', async () => {

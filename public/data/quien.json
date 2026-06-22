@@ -1,13 +1,13 @@
 {
   "top_entidades": [
     {
-      "nombre": "ICBF REGIONAL ATLANTICO",
+      "nombre": "ICBF SEDE NACIONAL",
       "nit": "899999239",
-      "valor": 37169248770194.0,
-      "contratos": 89660
+      "valor": 37156668222511.0,
+      "contratos": 89355
     },
     {
-      "nombre": "FONDO DE DESARROLLO LOCAL DE BOSA",
+      "nombre": "(Secretaría Distrital de Integración Social)",
       "nit": "899999061",
       "valor": 27856285361096.0,
       "contratos": 197492
@@ -19,22 +19,22 @@
       "contratos": 10655
     },
     {
-      "nombre": "CENTRO DE COMERCIO Y SERVICIOS - SENA REGIONAL CAUCA",
+      "nombre": "SENA DIRECCION GENERAL",
       "nit": "899999034",
-      "valor": 12720528073611.0,
-      "contratos": 226038
+      "valor": 12668650640418.0,
+      "contratos": 224849
     },
     {
-      "nombre": "DEPARTAMENTO DE ANTIOQUIA//",
+      "nombre": "ASAMBLEA DEPARTAMENTAL DE ANTIOQUIA",
       "nit": "890900286",
       "valor": 11883246391933.0,
       "contratos": 6070
     },
     {
-      "nombre": "DEPARTAMENTO ADMINISTRATIVO DE GESTION DEL MEDIO AMBIENTE DAGMA",
+      "nombre": "CONCEJO DISTRITAL DE SANTIAGO DE CALI",
       "nit": "890399011",
-      "valor": 11498987625489.0,
-      "contratos": 137339
+      "valor": 11138702983688.0,
+      "contratos": 135091
     },
     {
       "nombre": "UNP",
@@ -67,16 +67,10 @@
       "contratos": 7001
     },
     {
-      "nombre": "DEPARTAMENTO DE CUNDINAMARCA-SECRETARIA DE LA MUJER Y EQUIDAD DE GENERO+",
+      "nombre": "SECRETARIA GENERAL Y DE CERCANIA AL CIUDADANO",
       "nit": "899999114",
       "valor": 6371116031950.0,
       "contratos": 28121
-    },
-    {
-      "nombre": "SECRETARIA DE CULTURA VALLE",
-      "nit": "890399029",
-      "valor": 5725168902985.0,
-      "contratos": 62397
     },
     {
       "nombre": "FONDO UNICO DE TECNOLOGÍAS DE LA INFORMACIÓN Y LAS COMUNICACIONES",
@@ -89,18 +83,24 @@
       "nit": "899999059",
       "valor": 5656037824263.0,
       "contratos": 6360
+    },
+    {
+      "nombre": "DEPARTAMENTO DEL VALLE DEL CAUCA - OFICINA PARA LA TRANSPARENCIA DE LA GESTIÓN PÚBLICA",
+      "nit": "890399029",
+      "valor": 5655125526581.0,
+      "contratos": 62122
     }
   ],
   "por_nivel": [
     {
       "nivel": "Territorial",
-      "valor": 272892249832087.0,
-      "contratos": 2234211
+      "valor": 272067527781715.0,
+      "contratos": 2223527
     },
     {
       "nivel": "Nacional",
-      "valor": 213865058840801.0,
-      "contratos": 1039898
+      "valor": 213699418255848.0,
+      "contratos": 1037470
     },
     {
       "nivel": "Sin clasificar",
@@ -109,70 +109,70 @@
     },
     {
       "nivel": "Corporación Autónoma",
-      "valor": 14122733033187.0,
-      "contratos": 47679
+      "valor": 14115945049726.0,
+      "contratos": 47647
     }
   ],
   "por_sector": [
     {
       "sector": "CONSTRUCCION",
-      "valor": 75113166503269.0,
-      "contratos": 165322
+      "valor": 75048229866989.0,
+      "contratos": 164713
     },
     {
       "sector": "SALUD",
-      "valor": 59699687549868.0,
-      "contratos": 604385
+      "valor": 59613952379087.0,
+      "contratos": 602865
     },
     {
       "sector": "SOCIAL",
-      "valor": 45008511536344.0,
-      "contratos": 168262
+      "valor": 44965614827068.0,
+      "contratos": 167181
     },
     {
       "sector": "EDUCACION",
-      "valor": 35940244325741.0,
-      "contratos": 226043
+      "valor": 35795040059686.0,
+      "contratos": 224845
     },
     {
       "sector": "SEGURIDAD",
-      "valor": 32044889252876.0,
-      "contratos": 134801
+      "valor": 31998188200721.0,
+      "contratos": 134454
     },
     {
       "sector": "ALIMENTACION",
-      "valor": 29760209798553.0,
-      "contratos": 99889
+      "valor": 29735564059292.0,
+      "contratos": 99683
     },
     {
       "sector": "CONSULTORIA",
-      "valor": 29447127873662.0,
-      "contratos": 423379
+      "valor": 29406847927620.0,
+      "contratos": 422321
     },
     {
       "sector": "TECNOLOGIA",
-      "valor": 23865275365857.0,
-      "contratos": 148338
+      "valor": 23832663614607.0,
+      "contratos": 147973
     },
     {
       "sector": "FINANCIERO",
-      "valor": 21025753596444.0,
-      "contratos": 113306
+      "valor": 21003978973068.0,
+      "contratos": 113135
     },
     {
       "sector": "Sin clasificar",
-      "valor": 18412958675612.0,
-      "contratos": 105532
+      "valor": 18412782839324.0,
+      "contratos": 105528
     },
     {
       "sector": "TRANSPORTE",
-      "valor": 18210841677467.0,
-      "contratos": 98452
+      "valor": 18144715612289.0,
+      "contratos": 98059
     },
     {
       "sector": "JURIDICO",
-      "valor": 18078203062158.0,
-      "contratos": 208411
+      "valor": 18061709681685.0,
+      "contratos": 208050
     }
   ]
 }

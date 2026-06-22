@@ -20,7 +20,7 @@ from materialize_public import (
 # ─── Claves esperadas según types.ts ────────────────────────────────────────
 
 PANORAMA_KEYS = {"kpis", "por_anio", "top_sectores"}
-PANORAMA_KPI_KEYS = {"contratos", "valor_total", "entidades", "contratistas"}
+PANORAMA_KPI_KEYS = {"contratos", "valor_total", "valor_mediano", "entidades", "contratistas"}
 PANORAMA_ANIO_KEYS = {"anio", "contratos", "valor"}
 PANORAMA_SECTOR_KEYS = {"sector", "contratos", "valor"}
 
@@ -53,7 +53,8 @@ META_KEYS = {"ventana", "generado", "corte_datos", "fuentes", "notas"}
 
 def test_shape_panorama_estructura():
     rows_kpi = [
-        {"contratos": 10, "valor_total": Decimal("100.5"), "entidades": 3, "contratistas": 5}
+        {"contratos": 10, "valor_total": Decimal("100.5"), "valor_mediano": Decimal("7.5"),
+         "entidades": 3, "contratistas": 5}
     ]
     rows_anio = [{"anio": 2022, "contratos": 4, "valor": Decimal("40")}]
     rows_sect = [{"sector": "Salud", "contratos": 6, "valor": Decimal("60")}]
@@ -64,6 +65,7 @@ def test_shape_panorama_estructura():
     assert set(out["kpis"]) == PANORAMA_KPI_KEYS
     assert out["kpis"]["contratos"] == 10
     assert out["kpis"]["valor_total"] == 100.5
+    assert out["kpis"]["valor_mediano"] == 7.5
     assert isinstance(out["kpis"]["valor_total"], float)
     assert set(out["por_anio"][0]) == PANORAMA_ANIO_KEYS
     assert out["por_anio"][0]["anio"] == 2022

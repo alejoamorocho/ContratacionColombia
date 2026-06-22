@@ -22,6 +22,11 @@ export default function Donde() {
 
       <MapaColombia departamentos={data.por_departamento} />
 
+      <p style={{ color: 'var(--fg-muted)', fontSize: 13, marginTop: 'var(--space-3)' }}>
+        Incluye los contratos con departamento identificable (~95 % del total). El
+        resto no reporta un departamento reconocible en la fuente y no se mapea.
+      </p>
+
       <h2 style={{ fontFamily: 'var(--font-heading)', marginTop: 'var(--space-6)' }}>
         Top departamentos por valor
       </h2>

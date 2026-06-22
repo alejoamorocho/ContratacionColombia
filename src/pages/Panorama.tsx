@@ -31,6 +31,7 @@ export default function Panorama() {
       >
         <KPICard label="Contratos" valor={kpis.contratos} />
         <KPICard label="Valor total" valor={kpis.valor_total} unidad="COP" />
+        <KPICard label="Valor mediano" valor={kpis.valor_mediano} unidad="COP" />
         <KPICard label="Entidades" valor={kpis.entidades} />
         <KPICard label="Contratistas" valor={kpis.contratistas} />
       </div>
@@ -46,7 +47,7 @@ export default function Panorama() {
           margin: 'var(--space-6) 0 var(--space-4)',
         }}
       >
-        Top sectores por valor
+        Top categorías de objeto (por valor)
       </h2>
       <VBarChart data={top_sectores} xKey="sector" bars={[{ key: 'valor' }]} layout="horizontal" />
     </div>

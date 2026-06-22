@@ -46,7 +46,7 @@ export default function Quien() {
       </section>
 
       <section style={blockStyle}>
-        <h2 style={h2Style}>Por sector</h2>
+        <h2 style={h2Style}>Por categoría de objeto</h2>
         <VBarChart
           data={data.por_sector.slice(0, 15)}
           xKey="sector"

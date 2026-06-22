@@ -2,44 +2,44 @@
   "por_modalidad": [
     {
       "modalidad": "Contratación directa",
-      "contratos": 3120897,
-      "valor": 265065194395154.0,
-      "pct": 78.4
+      "contratos": 3109064,
+      "valor": 264396249379474.0,
+      "pct": 78.3
     },
     {
       "modalidad": "Régimen especial",
-      "contratos": 582540,
-      "valor": 127562680592362.0,
+      "contratos": 581515,
+      "valor": 127390876824401.0,
       "pct": 14.6
     },
     {
       "modalidad": "Mínima cuantía",
-      "contratos": 189454,
-      "valor": 9605303820038.0,
+      "contratos": 189212,
+      "valor": 9596198975291.0,
       "pct": 4.8
     },
     {
       "modalidad": "Selección abreviada",
-      "contratos": 65153,
-      "valor": 62984352949084.0,
+      "contratos": 65131,
+      "valor": 62972775254893.0,
       "pct": 1.6
     },
     {
       "modalidad": "Licitación pública",
-      "contratos": 14583,
-      "valor": 108090086065744.0,
+      "contratos": 14567,
+      "valor": 107960981363726.0,
       "pct": 0.4
     },
     {
       "modalidad": "Concurso de méritos",
-      "contratos": 9367,
-      "valor": 11094800227433.0,
+      "contratos": 9366,
+      "valor": 11093716937660.0,
       "pct": 0.2
     },
     {
       "modalidad": "Otras",
-      "contratos": 590,
-      "valor": 391106117789.0,
+      "contratos": 585,
+      "valor": 385574813373.0,
       "pct": 0.0
     }
   ],
@@ -67,7 +67,7 @@
     {
       "anio": 2026,
       "modalidad": "Concurso de méritos",
-      "valor": 648497410204.0
+      "valor": 647414120431.0
     },
     {
       "anio": 2022,
@@ -92,7 +92,7 @@
     {
       "anio": 2026,
       "modalidad": "Contratación directa",
-      "valor": 29071920350535.0
+      "valor": 28402975334855.0
     },
     {
       "anio": 2022,
@@ -117,7 +117,7 @@
     {
       "anio": 2026,
       "modalidad": "Licitación pública",
-      "valor": 7740054392113.0
+      "valor": 7610949690095.0
     },
     {
       "anio": 2022,
@@ -142,7 +142,7 @@
     {
       "anio": 2026,
       "modalidad": "Mínima cuantía",
-      "valor": 781395313743.0
+      "valor": 772290468996.0
     },
     {
       "anio": 2022,
@@ -167,7 +167,7 @@
     {
       "anio": 2026,
       "modalidad": "Régimen especial",
-      "valor": 18227551566430.0
+      "valor": 18055747798469.0
     },
     {
       "anio": 2022,
@@ -192,9 +192,9 @@
     {
       "anio": 2026,
       "modalidad": "Selección abreviada",
-      "valor": 2775408105674.0
+      "valor": 2763830411483.0
     }
   ],
-  "pct_directa": 78.4,
-  "pct_competitiva": 21.6
+  "pct_directa": 78.3,
+  "pct_competitiva": 21.7
 }

@@ -1,6 +1,12 @@
 {
   "por_departamento": [
     {
+      "dane": "11",
+      "departamento": "Bogotá D.C.",
+      "valor": 223973342095404.0,
+      "contratos": 990538
+    },
+    {
       "dane": "05",
       "departamento": "Antioquia",
       "valor": 73937013274675.0,
@@ -9,8 +15,8 @@
     {
       "dane": "76",
       "departamento": "Valle del Cauca",
-      "valor": 34432393333742.0,
-      "contratos": 431079
+      "valor": 33435242714956.0,
+      "contratos": 417935
     },
     {
       "dane": "25",
@@ -71,12 +77,6 @@
       "departamento": "Caldas",
       "valor": 9537111517272.0,
       "contratos": 70502
-    },
-    {
-      "dane": "11",
-      "departamento": "Bogotá D.C.",
-      "valor": 8942621498188.0,
-      "contratos": 34299
     },
     {
       "dane": "54",

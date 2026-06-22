@@ -6,7 +6,7 @@ export interface MetaData {
   notas: string[];
 }
 export interface PanoramaData {
-  kpis: { contratos: number; valor_total: number; entidades: number; contratistas: number };
+  kpis: { contratos: number; valor_total: number; valor_mediano: number; entidades: number; contratistas: number };
   por_anio: { anio: number; contratos: number; valor: number }[];
   top_sectores: { sector: string; contratos: number; valor: number }[];
 }

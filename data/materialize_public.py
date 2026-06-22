@@ -42,6 +42,14 @@ WHERE = (
     f"AND valor IS NOT NULL AND valor > 0"
 )
 
+# Tabla base LIMPIA: ventana + valor>0 + DEDUPLICADA por id. Todos los agregados
+# leen de aquí (vía _sql), garantizando que ningún contrato se cuente dos veces.
+BASE_TABLE = f"{PROJECT}.{DATASET}._contratos_pub"
+_BASE_COLS = (
+    "id, valor, fecha_firma, entidad_nit, entidad_nombre, contratista_nit, "
+    "modalidad, objeto_clasificado, orden, entidad_departamento"
+)
+
 FUENTES = ["SECOP II — Contratos (jbjy-vk9h)"]
 
 NOTAS = [
@@ -49,6 +57,11 @@ NOTAS = [
     f"{YEAR_TO} es un año parcial: solo incluye contratos firmados hasta el corte de datos.",
     "El primer semestre de 2022 tiene cobertura baja en SECOP II frente al resto de la serie.",
     "El valor es el del contrato firmado; no refleja adiciones ni ejecución posterior.",
+    "El valor total es sensible a unos pocos contratos de cuantía extrema "
+    "(que pueden incluir errores de digitación en la fuente); por eso se muestra "
+    "también el valor mediano, robusto a esos casos.",
+    "Los conteos están deduplicados por identificador de contrato; los "
+    "departamentos se normalizan a código DANE para el mapa.",
 ]
 
 NOTAS_METODOLOGICAS = [
@@ -95,6 +108,7 @@ def shape_panorama(
         "kpis": {
             "contratos": _i(k.get("contratos")),
             "valor_total": _f(k.get("valor_total")),
+            "valor_mediano": _f(k.get("valor_mediano")),
             "entidades": _i(k.get("entidades")),
             "contratistas": _i(k.get("contratistas")),
         },
@@ -254,9 +268,34 @@ def _client():  # pragma: no cover - requiere credenciales
 
 
 def _sql(name: str) -> str:
-    """Lee un .sql de queries/ y sustituye los placeholders {p}.{d}."""
+    """Lee un .sql de queries/ y lo APUNTA a la tabla base limpia (deduplicada y
+    pre-filtrada), no a `contratos` cruda; luego sustituye placeholders {p}.{d}."""
     raw = QUERIES_DIR.joinpath(name).read_text(encoding="utf-8")
+    raw = raw.replace("`{p}.{d}.contratos`", f"`{BASE_TABLE}`")
     return raw.replace("{p}", PROJECT).replace("{d}", DATASET)
+
+
+def _ensure_base(client) -> None:  # pragma: no cover - requiere BQ
+    """Crea la tabla base LIMPIA: ventana 2022-2026, valor>0 y deduplicada por id.
+
+    La fuente SECOP trae ~0.3% de ids repetidos (mismo contrato ingerido/
+    versionado más de una vez). Se conserva la última versión por id según
+    ``ultima_actualizacion`` para no contar ni sumar dos veces el mismo contrato.
+    """
+    client.query(
+        f"""CREATE OR REPLACE TABLE `{BASE_TABLE}` AS
+        SELECT {_BASE_COLS}
+        FROM `{PROJECT}.{DATASET}.contratos`
+        WHERE {WHERE}
+        QUALIFY ROW_NUMBER() OVER (
+            PARTITION BY id ORDER BY ultima_actualizacion DESC
+        ) = 1"""
+    ).result()
+
+
+def _drop_base(client) -> None:  # pragma: no cover - requiere BQ
+    """Elimina la tabla base temporal tras generar el snapshot."""
+    client.query(f"DROP TABLE IF EXISTS `{BASE_TABLE}`").result()
 
 
 def _q(client, name: str) -> list[dict[str, Any]]:  # pragma: no cover - BQ
@@ -274,7 +313,17 @@ def run() -> None:  # pragma: no cover - requiere credenciales + BQ
     """Ejecuta todas las queries y escribe los seis JSON del snapshot."""
     OUT.mkdir(parents=True, exist_ok=True)
     client = _client()
+    print("Creando tabla base limpia (deduplicada por id)…")
+    _ensure_base(client)
+    try:
+        _run_aggregates(client)
+    finally:
+        _drop_base(client)
+    print("Snapshot generado en", OUT)
 
+
+def _run_aggregates(client) -> None:  # pragma: no cover - requiere BQ
+    """Ejecuta los agregados sobre la tabla base limpia y escribe los JSON."""
     panorama = shape_panorama(
         _q(client, "panorama_kpis.sql"),
         _q(client, "panorama_anio.sql"),
@@ -307,15 +356,11 @@ def run() -> None:  # pragma: no cover - requiere credenciales + BQ
     corte_rows = [
         dict(r)
         for r in client.query(
-            f"SELECT CAST(MAX(fecha_firma) AS STRING) AS d "
-            f"FROM `{PROJECT}.{DATASET}.contratos` "
-            f"WHERE fecha_firma BETWEEN '{DATE_FROM}' AND '{DATE_TO}'"
+            f"SELECT CAST(MAX(fecha_firma) AS STRING) AS d FROM `{BASE_TABLE}`"
         ).result()
     ]
     corte = corte_rows[0]["d"] if corte_rows else None
     _write("meta", shape_meta(corte))
-
-    print("Snapshot generado en", OUT)
 
 
 if __name__ == "__main__":  # pragma: no cover

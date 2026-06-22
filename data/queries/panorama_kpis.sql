@@ -3,6 +3,7 @@
 SELECT
   COUNT(*) AS contratos,
   SUM(valor) AS valor_total,
+  APPROX_QUANTILES(valor, 100)[OFFSET(50)] AS valor_mediano,
   COUNT(DISTINCT entidad_nit) AS entidades,
   COUNT(DISTINCT contratista_nit) AS contratistas
 FROM `{p}.{d}.contratos`
