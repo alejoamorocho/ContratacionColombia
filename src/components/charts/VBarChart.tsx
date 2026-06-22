@@ -10,7 +10,7 @@ import {
   YAxis,
 } from 'recharts';
 import { axisStyle, chartPalette, tooltipStyle, truncateLabel } from '../../lib/chartTheme';
-import { formatCOP, formatNumber } from '../../lib/formatters';
+import { formatCOP, formatNumber, formatCompact } from '../../lib/formatters';
 
 /** Definicion de una barra en el grafico. */
 interface BarDef {
@@ -36,7 +36,7 @@ interface VBarChartProps {
   onBarClick?: (item: Record<string, unknown>) => void;
 }
 
-const TICK_MAX = 15;
+const TICK_MAX = 24;
 
 function TruncatedTick({ x = 0, y = 0, payload = { value: '' } }: { x?: number; y?: number; payload?: { value: unknown } }) {
   const text = String(payload.value || '');
@@ -118,15 +118,15 @@ function VBarChart({ data, xKey, bars, height = 300, layout = 'vertical', onBarC
             <YAxis
               dataKey={xKey}
               type="category"
-              width={160}
+              width={186}
               tick={<TruncatedTick />}
             />
-            <XAxis type="number" {...axisStyle} tickFormatter={(value: number) => formatNumber(value)} />
+            <XAxis type="number" {...axisStyle} tickFormatter={(value: number) => formatCompact(value)} />
           </>
         ) : (
           <>
             <XAxis dataKey={xKey} tick={<AngledTick />} interval={0} height={60} />
-            <YAxis {...axisStyle} tickFormatter={(value: number) => formatNumber(value)} />
+            <YAxis {...axisStyle} width={52} tickFormatter={(value: number) => formatCompact(value)} />
           </>
         )}
         <Tooltip {...tooltipStyle} formatter={(value: unknown, name: unknown) => smartFormat(value, name)} />

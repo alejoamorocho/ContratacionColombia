@@ -10,7 +10,7 @@ import {
   YAxis,
 } from 'recharts';
 import { axisStyle, chartPalette, tooltipStyle } from '../../lib/chartTheme';
-import { formatNumber } from '../../lib/formatters';
+import { formatCompact } from '../../lib/formatters';
 
 /** Month abbreviations in Spanish. */
 const MESES_CORTOS = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
@@ -83,12 +83,12 @@ function VLineChart({ data, xKey, lines, height = 300 }: VLineChartProps) {
           })}
         </defs>
         <CartesianGrid strokeDasharray="3 3" stroke="var(--border-muted)" />
-        <XAxis dataKey={xKey} {...axisStyle} tickFormatter={(v: string) => formatDateLabel(v)} />
-        <YAxis {...axisStyle} tickFormatter={(value: number) => formatNumber(value)} />
+        <XAxis dataKey={xKey} {...axisStyle} padding={{ left: 12, right: 12 }} tickFormatter={(v: string) => formatDateLabel(v)} />
+        <YAxis {...axisStyle} width={52} tickFormatter={(value: number) => formatCompact(value)} />
         <Tooltip
           {...tooltipStyle}
           labelFormatter={(label: unknown) => formatDateLabel(String(label ?? ''))}
-          formatter={(value: unknown) => typeof value === 'number' ? formatNumber(value) : String(value ?? '')}
+          formatter={(value: unknown) => typeof value === 'number' ? formatCompact(value) : String(value ?? '')}
           cursor={{ stroke: '#8b949e', strokeWidth: 1, strokeDasharray: '4 4' }}
         />
         {lines.length > 1 && (

@@ -85,14 +85,19 @@
   }
   .sidebar ul {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
+  .sidebar li { flex: 0 0 auto; }
   .sidebar a {
     border-left: none;
     border-bottom: 2px solid transparent;
+    white-space: nowrap;
   }
   .sidebar a.active {
     border-left: none;
-    border-bottom-color: var(--brand);
+    border-bottom-color: var(--shell-tone, var(--brand));
   }
+  .sidebar__foot { display: none; }
 }

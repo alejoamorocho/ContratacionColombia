@@ -1,0 +1,20 @@
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+.layout__main {
+  flex: 1;
+  min-width: 0; /* permite que las gráficas (width:100%) no desborden el flex */
+  max-width: 1200px;
+  padding: var(--space-6);
+}
+
+@media (max-width: 639px) {
+  .layout {
+    flex-direction: column;
+  }
+  .layout__main {
+    max-width: 100%;
+    padding: var(--space-4) var(--space-3);
+  }
+}

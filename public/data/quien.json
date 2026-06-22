@@ -103,7 +103,7 @@
       "contratos": 1037470
     },
     {
-      "nivel": "Sin clasificar",
+      "nivel": "No reportado",
       "valor": 83913482461529.0,
       "contratos": 660796
     },
@@ -115,47 +115,47 @@
   ],
   "por_sector": [
     {
-      "sector": "CONSTRUCCION",
-      "valor": 75048229866989.0,
-      "contratos": 164713
+      "sector": "Construcción",
+      "valor": 75412145115312.0,
+      "contratos": 164779
     },
     {
-      "sector": "SALUD",
+      "sector": "Salud",
       "valor": 59613952379087.0,
       "contratos": 602865
     },
     {
-      "sector": "SOCIAL",
+      "sector": "Social",
       "valor": 44965614827068.0,
       "contratos": 167181
     },
     {
-      "sector": "EDUCACION",
-      "valor": 35795040059686.0,
-      "contratos": 224845
+      "sector": "Educación",
+      "valor": 35839081742068.0,
+      "contratos": 224967
     },
     {
-      "sector": "SEGURIDAD",
+      "sector": "Seguridad",
       "valor": 31998188200721.0,
       "contratos": 134454
     },
     {
-      "sector": "ALIMENTACION",
-      "valor": 29735564059292.0,
-      "contratos": 99683
+      "sector": "Alimentación",
+      "valor": 29735666280966.0,
+      "contratos": 99689
     },
     {
-      "sector": "CONSULTORIA",
-      "valor": 29406847927620.0,
-      "contratos": 422321
+      "sector": "Consultoría",
+      "valor": 29494030563487.0,
+      "contratos": 423006
     },
     {
-      "sector": "TECNOLOGIA",
-      "valor": 23832663614607.0,
-      "contratos": 147973
+      "sector": "Tecnología",
+      "valor": 23839150609208.0,
+      "contratos": 148043
     },
     {
-      "sector": "FINANCIERO",
+      "sector": "Financiero",
       "valor": 21003978973068.0,
       "contratos": 113135
     },
@@ -165,14 +165,14 @@
       "contratos": 105528
     },
     {
-      "sector": "TRANSPORTE",
+      "sector": "Transporte",
       "valor": 18144715612289.0,
       "contratos": 98059
     },
     {
-      "sector": "JURIDICO",
-      "valor": 18061709681685.0,
-      "contratos": 208050
+      "sector": "Jurídico",
+      "valor": 18083334407613.0,
+      "contratos": 208403
     }
   ]
 }

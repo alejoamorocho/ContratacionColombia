@@ -1,6 +1,8 @@
 -- Quién contrata: distribución por nivel de gobierno (orden = nivel).
+-- El campo `orden` solo trae Territorial / Nacional / Corporación Autónoma; los
+-- nulos (~17 %) no reportan el nivel y se etiquetan como "No reportado".
 SELECT
-  COALESCE(orden, 'Sin clasificar') AS nivel,
+  CASE WHEN orden IS NULL OR TRIM(orden) = '' THEN 'No reportado' ELSE orden END AS nivel,
   SUM(valor) AS valor,
   COUNT(*) AS contratos
 FROM `{p}.{d}.contratos`

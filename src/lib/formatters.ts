@@ -14,6 +14,24 @@ export function formatFechaColombia(fecha: string | Date | undefined | null): st
 }
 
 /**
+ * Formato COMPACTO para ejes de gráficas (evita números larguísimos cortados):
+ * 1.234 → "1,2 mil", 5e6 → "5 M", 5e9 → "5 mil M", 5e12 → "5 B".
+ */
+export function formatCompact(val: number | string | null | undefined): string {
+  if (val == null) return '0';
+  const num = typeof val === 'string' ? Number(val) : val;
+  if (!isFinite(num)) return '0';
+  const abs = Math.abs(num);
+  const sign = num < 0 ? '-' : '';
+  const f = (x: number, d: number) => x.toLocaleString('es-CO', { maximumFractionDigits: d });
+  if (abs >= 1e12) return `${sign}${f(abs / 1e12, 1)} B`;
+  if (abs >= 1e9) return `${sign}${f(abs / 1e9, 1)} mil M`;
+  if (abs >= 1e6) return `${sign}${f(abs / 1e6, 1)} M`;
+  if (abs >= 1e3) return `${sign}${f(abs / 1e3, 0)} mil`;
+  return `${sign}${f(abs, 0)}`;
+}
+
+/**
  * Formatea un número con separadores colombianos (1.234.567,89), máx. 3 decimales.
  */
 export function formatNumber(val: number | string | null | undefined): string {
