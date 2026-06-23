@@ -16,6 +16,7 @@ export default function Planea() {
 
   const { kpis } = data;
   const origen = extra?.items.paa_origen ?? [];
+  const fidelidad = extra?.items.fidelidad_paa ?? [];
 
   return (
     <PageShell
@@ -84,6 +85,22 @@ export default function Planea() {
             Con qué bolsa pública se planea comprar (lado «planeado» de la financiación). Regalías
             concentra mucho valor en pocos ítems (alto valor unitario). «Sin especificar» = ítems sin
             origen declarado.
+          </p>
+        </>
+      )}
+
+      {fidelidad.length > 0 && (
+        <>
+          <h2 style={{ fontFamily: 'var(--font-heading)', margin: 'var(--space-6) 0 var(--space-3)' }}>
+            Fidelidad del plan: ítems con un proceso ya enlazado
+          </h2>
+          <VBarChart data={fidelidad} xKey="anio" bars={[{ key: 'pct', color: 'var(--shell-tone)' }]} />
+          <p style={{ color: 'var(--fg-subtle)', fontSize: 12, lineHeight: 1.5, margin: 'var(--space-2) 0 var(--space-4)' }}>
+            Porcentaje de ítems del PAA que ya traen enlazado un proceso de contratación real
+            (<code>procesos_relacionados</code>). Baja con la cercanía del año: los planes más antiguos
+            han tenido más tiempo de materializarse, por eso 2026 sale bajo. Es un proxy de
+            materialización, no prueba de ejecución: un ítem sin enlace puede deberse a rezago al
+            diligenciar, no a incumplimiento.
           </p>
         </>
       )}

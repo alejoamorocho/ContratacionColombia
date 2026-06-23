@@ -858,12 +858,42 @@ def _build_kpis_extra(client):  # pragma: no cover - requiere BQ
         })
     percapita.sort(key=lambda x: x["valor_per_capita"], reverse=True)
 
+    # Reincidencia entidad-contratista: estabilidad vs rotación de la relación.
+    TR_RE = ["1", "2-4", "5-9", "10+"]
+    re_rows = {r["tramo"]: (_i(r["contratos"]), _f(r["valor"])) for r in rows(
+        f"""WITH pares AS (SELECT entidad_nit, contratista_nit, COUNT(*) n, SUM(valor) v
+              FROM `{BASE_TABLE}` WHERE entidad_nit IS NOT NULL AND contratista_nit IS NOT NULL
+                AND contratista_nit != '' GROUP BY 1, 2)
+            SELECT CASE WHEN n = 1 THEN '1' WHEN n < 5 THEN '2-4' WHEN n < 10 THEN '5-9' ELSE '10+' END tramo,
+              SUM(n) contratos, SUM(v) valor FROM pares GROUP BY 1""")}
+    tc = sum(v[0] for v in re_rows.values()); tv = sum(v[1] for v in re_rows.values())
+    reincidencia = [{"tramo": t, "contratos": re_rows.get(t, (0, 0))[0], "valor": re_rows.get(t, (0, 0))[1],
+                     "pct_contratos": round(re_rows.get(t, (0, 0))[0] * 100.0 / tc, 1) if tc else 0.0,
+                     "pct_valor": round(re_rows.get(t, (0, 0))[1] * 100.0 / tv, 1) if tv else 0.0} for t in TR_RE]
+
+    # Fidelidad del PAA: % de ítems planeados que ya tienen un proceso enlazado.
+    fidelidad_paa = [{"anio": _i(r["anio"]), "pct": _f(r["pct"]), "items": _i(r["items"])} for r in rows(
+        f"""WITH dd AS (SELECT * EXCEPT(rn) FROM (SELECT anio, procesos_relacionados, paa_encabezado_id,
+              version_paa, ROW_NUMBER() OVER (PARTITION BY id ORDER BY fecha_ingesta DESC) rn
+            FROM `{P}.{D}.paa` WHERE anio BETWEEN 2024 AND 2026) WHERE rn = 1),
+          maxv AS (SELECT paa_encabezado_id, MAX(version_paa) mv FROM dd GROUP BY 1),
+          latest AS (SELECT d.* FROM dd d JOIN maxv m ON d.paa_encabezado_id = m.paa_encabezado_id AND d.version_paa = m.mv)
+          SELECT anio, ROUND(COUNTIF(procesos_relacionados IS NOT NULL AND TRIM(procesos_relacionados) != '') * 100.0 / COUNT(*), 1) pct,
+            COUNT(*) items FROM latest GROUP BY anio ORDER BY anio""")]
+
+    # NOTA: se descartó "SGR por año" — la tabla sgr_gastos trae snapshots MENSUALES
+    # (periodo YYYYMMDD) y sumar apropiacion across periodos multiplica el grano
+    # (daba ~$321 B/año, implausible frente a las regalías reales ~$15-20 B). Sin
+    # certeza del grano (incremental vs acumulado), se omite antes que publicar un
+    # número falso. Reincorporar requiere tomar el último snapshot por bpin×vigencia.
+
     return {"items": {
         "bpin_cadena": bpin_cadena, "paa_origen": paa_origen, "mezcla_nivel": mezcla_nivel,
         "tamano_nivel": tamano_nivel, "tamano_modalidad": tamano_modalidad, "tamano_objeto": tamano_objeto,
         "pago_tramos": pago_tramos, "pago_mediana_ratio": pago_mediana_ratio,
         "hhi_sector": hhi_sector,
         "multas": multas, "antiguedad": antiguedad, "percapita": percapita,
+        "reincidencia": reincidencia, "fidelidad_paa": fidelidad_paa,
     }}
 
 

@@ -132,6 +132,8 @@ export const kpisExtraSchema = z.object({
       tramos: z.array(z.object({ tramo: str, n: num, pct: num })),
     }),
     percapita: z.array(z.object({ dane: str, departamento: str, poblacion: num, valor_per_capita: num, contratos_per_capita: num })),
+    reincidencia: z.array(z.object({ tramo: str, contratos: num, valor: num, pct_contratos: num, pct_valor: num })),
+    fidelidad_paa: z.array(z.object({ anio: num, pct: num, items: num })),
   }),
 });
 

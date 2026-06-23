@@ -15,6 +15,7 @@ export default function Quien() {
   const nota: React.CSSProperties = { color: 'var(--fg-subtle)', fontSize: 12, lineHeight: 1.5, margin: 'var(--space-2) 0 var(--space-4)', maxWidth: '76ch' };
   const tamano = extra?.items.tamano_modalidad ?? [];
   const antiguedad = extra?.items.antiguedad;
+  const reincidencia = extra?.items.reincidencia ?? [];
 
   return (
     <PageShell
@@ -62,6 +63,23 @@ export default function Quien() {
             empresas con matrícula RUES cruzable por NIT exacto ({antiguedad.cobertura_pct}% de los
             contratos); el resto son personas naturales u otros sin matrícula. Describe la madurez del
             proveedor, no su capacidad ni su desempeño.
+          </p>
+        </>
+      )}
+
+      {reincidencia.length > 0 && (
+        <>
+          <h2 style={h2}>Recurrencia de la relación entidad–contratista</h2>
+          <VBarChart
+            data={reincidencia}
+            xKey="tramo"
+            bars={[{ key: 'pct_contratos' }, { key: 'pct_valor' }]}
+          />
+          <p style={nota}>
+            Número de contratos entre un mismo par entidad–contratista (% del total de contratos y del
+            valor). La mayoría de la contratación ocurre en relaciones que se <strong>repiten</strong>:
+            es una medida de estabilidad/recurrencia de proveedores, no de favoritismo. Una relación
+            recurrente es frecuentísima y legítima (servicios anuales, proveedor único, mercado pequeño).
           </p>
         </>
       )}
