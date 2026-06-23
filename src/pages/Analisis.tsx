@@ -6,16 +6,13 @@ import VBarChart from '../components/charts/VBarChart';
 import VLineChart from '../components/charts/VLineChart';
 import { usePublicData } from '../hooks/usePublicData';
 import { ANALISIS } from '../lib/analisis';
+import type { AnalisisData } from '../lib/types';
 
 const OVERLINE: Record<string, string> = {
   who: '// ¿Quién contrata?',
   how: '// ¿Cómo contrata?',
   where: '// ¿Dónde?',
 };
-
-interface AnalisisData {
-  items: Record<string, { kpis: Record<string, number | string>; serie: Record<string, unknown>[] }>;
-}
 
 /** Página genérica de una sección analítica (KPIs + un desglose), dirigida por config. */
 export default function Analisis() {

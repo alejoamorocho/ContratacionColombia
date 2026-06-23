@@ -4,15 +4,12 @@ import { MethodologyNote } from '../components/MethodologyNote';
 import KPICard from '../components/charts/KPICard';
 import { usePublicData } from '../hooks/usePublicData';
 import { SENALES } from '../lib/senales';
+import type { SenalesExtra } from '../lib/types';
 
 const OVERLINE: Record<string, string> = {
   how: '// ¿Cómo contrata?',
   signal: '// ¿Hay señales?',
 };
-
-interface SenalesExtra {
-  items: Record<string, Record<string, number>>;
-}
 
 /** Página genérica de una "señal" (cruce/indicador agregado), dirigida por config. */
 export default function Senal() {
