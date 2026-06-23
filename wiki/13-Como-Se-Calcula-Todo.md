@@ -46,7 +46,9 @@ Las consultas en `data/queries/*.sql` escriben ``` `{p}.{d}.contratos` ```; el m
 
 `Contratación directa` · `Régimen especial` · `Mínima cuantía` · `Selección abreviada` (incluye menor cuantía y subasta) · `Licitación pública` · `Concurso de méritos` · `Otras`.
 
-**Código de objeto → etiqueta legible (`objeto_label`).** El campo `objeto_clasificado` viene sucio: MAYÚSCULAS_CON_GUION (`CONSTRUCCION`), pero también con tildes (`CONSULTORÍA`), punto final (`SALUD.`) y formas compuestas (`CONSULTORIA, APOYO, GESTION`). Para no fragmentar una misma categoría en decenas de variantes, se normaliza una **clave canónica**: se toma el **primer segmento** (antes de la primera coma), se pasa a mayúsculas, se quitan **tildes y punto final**, y sobre esa clave limpia se mapea a una de **33 categorías** en español con tildes (`Construcción`, `Consultoría`, `Minas y energía`, …). Los nulos se rotulan `Sin clasificar`; la cola de claves sin mapa explícito cae a `INITCAP` (texto legible). Resultado: el **99,8 % del valor** queda en una categoría canónica; solo un 0,2 % en la cola. Las tres vistas que muestran categorías de objeto —Panorama, ¿Quién contrata? y ¿En qué creció?— usan esta misma columna, así que muestran etiquetas idénticas.
+**Código de objeto → etiqueta legible (`objeto_label`).** El campo `objeto_clasificado` viene sucio: MAYÚSCULAS_CON_GUION (`CONSTRUCCION`), pero también con tildes (`CONSULTORÍA`), punto final (`SALUD.`) y formas compuestas (`CONSULTORIA, APOYO, GESTION`). Para no fragmentar una misma categoría en decenas de variantes, se normaliza una **clave canónica**: se toma el **primer segmento** (antes de la primera coma), se pasa a mayúsculas, se quitan **tildes y punto final**, y sobre esa clave limpia se mapea a una de **32 categorías temáticas** en español con tildes (`Construcción`, `Consultoría`, `Minas y energía`, …). El valor se reparte en tres cubos: **~96,7 % en una categoría temática canónica**, **~3,1 % en `Sin clasificar`** (los nulos de `objeto_clasificado`), y **~0,2 % en la cola** de claves sin mapa que cae a `INITCAP`.
+
+> **`objeto_clasificado` es una clasificación DERIVADA**, no un campo nativo de SECOP II: una etiqueta temática inferida aguas arriba. Por eso `Sin clasificar` no es un "sector" sino **ausencia de clasificación**, y su tamaño depende de la cobertura del clasificador, no de la realidad del mercado. Se **excluye de los rankings de sector** (Panorama, ¿Quién contrata?, ¿En qué creció?) para que no compita como si fuera una categoría real. Las tres vistas usan esta misma columna, así que muestran etiquetas idénticas.
 
 **Departamento → código DANE (mapa).** En `donde_departamento.sql`, el nombre del departamento se normaliza sin tildes ni mayúsculas (`REGEXP_REPLACE(NORMALIZE(LOWER(TRIM(x)), NFD), r'\pM', '')`) y se cruza con un diccionario a código DANE de 2 dígitos. Esto recuperó a Bogotá ("Distrito Capital de Bogotá"), que antes se perdía por la tilde. Ver [Auditoría de datos](06-Auditoria-De-Datos.md).
 
@@ -97,7 +99,7 @@ Las 10 secciones-pregunta del dashboard. Cada una indica su **fuente**, las **co
 **Fuente:** `_contratos_pub` (modalidad) + tabla `procesos`. **Consulta:** `como_modalidad.sql`, `como_modalidad_anio.sql`, `procesos_kpis.sql`, `procesos_modalidad.sql`.
 
 - **Por modalidad:** `COUNT(*)`, `SUM(valor)` y `pct = COUNT(*) / SUM(COUNT(*)) OVER ()` agrupado por `modalidad_norm`.
-- **`pct_directa`** (derivado en `shape_como`): suma del `pct` de las modalidades cuyo nombre contiene "DIRECTA"; `pct_competitiva = 100 − pct_directa`.
+- **`pct_directa`** (derivado en `shape_como`): cuota de la contratación directa **por NÚMERO de contratos** (~78 %). **`pct_directa_valor`**: la misma cuota **por VALOR** (~45 %). Son muy distintas porque la directa son contratos numerosos pero de baja cuantía; el dashboard muestra **ambas** y nunca dice "de cada peso… %" usando la cuota por conteo. `pct_competitiva = 100 − pct_directa`. La sección ¿Hay señales? usa exactamente la misma definición (`modalidad_norm`), no un método aparte.
 - **Procesos:** `pct_adjudicado` = % de procesos en estado *Seleccionado*; `pct_cancelado` = % en estado *Cancelado*.
 
 **Caveat:** la tabla `procesos` **no trae número de oferentes** (~0 % poblado), así que la competencia efectiva no se puede medir.
@@ -126,7 +128,7 @@ Las 10 secciones-pregunta del dashboard. Cada una indica su **fuente**, las **co
 | % facturado | `SUM(valor_facturado) / NULLIF(SUM(valor), 0)` |
 | % pagado | `SUM(valor_pagado) / NULLIF(SUM(valor), 0)` |
 
-**Caveat:** la tabla `facturas` está vacía; la ejecución se aproxima desde las columnas del propio contrato. `valor_facturado`/`valor_pagado` son **NULL en parte** de los contratos; `SUM` los ignora, así que los porcentajes son **cotas inferiores**.
+Se publica además `cobertura_factura`/`cobertura_pago` = % de contratos con el campo **no nulo** (separa "cobertura del dato" de "nivel de ejecución"). **Caveat:** la tabla `facturas` está vacía; la ejecución se aproxima desde las columnas del propio contrato. La cobertura del dato es alta (~91 %), así que el `% pagado` bajo (~27 %) **no** es subreporte masivo sino una mezcla de no-ejecución real, baja cuantía y contratos recientes que aún no completan su ciclo de pago. El `% pagado` es un ratio ponderado por valor; léelo con esa cautela.
 
 ### 2.7 ¿Dónde?
 
@@ -134,7 +136,7 @@ Las 10 secciones-pregunta del dashboard. Cada una indica su **fuente**, las **co
 
 ### 2.8 Sanciones (SIRI)
 
-**Fuente:** tabla `sanciones` (Procuraduría). **Consulta:** `sanciones_*.sql`. Registro **agregado y sin nombres**: total, inhabilidades vigentes, inhabilidad promedio (meses), desgloses por tipo, año y gravedad. **Caveat:** es un registro factual; una sanción tiene tipo, alcance y vigencia que solo la fuente primaria precisa.
+**Fuente:** tabla `sanciones` (Procuraduría). **Consulta:** `sanciones_*.sql`. Registro **agregado y sin nombres**. `total` = sanciones **iniciadas en 2022–2026** (para la serie). `inhabilidad_vigente` = inhabilidades **activas a la fecha, de cualquier año** (una inhabilidad de 10 años impuesta en 2018 sigue vigente: por eso NO se filtra por fecha de inicio). La duración de la inhabilidad se reporta con **mediana** (robusta a la fuerte asimetría) junto al promedio. El campo "por_gravedad" es en realidad la **calidad del sancionado** (servidor público, fuerza pública…), no la gravedad de la falta — así se rotula en la UI. **Caveat:** una sanción tiene tipo, alcance y vigencia que solo la fuente primaria precisa.
 
 ### 2.9 Electoral (Cuentas Claras, CNE)
 

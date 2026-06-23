@@ -25,8 +25,10 @@ concentracion AS (
   FROM ranked
 ),
 directa AS (
+  -- Misma definición que ¿Cómo contrata? (modalidad_norm sobre la base limpia),
+  -- para que «% directa» sea UNA sola cifra en todo el sitio (no dos métodos).
   SELECT
-    ROUND(COUNTIF(UPPER(modalidad) LIKE '%DIRECTA%') * 100.0 / COUNT(*), 1) AS pct_directa_nacional
+    ROUND(COUNTIF(modalidad_norm = 'Contratación directa') * 100.0 / COUNT(*), 1) AS pct_directa_nacional
   FROM `{p}.{d}.contratos`
   WHERE fecha_firma BETWEEN '2022-01-01' AND '2026-12-31'
     AND valor IS NOT NULL AND valor > 0

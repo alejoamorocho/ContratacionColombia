@@ -18,7 +18,7 @@ export default function Donde() {
       tone="where"
       overline="// ¿Dónde?"
       question="¿Cómo se distribuye territorialmente la contratación?"
-      context="El color del mapa representa el VALOR contratado por departamento (2022–2026), no un juicio de riesgo. La concentración en las grandes ciudades refleja dónde están las entidades contratantes."
+      context="El color del mapa representa el NÚMERO de contratos por departamento (2022–2026); el valor total aparece en el tooltip y en las barras de abajo. No es un juicio de riesgo: la concentración en las grandes ciudades refleja dónde están las entidades contratantes."
       methodology={
         <MethodologyNote>
           El departamento sale de <code>entidad_departamento</code>, normalizado a

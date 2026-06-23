@@ -2,7 +2,7 @@
   "kpis": {
     "contratos": 3969440,
     "valor_total": 583796373548818.0,
-    "valor_mediano": 20064083.0,
+    "valor_mediano": 20048716.0,
     "entidades": 4690,
     "contratistas": 954767
   },
@@ -85,14 +85,14 @@
       "valor": 18681563392178.0
     },
     {
-      "sector": "Sin clasificar",
-      "contratos": 105528,
-      "valor": 18412782839324.0
-    },
-    {
       "sector": "Transporte",
       "contratos": 98858,
       "valor": 18307146517734.0
+    },
+    {
+      "sector": "Mantenimiento",
+      "contratos": 47060,
+      "valor": 17746146564400.0
     }
   ]
 }

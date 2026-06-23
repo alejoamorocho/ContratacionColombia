@@ -114,7 +114,7 @@ FUENTES_DETALLE = [
     {"fuente": "Procesos (SECOP II)", "periodo": "2022–2026", "corte": "hasta jun-2026", "ingesta": "jun-2026"},
     {"fuente": "PAA — planeación (SECOP II)", "periodo": "2024–2026", "corte": "planes publicados", "ingesta": "may-2026"},
     {"fuente": "BPIN — inversión (DNP)", "periodo": "vigencias 2025–2026", "corte": "presupuesto vigente", "ingesta": "abr-2026"},
-    {"fuente": "Sanciones (SIRI / Procuraduría)", "periodo": "2022–2026", "corte": "registros vigentes", "ingesta": "2026"},
+    {"fuente": "Sanciones (SIRI / Procuraduría)", "periodo": "2022–2026", "corte": "iniciadas 2022–2026; inhabilidades vigentes a la fecha", "ingesta": "2026"},
     {"fuente": "Aportes de campaña (CNE)", "periodo": "2022–2023", "corte": "ciclos electorales", "ingesta": "abr-2026"},
     {"fuente": "RUES / Supersociedades (cruces)", "periodo": "hasta 2024–2026", "corte": "registro y finanzas", "ingesta": "mar–may 2026"},
 ]
@@ -256,10 +256,17 @@ def shape_como(
         }
         for r in rows_mod
     ]
+    # pct_directa: cuota POR NÚMERO de contratos. pct_directa_valor: cuota POR
+    # VALOR. Son MUY distintas (la directa pesa mucho en número pero poco en
+    # valor: son contratos de baja cuantía), así que el frontend debe mostrar
+    # ambas y nunca decir «de cada peso… %» usando la cuota por conteo.
     pct_directa = round(
         sum(m["pct"] for m in por_modalidad if _es_directa(m["modalidad"])), 1
     )
     pct_competitiva = round(100.0 - pct_directa, 1)
+    total_valor = sum(m["valor"] for m in por_modalidad)
+    valor_directa = sum(m["valor"] for m in por_modalidad if _es_directa(m["modalidad"]))
+    pct_directa_valor = round(valor_directa * 100.0 / total_valor, 1) if total_valor else 0.0
     return {
         "por_modalidad": por_modalidad,
         "modalidad_por_anio": [
@@ -272,6 +279,7 @@ def shape_como(
         ],
         "pct_directa": pct_directa,
         "pct_competitiva": pct_competitiva,
+        "pct_directa_valor": pct_directa_valor,
     }
 
 
@@ -398,6 +406,8 @@ def shape_ejecucion(rows_kpi, rows_anio):
             "pagado": _f(k.get("pagado")),
             "pct_facturado": _f(k.get("pct_facturado")),
             "pct_pagado": _f(k.get("pct_pagado")),
+            "cobertura_factura": _f(k.get("cobertura_factura")),
+            "cobertura_pago": _f(k.get("cobertura_pago")),
         },
         "por_anio": [
             {"anio": _i(r.get("anio")), "contratado": _f(r.get("contratado")),
@@ -437,6 +447,7 @@ def shape_sanciones(rows_kpi, rows_tipo, rows_anio, rows_gravedad):
             "total": _i(k.get("total")),
             "inhabilidad_vigente": _i(k.get("inhabilidad_vigente")),
             "inhabilidad_promedio_meses": _f(k.get("inhabilidad_promedio_meses")),
+            "inhabilidad_mediana_meses": _i(k.get("inhabilidad_mediana_meses")),
         },
         "por_tipo": [{"tipo": _s(r.get("tipo"), "Sin clasificar"), "n": _i(r.get("n"))} for r in rows_tipo],
         "por_anio": [{"anio": _i(r.get("anio")), "n": _i(r.get("n"))} for r in rows_anio],
@@ -632,7 +643,10 @@ def _build_senales_extra(client):  # pragma: no cover - requiere BQ
         # trae vigencias >= 2025; 2027+ tienen valor_vigente ~0. El filtro acota a
         # los presupuestos vigentes reales. valor_vigente >= $1.000M y ejecución < 30%.
         "brechas_bpin": f"SELECT COUNT(*) AS proyectos, SUM(valor_vigente - valor_pagado) AS valor FROM `{P}.{D}.bpin_ejecucion` WHERE SAFE_CAST(vigencia AS INT64) BETWEEN 2025 AND 2026 AND valor_vigente >= 1e9 AND SAFE_DIVIDE(valor_pagado, valor_vigente) < 0.30",
-        "contratos_no_planeados": f"WITH paa AS (SELECT entidad_nit, anio, SUM(valor_total_esperado) vp FROM `{P}.{D}.paa` WHERE entidad_nit IS NOT NULL AND valor_total_esperado > 0 GROUP BY 1,2), ct AS (SELECT entidad_nit, EXTRACT(YEAR FROM fecha_firma) anio, SUM(valor) vc FROM {C} c WHERE {W} GROUP BY 1,2) SELECT COUNT(*) AS casos, SUM(vc) AS valor FROM ct JOIN paa USING(entidad_nit, anio) WHERE vc > 1.2 * vp",
+        # PAA deduplicado (id + última versión por encabezado), MISMA lógica que
+        # planeacion_kpis.sql: sin esto el «planeado» se infla ~30% por versiones
+        # superadas y el umbral 1,2× quedaría incoherente con la sección Planeación.
+        "contratos_no_planeados": f"WITH paa_dd AS (SELECT * EXCEPT(rn) FROM (SELECT entidad_nit, anio, valor_total_esperado, paa_encabezado_id, version_paa, ROW_NUMBER() OVER (PARTITION BY id ORDER BY fecha_ingesta DESC) rn FROM `{P}.{D}.paa` WHERE anio BETWEEN 2022 AND 2026) WHERE rn = 1), maxv AS (SELECT paa_encabezado_id, MAX(version_paa) mv FROM paa_dd GROUP BY 1), paa_latest AS (SELECT d.* FROM paa_dd d JOIN maxv m ON d.paa_encabezado_id = m.paa_encabezado_id AND d.version_paa = m.mv), paa AS (SELECT entidad_nit, anio, SUM(valor_total_esperado) vp FROM paa_latest WHERE entidad_nit IS NOT NULL AND valor_total_esperado > 0 GROUP BY 1,2), ct AS (SELECT entidad_nit, EXTRACT(YEAR FROM fecha_firma) anio, SUM(valor) vc FROM {C} c WHERE {W} GROUP BY 1,2) SELECT COUNT(*) AS casos, SUM(vc) AS valor FROM ct JOIN paa USING(entidad_nit, anio) WHERE vc > 1.2 * vp",
         "monopolio_municipal": f"SELECT COUNT(*) AS municipios, SUM(valor_c) AS valor FROM (SELECT entidad_municipio, contratista_nit, SUM(valor) valor_c, SUM(valor)/SUM(SUM(valor)) OVER (PARTITION BY entidad_municipio) sh, COUNT(*) OVER (PARTITION BY entidad_municipio) nm FROM {C} c WHERE {W} AND entidad_municipio IS NOT NULL GROUP BY 1,2) WHERE sh >= 0.5 AND nm BETWEEN 30 AND 5000",
         "supervisor_contratista": f"WITH s AS (SELECT doc_supervisor d, entidad_nit e FROM {C} c WHERE {W} AND doc_supervisor IS NOT NULL GROUP BY 1,2 HAVING COUNT(*) >= 2), k AS (SELECT contratista_nit d, entidad_nit e, SUM(valor) v FROM {C} c WHERE {W} AND contratista_nit IS NOT NULL GROUP BY 1,2 HAVING COUNT(*) >= 2) SELECT COUNT(DISTINCT s.d) AS personas, SUM(k.v) AS valor FROM s JOIN k ON k.d = s.d AND k.e = s.e",
         "puerta_giratoria": f"WITH sv AS (SELECT CAST(numero_documento AS STRING) doc, entidad_normalizada ent FROM `{P}.{D}.sigep_servidores` WHERE numero_documento IS NOT NULL GROUP BY 1,2) SELECT COUNT(DISTINCT sv.doc) AS personas, SUM(c.valor) AS valor FROM sv JOIN {C} c ON CAST(sv.doc AS STRING) = c.contratista_nit AND sv.ent = c.entidad_nombre_normalizado WHERE {W}",

@@ -35,8 +35,9 @@ export const quienSchema = z.object({
 export const comoSchema = z.object({
   por_modalidad: z.array(z.object({ modalidad: str, contratos: num, valor: num, pct: num })),
   modalidad_por_anio: z.array(z.object({ anio: num, modalidad: str, valor: num })),
-  pct_directa: num,
+  pct_directa: num,           // cuota por NÚMERO de contratos
   pct_competitiva: num,
+  pct_directa_valor: num,     // cuota por VALOR (muy distinta a la anterior)
 });
 
 export const dondeSchema = z.object({
@@ -70,12 +71,12 @@ export const inversionSchema = z.object({
 });
 
 export const ejecucionSchema = z.object({
-  kpis: z.object({ contratado: num, facturado: num, pagado: num, pct_facturado: num, pct_pagado: num }),
+  kpis: z.object({ contratado: num, facturado: num, pagado: num, pct_facturado: num, pct_pagado: num, cobertura_factura: num, cobertura_pago: num }),
   por_anio: z.array(z.object({ anio: num, contratado: num, facturado: num, pagado: num })),
 });
 
 export const sancionesSchema = z.object({
-  kpis: z.object({ total: num, inhabilidad_vigente: num, inhabilidad_promedio_meses: num }),
+  kpis: z.object({ total: num, inhabilidad_vigente: num, inhabilidad_promedio_meses: num, inhabilidad_mediana_meses: num }),
   por_tipo: z.array(z.object({ tipo: str, n: num })),
   por_anio: z.array(z.object({ anio: num, n: num })),
   por_gravedad: z.array(z.object({ gravedad: str, n: num })),

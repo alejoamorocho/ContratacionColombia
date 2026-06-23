@@ -8,6 +8,8 @@ SELECT
 FROM `{p}.{d}.contratos`
 WHERE fecha_firma BETWEEN '2022-01-01' AND '2026-12-31'
   AND valor IS NOT NULL AND valor > 0
+  -- 'Sin clasificar' es ausencia de categoría, no un sector: fuera del ranking.
+  AND objeto_label != 'Sin clasificar'
 GROUP BY objeto_label
 HAVING contratos >= 20
 ORDER BY valor DESC

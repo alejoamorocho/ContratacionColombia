@@ -3,6 +3,7 @@ import { MethodologyNote } from '../components/MethodologyNote';
 import { usePublicData } from '../hooks/usePublicData';
 import KPICard from '../components/charts/KPICard';
 import VLineChart from '../components/charts/VLineChart';
+import ChartFootnote from '../components/charts/ChartFootnote';
 import type { EjecucionData } from '../lib/types';
 
 /**
@@ -31,9 +32,11 @@ export default function Ejecuta() {
       }
       methodology={
         <MethodologyNote>
-          Los campos valor_facturado y valor_pagado provienen de SECOP II y están poblados en ~50-58% de los
-          contratos; por eso los porcentajes son cotas inferiores debidas al subreporte, no necesariamente baja
-          ejecución.
+          Los campos valor_facturado y valor_pagado provienen de SECOP II y solo están poblados en una
+          parte de los contratos (cobertura reportada: {kpis.cobertura_factura}% facturado, {kpis.cobertura_pago}% pagado);
+          por eso los porcentajes son cotas inferiores debidas al subreporte, no necesariamente baja ejecución.
+          El «% pagado» es un ratio por valor (suma pagada / suma contratada) que mezcla no-ejecución,
+          subreporte y contratos recién firmados que aún no completan su ciclo de pago.
         </MethodologyNote>
       }
     >
@@ -58,6 +61,11 @@ export default function Ejecuta() {
         xKey="anio"
         lines={[{ key: 'contratado' }, { key: 'facturado' }, { key: 'pagado' }]}
       />
+      <ChartFootnote>
+        El último año está doblemente incompleto: 2026 es parcial por fecha de firma <em>y</em> los
+        contratos recién firmados aún no han tenido tiempo de facturarse o pagarse. La caída de
+        facturado/pagado en 2026 es ese rezago contable, no una caída real de la ejecución.
+      </ChartFootnote>
     </PageShell>
   );
 }

@@ -3,6 +3,7 @@ import { PageShell } from '../components/PageShell';
 import { MethodologyNote } from '../components/MethodologyNote';
 import KPICard from '../components/charts/KPICard';
 import VBarChart from '../components/charts/VBarChart';
+import ChartFootnote, { NOTA_ANIO_PARCIAL } from '../components/charts/ChartFootnote';
 import type { SenalesData, SancionesData, ElectoralData } from '../lib/types';
 
 const h2Style = { fontFamily: 'var(--font-heading)', margin: 'var(--space-6) 0 var(--space-3)' } as const;
@@ -65,7 +66,7 @@ export default function Senales() {
       <h2 style={h2Style}>Concentración del mercado</h2>
       <div style={kpiGrid}>
         <KPICard label="Top-10 concentra (valor)" valor={s.concentracion.top10_pct_valor} unidad="%" />
-        <KPICard label="% Contratación directa" valor={s.pct_directa_nacional} unidad="%" />
+        <KPICard label="Directa · % de contratos" valor={s.pct_directa_nacional} unidad="%" />
       </div>
       <VBarChart
         data={s.percentiles_valor}
@@ -80,9 +81,11 @@ export default function Senales() {
           <div style={kpiGrid}>
             <KPICard label="Sanciones 2022–2026" valor={san.kpis.total} />
             <KPICard label="Con inhabilidad vigente" valor={san.kpis.inhabilidad_vigente} />
+            <KPICard label="Inhabilidad mediana (meses)" valor={san.kpis.inhabilidad_mediana_meses} />
           </div>
           <h3 style={{ ...h2Style, fontSize: 16 }}>Sanciones por año</h3>
           <VBarChart data={san.por_anio} xKey="anio" bars={[{ key: 'n' }]} />
+          <ChartFootnote>{NOTA_ANIO_PARCIAL}</ChartFootnote>
           <h3 style={{ ...h2Style, fontSize: 16 }}>Calidad del sancionado</h3>
           <VBarChart data={san.por_gravedad} xKey="gravedad" bars={[{ key: 'n' }]} layout="horizontal" />
           <p style={notaStyle}>

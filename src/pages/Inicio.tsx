@@ -3,6 +3,7 @@ import { usePublicData } from '../hooks/usePublicData';
 import type { PanoramaData, MetaData } from '../lib/types';
 import KPICard from '../components/charts/KPICard';
 import VLineChart from '../components/charts/VLineChart';
+import ChartFootnote, { NOTA_ANIO_PARCIAL } from '../components/charts/ChartFootnote';
 import { DisclaimerFooter } from '../components/DisclaimerFooter';
 
 const MODULOS: { to: string; tone: string; q: string; blurb: string }[] = [
@@ -69,6 +70,7 @@ export default function Inicio() {
             Valor contratado por año
           </h2>
           <VLineChart data={pan.por_anio} xKey="anio" lines={[{ key: 'valor', color: 'var(--brand)' }]} />
+          <ChartFootnote>{NOTA_ANIO_PARCIAL}</ChartFootnote>
         </>
       )}
 

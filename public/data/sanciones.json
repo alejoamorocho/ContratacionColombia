@@ -1,8 +1,9 @@
 {
   "kpis": {
     "total": 13441,
-    "inhabilidad_vigente": 8839,
-    "inhabilidad_promedio_meses": 108.2
+    "inhabilidad_vigente": 24939,
+    "inhabilidad_promedio_meses": 132.3,
+    "inhabilidad_mediana_meses": 120
   },
   "por_tipo": [
     {

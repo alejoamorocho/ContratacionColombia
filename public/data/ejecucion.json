@@ -4,7 +4,9 @@
     "facturado": 190665068923544.0,
     "pagado": 154546906857926.0,
     "pct_facturado": 32.7,
-    "pct_pagado": 26.5
+    "pct_pagado": 26.5,
+    "cobertura_factura": 91.7,
+    "cobertura_pago": 90.6
   },
   "por_anio": [
     {

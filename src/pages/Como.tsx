@@ -5,6 +5,7 @@ import KPICard from '../components/charts/KPICard';
 import VPieChart from '../components/charts/VPieChart';
 import VLineChart from '../components/charts/VLineChart';
 import VBarChart from '../components/charts/VBarChart';
+import ChartFootnote, { NOTA_ANIO_PARCIAL } from '../components/charts/ChartFootnote';
 import { usePublicData } from '../hooks/usePublicData';
 import type { ComoData, ProcesosData } from '../lib/types';
 
@@ -65,9 +66,10 @@ export default function Como() {
       context="Las modalidades de contratación de SECOP II y cómo terminan los procesos (adjudicados o no). 2022–2026."
       callout={
         <>
-          De cada peso contratado, <strong>{como.pct_directa}%</strong> sale por{' '}
-          contratación directa y <strong>{como.pct_competitiva}%</strong> por mecanismos
-          competitivos. Es una foto de los caminos del gasto, no un juicio sobre ellos.
+          <strong>{como.pct_directa}%</strong> de los <em>contratos</em> se firman por
+          contratación directa — pero como suelen ser de baja cuantía, concentran solo el{' '}
+          <strong>{como.pct_directa_valor}%</strong> del <em>valor</em>. Mirar número y peso
+          juntos evita una lectura engañosa. Es una foto de los caminos del gasto, no un juicio.
         </>
       }
       methodology={
@@ -92,8 +94,8 @@ export default function Como() {
           gap: 'var(--space-4)',
         }}
       >
-        <KPICard label="% Contratación directa" valor={como.pct_directa} unidad="%" />
-        <KPICard label="% Competitiva" valor={como.pct_competitiva} unidad="%" />
+        <KPICard label="Directa · % de contratos" valor={como.pct_directa} unidad="%" />
+        <KPICard label="Directa · % del valor" valor={como.pct_directa_valor} unidad="%" />
         <KPICard label="Procesos publicados" valor={procesos.kpis.total} />
         <KPICard label="% adjudicados" valor={procesos.kpis.pct_adjudicado} unidad="%" />
       </div>
@@ -107,6 +109,7 @@ export default function Como() {
         Evolución por modalidad y año
       </h2>
       <VLineChart data={filasAnchas} xKey="anio" lines={modalidadesTop.map((m) => ({ key: m }))} />
+      <ChartFootnote>{NOTA_ANIO_PARCIAL}</ChartFootnote>
 
       <h2 style={{ fontFamily: 'var(--font-heading)', margin: 'var(--space-6) 0 var(--space-3)' }}>
         Resultado de los procesos por modalidad

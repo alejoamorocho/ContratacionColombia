@@ -51,7 +51,10 @@ elegibles AS (
     sector,
     SAFE_DIVIDE(valor_2025 - valor_2023, valor_2023) * 100 AS var_pct
   FROM pivot
+  -- 'Sin clasificar' no es un sector real (su caída es mejora de cobertura del
+  -- clasificador, no contratación): se excluye de los elegibles.
   WHERE n_2023 >= 300 AND n_2025 >= 300 AND max_top1_share < 0.5
+    AND sector != 'Sin clasificar'
 ),
 totales AS (
   SELECT

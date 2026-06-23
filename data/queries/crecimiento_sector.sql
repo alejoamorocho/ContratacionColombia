@@ -49,7 +49,9 @@ elegibles AS (
     ROW_NUMBER() OVER (ORDER BY SAFE_DIVIDE(valor_2025 - valor_2023, valor_2023) DESC) AS rk_alza,
     ROW_NUMBER() OVER (ORDER BY SAFE_DIVIDE(valor_2025 - valor_2023, valor_2023) ASC)  AS rk_baja
   FROM pivot
+  -- 'Sin clasificar' no es un sector real: fuera de los elegibles (igual que crecimiento_kpis).
   WHERE n_2023 >= 300 AND n_2025 >= 300 AND max_top1_share < 0.5
+    AND sector != 'Sin clasificar'
 )
 SELECT sector, var_pct
 FROM elegibles
