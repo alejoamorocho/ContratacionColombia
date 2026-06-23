@@ -20,6 +20,12 @@
     "react-simple-maps": "^3.0.0",
     "recharts": "^3.8.1"
   },
+  "overrides": {
+    "d3-color": "^3.1.0",
+    "d3-interpolate": "^3.0.1",
+    "d3-transition": "^3.0.1",
+    "d3-zoom": "^3.0.0"
+  },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@testing-library/dom": "^10.4.1",
