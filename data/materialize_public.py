@@ -52,6 +52,40 @@ _BASE_COLS = (
     "recursos_pgn, recursos_sgp, recursos_regalias, recursos_propios"
 )
 
+# Normalizaciones centralizadas: se calculan UNA sola vez en la tabla base
+# (DRY) y todas las queries consumen las columnas limpias `modalidad_norm` y
+# `objeto_label`, en lugar de repetir el mismo CASE en cada archivo .sql.
+_M = "REGEXP_REPLACE(NORMALIZE(UPPER(modalidad), NFD), r'\\pM', '')"
+_MODALIDAD_NORM = (
+    "CASE WHEN modalidad IS NULL THEN 'Otras'"
+    f" WHEN {_M} LIKE '%DIRECTA%' THEN 'Contratación directa'"
+    f" WHEN {_M} LIKE '%REGIMEN%ESPECIAL%' THEN 'Régimen especial'"
+    f" WHEN {_M} LIKE '%MINIMA%' THEN 'Mínima cuantía'"
+    f" WHEN {_M} LIKE '%ABREVIAD%' OR {_M} LIKE '%MENOR CUANTIA%' OR {_M} LIKE '%SUBASTA%' THEN 'Selección abreviada'"
+    f" WHEN {_M} LIKE '%LICITACION%' THEN 'Licitación pública'"
+    f" WHEN {_M} LIKE '%MERITOS%' OR {_M} LIKE '%CONCURSO%' THEN 'Concurso de méritos'"
+    " ELSE 'Otras' END"
+)
+_OBJETO_LABEL = (
+    "CASE COALESCE(objeto_clasificado, 'SIN_CLASIFICAR')"
+    " WHEN 'SALUD' THEN 'Salud' WHEN 'CONSULTORIA' THEN 'Consultoría'"
+    " WHEN 'CONTRATACION_PERSONAL' THEN 'Contratación de personal' WHEN 'EDUCACION' THEN 'Educación'"
+    " WHEN 'APOYO_GESTION' THEN 'Apoyo a la gestión' WHEN 'JURIDICO' THEN 'Jurídico'"
+    " WHEN 'CULTURA_DEPORTE' THEN 'Cultura y deporte' WHEN 'SOCIAL' THEN 'Social'"
+    " WHEN 'CONSTRUCCION' THEN 'Construcción' WHEN 'TECNOLOGIA' THEN 'Tecnología'"
+    " WHEN 'SEGURIDAD' THEN 'Seguridad' WHEN 'COMUNICACIONES' THEN 'Comunicaciones'"
+    " WHEN 'FINANCIERO' THEN 'Financiero' WHEN 'ARRENDAMIENTO' THEN 'Arrendamiento'"
+    " WHEN 'ALIMENTACION' THEN 'Alimentación' WHEN 'TRANSPORTE' THEN 'Transporte'"
+    " WHEN 'AGROPECUARIO' THEN 'Agropecuario' WHEN 'MEDIO_AMBIENTE' THEN 'Medio ambiente'"
+    " WHEN 'CAPACITACION_FORMACION' THEN 'Capacitación y formación' WHEN 'GESTION_DOCUMENTAL' THEN 'Gestión documental'"
+    " WHEN 'MANTENIMIENTO' THEN 'Mantenimiento' WHEN 'VIVIENDA' THEN 'Vivienda'"
+    " WHEN 'SUMINISTRO' THEN 'Suministro' WHEN 'ASEO' THEN 'Aseo'"
+    " WHEN 'TELECOMUNICACIONES' THEN 'Telecomunicaciones' WHEN 'AGUA_SANEAMIENTO' THEN 'Agua y saneamiento'"
+    " WHEN 'CATASTRO' THEN 'Catastro' WHEN 'DEFENSA' THEN 'Defensa'"
+    " WHEN 'INTERVENTORIA' THEN 'Interventoría' WHEN 'SIN_CLASIFICAR' THEN 'Sin clasificar'"
+    " ELSE INITCAP(REPLACE(objeto_clasificado, '_', ' ')) END"
+)
+
 FUENTES = [
     "SECOP II — Contratos y Procesos (Colombia Compra Eficiente)",
     "PAA — Plan Anual de Adquisiciones (SECOP II)",
@@ -438,7 +472,9 @@ def _ensure_base(client) -> None:  # pragma: no cover - requiere BQ
     """
     client.query(
         f"""CREATE OR REPLACE TABLE `{BASE_TABLE}` AS
-        SELECT {_BASE_COLS}
+        SELECT {_BASE_COLS},
+               {_MODALIDAD_NORM} AS modalidad_norm,
+               {_OBJETO_LABEL} AS objeto_label
         FROM `{PROJECT}.{DATASET}.contratos`
         WHERE {WHERE}
         QUALIFY ROW_NUMBER() OVER (
