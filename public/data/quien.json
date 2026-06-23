@@ -1,13 +1,13 @@
 {
   "top_entidades": [
     {
-      "nombre": "ICBF REGIONAL AMAZONAS",
+      "nombre": "ICBF REGIONAL BOGOTA",
       "nit": "899999239",
       "valor": 37156668222511.0,
       "contratos": 89355
     },
     {
-      "nombre": "ALCALDIA LOCAL DE CIUDAD BOLIVAR //",
+      "nombre": "SECRETARIA DISTRITAL DE AMBIENTE",
       "nit": "899999061",
       "valor": 27856285361096.0,
       "contratos": 197492
@@ -31,7 +31,7 @@
       "contratos": 6070
     },
     {
-      "nombre": "DEPARTAMENTO ADMINISTRATIVO DE GESTION DEL MEDIO AMBIENTE DAGMA",
+      "nombre": "SANTIAGO DE CALI DISTRITO ESPECIAL - SECRETARIA DE INFRAESTRUCTURA",
       "nit": "890399011",
       "valor": 11138702983688.0,
       "contratos": 135091
@@ -67,7 +67,7 @@
       "contratos": 7001
     },
     {
-      "nombre": "DEPARTAMENTO DE CUNDINAMARCA-SECRETARIA DEL AMBIENTE",
+      "nombre": "DEPARTAMENTO DE CUNDINAMARCA-SECRETARIA DE HACIENDA",
       "nit": "899999114",
       "valor": 6371116031950.0,
       "contratos": 28121
@@ -85,7 +85,7 @@
       "contratos": 6360
     },
     {
-      "nombre": "GOBERNACIÓN VALLE DEL CAUCA -SECRETARIA DE SALUD",
+      "nombre": "CASA DEL VALLE- GOBERNACION DEL VALLE",
       "nit": "890399029",
       "valor": 5655125526581.0,
       "contratos": 62122
@@ -116,48 +116,53 @@
   "por_sector": [
     {
       "sector": "Construcción",
-      "valor": 75412145115312.0,
-      "contratos": 164779
+      "valor": 77337379687776.0,
+      "contratos": 166039
     },
     {
       "sector": "Salud",
-      "valor": 59613952379087.0,
-      "contratos": 602865
+      "valor": 60037508083649.0,
+      "contratos": 608074
     },
     {
       "sector": "Social",
-      "valor": 44965614827068.0,
-      "contratos": 167181
+      "valor": 45162464905196.0,
+      "contratos": 168946
     },
     {
       "sector": "Educación",
-      "valor": 35839081742068.0,
-      "contratos": 224967
+      "valor": 36189911077994.0,
+      "contratos": 229119
     },
     {
       "sector": "Seguridad",
-      "valor": 31998188200721.0,
-      "contratos": 134454
-    },
-    {
-      "sector": "Alimentación",
-      "valor": 29735666280966.0,
-      "contratos": 99689
+      "valor": 32248168653398.0,
+      "contratos": 135179
     },
     {
       "sector": "Consultoría",
-      "valor": 29494030563487.0,
-      "contratos": 423006
+      "valor": 30007891466341.0,
+      "contratos": 434535
+    },
+    {
+      "sector": "Alimentación",
+      "valor": 29810214780742.0,
+      "contratos": 99985
     },
     {
       "sector": "Tecnología",
-      "valor": 23839150609208.0,
-      "contratos": 148043
+      "valor": 24719552018455.0,
+      "contratos": 150826
     },
     {
       "sector": "Financiero",
-      "valor": 21003978973068.0,
-      "contratos": 113135
+      "valor": 21404330491899.0,
+      "contratos": 113149
+    },
+    {
+      "sector": "Jurídico",
+      "valor": 18681563392178.0,
+      "contratos": 216192
     },
     {
       "sector": "Sin clasificar",
@@ -166,13 +171,8 @@
     },
     {
       "sector": "Transporte",
-      "valor": 18144715612289.0,
-      "contratos": 98059
-    },
-    {
-      "sector": "Jurídico",
-      "valor": 18083334407613.0,
-      "contratos": 208403
+      "valor": 18307146517734.0,
+      "contratos": 98858
     }
   ]
 }

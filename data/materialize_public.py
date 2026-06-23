@@ -66,8 +66,18 @@ _MODALIDAD_NORM = (
     f" WHEN {_M} LIKE '%MERITOS%' OR {_M} LIKE '%CONCURSO%' THEN 'Concurso de méritos'"
     " ELSE 'Otras' END"
 )
+# Clave normalizada del objeto: primer segmento (antes de la 1ª coma), sin
+# tildes ni punto final, en MAYÚSCULAS. Colapsa las variantes sucias del mismo
+# concepto que trae la fuente —'CONSULTORÍA', 'CONSULTORÍA.', 'CONSULTORIA,
+# APOYO, GESTION'— a una sola clave 'CONSULTORIA', evitando que la categoría
+# se fragmente en docenas de etiquetas casi iguales.
+_OBJ_KEY = (
+    "REGEXP_REPLACE(NORMALIZE(UPPER(TRIM("
+    "SPLIT(COALESCE(objeto_clasificado, 'SIN_CLASIFICAR'), ',')[OFFSET(0)]"
+    ")), NFD), r'[\\pM.]', '')"
+)
 _OBJETO_LABEL = (
-    "CASE COALESCE(objeto_clasificado, 'SIN_CLASIFICAR')"
+    f"CASE {_OBJ_KEY}"
     " WHEN 'SALUD' THEN 'Salud' WHEN 'CONSULTORIA' THEN 'Consultoría'"
     " WHEN 'CONTRATACION_PERSONAL' THEN 'Contratación de personal' WHEN 'EDUCACION' THEN 'Educación'"
     " WHEN 'APOYO_GESTION' THEN 'Apoyo a la gestión' WHEN 'JURIDICO' THEN 'Jurídico'"
@@ -82,8 +92,11 @@ _OBJETO_LABEL = (
     " WHEN 'SUMINISTRO' THEN 'Suministro' WHEN 'ASEO' THEN 'Aseo'"
     " WHEN 'TELECOMUNICACIONES' THEN 'Telecomunicaciones' WHEN 'AGUA_SANEAMIENTO' THEN 'Agua y saneamiento'"
     " WHEN 'CATASTRO' THEN 'Catastro' WHEN 'DEFENSA' THEN 'Defensa'"
-    " WHEN 'INTERVENTORIA' THEN 'Interventoría' WHEN 'SIN_CLASIFICAR' THEN 'Sin clasificar'"
-    " ELSE INITCAP(REPLACE(objeto_clasificado, '_', ' ')) END"
+    " WHEN 'INTERVENTORIA' THEN 'Interventoría'"
+    " WHEN 'SERVICIOS_PUBLICOS' THEN 'Servicios públicos' WHEN 'MINAS_ENERGIA' THEN 'Minas y energía'"
+    " WHEN 'INFRAESTRUCTURA' THEN 'Infraestructura'"
+    " WHEN 'SIN_CLASIFICAR' THEN 'Sin clasificar'"
+    f" ELSE INITCAP(REPLACE({_OBJ_KEY}, '_', ' ')) END"
 )
 
 FUENTES = [
@@ -615,14 +628,24 @@ def _build_senales_extra(client):  # pragma: no cover - requiere BQ
     Q = {
         "adiciones": f"SELECT COUNTIF(fecha_prorroga IS NOT NULL) AS contratos, SUM(IF(fecha_prorroga IS NOT NULL, valor, 0)) AS valor FROM {C} c WHERE {W}",
         "prorroga_sin_ejecucion": f"SELECT COUNT(*) AS contratos, SUM(valor) AS valor FROM {C} c WHERE {W} AND fecha_prorroga IS NOT NULL AND SAFE_DIVIDE(valor_pagado, valor) < 0.30 AND DATE_DIFF(CURRENT_DATE(), fecha_firma, MONTH) >= 12",
-        "brechas_bpin": f"SELECT COUNT(*) AS proyectos, SUM(valor_vigente - valor_pagado) AS valor FROM `{P}.{D}.bpin_ejecucion` WHERE SAFE_CAST(vigencia AS INT64) BETWEEN 2022 AND 2026 AND valor_vigente >= 1e9 AND SAFE_DIVIDE(valor_pagado, valor_vigente) < 0.30",
+        # vigencia 2025-2026 (literal, consistente con la nota): la tabla BPIN solo
+        # trae vigencias >= 2025; 2027+ tienen valor_vigente ~0. El filtro acota a
+        # los presupuestos vigentes reales. valor_vigente >= $1.000M y ejecución < 30%.
+        "brechas_bpin": f"SELECT COUNT(*) AS proyectos, SUM(valor_vigente - valor_pagado) AS valor FROM `{P}.{D}.bpin_ejecucion` WHERE SAFE_CAST(vigencia AS INT64) BETWEEN 2025 AND 2026 AND valor_vigente >= 1e9 AND SAFE_DIVIDE(valor_pagado, valor_vigente) < 0.30",
         "contratos_no_planeados": f"WITH paa AS (SELECT entidad_nit, anio, SUM(valor_total_esperado) vp FROM `{P}.{D}.paa` WHERE entidad_nit IS NOT NULL AND valor_total_esperado > 0 GROUP BY 1,2), ct AS (SELECT entidad_nit, EXTRACT(YEAR FROM fecha_firma) anio, SUM(valor) vc FROM {C} c WHERE {W} GROUP BY 1,2) SELECT COUNT(*) AS casos, SUM(vc) AS valor FROM ct JOIN paa USING(entidad_nit, anio) WHERE vc > 1.2 * vp",
         "monopolio_municipal": f"SELECT COUNT(*) AS municipios, SUM(valor_c) AS valor FROM (SELECT entidad_municipio, contratista_nit, SUM(valor) valor_c, SUM(valor)/SUM(SUM(valor)) OVER (PARTITION BY entidad_municipio) sh, COUNT(*) OVER (PARTITION BY entidad_municipio) nm FROM {C} c WHERE {W} AND entidad_municipio IS NOT NULL GROUP BY 1,2) WHERE sh >= 0.5 AND nm BETWEEN 30 AND 5000",
         "supervisor_contratista": f"WITH s AS (SELECT doc_supervisor d, entidad_nit e FROM {C} c WHERE {W} AND doc_supervisor IS NOT NULL GROUP BY 1,2 HAVING COUNT(*) >= 2), k AS (SELECT contratista_nit d, entidad_nit e, SUM(valor) v FROM {C} c WHERE {W} AND contratista_nit IS NOT NULL GROUP BY 1,2 HAVING COUNT(*) >= 2) SELECT COUNT(DISTINCT s.d) AS personas, SUM(k.v) AS valor FROM s JOIN k ON k.d = s.d AND k.e = s.e",
         "puerta_giratoria": f"WITH sv AS (SELECT CAST(numero_documento AS STRING) doc, entidad_normalizada ent FROM `{P}.{D}.sigep_servidores` WHERE numero_documento IS NOT NULL GROUP BY 1,2) SELECT COUNT(DISTINCT sv.doc) AS personas, SUM(c.valor) AS valor FROM sv JOIN {C} c ON CAST(sv.doc AS STRING) = c.contratista_nit AND sv.ent = c.entidad_nombre_normalizado WHERE {W}",
-        "redes_relaciones": f"WITH r AS (SELECT nit_a, nit_b FROM `{P}.{D}.relaciones` WHERE tipo_relacion = 'REPRESENTANTE_COMPARTIDO') SELECT COUNT(DISTINCT c.contratista_nit) AS empresas, SUM(c.valor) AS valor FROM r JOIN {C} c ON c.contratista_nit IN (CAST(r.nit_a AS STRING), CAST(r.nit_b AS STRING)) WHERE {W}",
-        "sancionado_otro_depto": f"WITH sa AS (SELECT sancionado_nit nit, UPPER(TRIM(departamento)) dp, MIN(fecha_inicio) f FROM `{P}.{D}.sanciones` WHERE sancionado_nit IS NOT NULL AND departamento IS NOT NULL GROUP BY 1,2) SELECT COUNT(DISTINCT sa.nit) AS contratistas, SUM(c.valor) AS valor FROM sa JOIN {C} c ON c.contratista_nit = sa.nit AND UPPER(TRIM(c.entidad_departamento)) != sa.dp AND c.fecha_firma > sa.f WHERE {W}",
-        "donante_post_eleccion": f"SELECT COUNT(DISTINCT c.contratista_nit) AS contratistas, SUM(c.valor) AS valor FROM `{P}.{D}.campanas` ca JOIN {C} c ON CAST(ca.nit_aportante AS STRING) = c.contratista_nit WHERE SAFE_CAST(ca.anio_eleccion AS INT64) >= 2022 AND c.fecha_firma > DATE(SAFE_CAST(ca.anio_eleccion AS INT64) + 1, 1, 1) AND {W}",
+        # IMPORTANTE (anti fan-out): estas 3 señales cruzan contratos con una
+        # tabla donde un NIT puede aparecer en VARIAS filas (varias campañas,
+        # varias relaciones, sanciones en varios deptos). Un JOIN directo
+        # multiplicaría el valor del MISMO contrato una vez por cada coincidencia
+        # (p. ej. donante_post_eleccion llegaba a $820 B > universo $584 B). Se
+        # deduplica el lado cruzado (DISTINCT / EXISTS) para sumar cada contrato
+        # UNA sola vez. Los conteos COUNT(DISTINCT contratista) ya eran correctos.
+        "redes_relaciones": f"WITH nits AS (SELECT CAST(nit_a AS STRING) nit FROM `{P}.{D}.relaciones` WHERE tipo_relacion = 'REPRESENTANTE_COMPARTIDO' UNION DISTINCT SELECT CAST(nit_b AS STRING) FROM `{P}.{D}.relaciones` WHERE tipo_relacion = 'REPRESENTANTE_COMPARTIDO') SELECT COUNT(DISTINCT c.contratista_nit) AS empresas, SUM(c.valor) AS valor FROM nits JOIN {C} c ON c.contratista_nit = nits.nit WHERE {W}",
+        "sancionado_otro_depto": f"WITH sa AS (SELECT sancionado_nit nit, UPPER(TRIM(departamento)) dp, MIN(fecha_inicio) f FROM `{P}.{D}.sanciones` WHERE sancionado_nit IS NOT NULL AND departamento IS NOT NULL GROUP BY 1,2) SELECT COUNT(DISTINCT c.contratista_nit) AS contratistas, SUM(c.valor) AS valor FROM {C} c WHERE {W} AND EXISTS (SELECT 1 FROM sa WHERE sa.nit = c.contratista_nit AND sa.dp != UPPER(TRIM(c.entidad_departamento)) AND c.fecha_firma > sa.f)",
+        "donante_post_eleccion": f"WITH d AS (SELECT CAST(nit_aportante AS STRING) nit, MIN(SAFE_CAST(anio_eleccion AS INT64)) ae FROM `{P}.{D}.campanas` WHERE SAFE_CAST(anio_eleccion AS INT64) >= 2022 AND nit_aportante IS NOT NULL GROUP BY 1) SELECT COUNT(DISTINCT c.contratista_nit) AS contratistas, SUM(c.valor) AS valor FROM d JOIN {C} c ON c.contratista_nit = d.nit WHERE {W} AND c.fecha_firma > DATE(d.ae + 1, 1, 1)",
         "cluster_electoral": f"WITH cl AS (SELECT candidato, COUNT(DISTINCT CAST(ca.nit_aportante AS STRING)) na, COUNT(DISTINCT IF(co.id IS NOT NULL, CAST(ca.nit_aportante AS STRING), NULL)) nc FROM `{P}.{D}.campanas` ca LEFT JOIN {C} co ON CAST(ca.nit_aportante AS STRING) = co.contratista_nit AND co.fecha_firma BETWEEN '2022-01-01' AND '2026-12-31' GROUP BY candidato) SELECT COUNT(*) AS clusters, SUM(nc) AS aportantes_que_contratan FROM cl WHERE na >= 3 AND nc >= 2",
     }
 

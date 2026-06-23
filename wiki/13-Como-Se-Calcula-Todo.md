@@ -46,7 +46,7 @@ Las consultas en `data/queries/*.sql` escriben ``` `{p}.{d}.contratos` ```; el m
 
 `Contratación directa` · `Régimen especial` · `Mínima cuantía` · `Selección abreviada` (incluye menor cuantía y subasta) · `Licitación pública` · `Concurso de méritos` · `Otras`.
 
-**Código de objeto → etiqueta legible (`objeto_label`).** El campo `objeto_clasificado` viene en MAYÚSCULAS_CON_GUION (p. ej. `CONSTRUCCION`, `MEDIO_AMBIENTE`). Se mapea a etiquetas en español con tildes (`Construcción`, `Medio ambiente`). Los nulos se rotulan `Sin clasificar`; cualquier código sin mapa explícito cae a `INITCAP(REPLACE(_, ' '))`.
+**Código de objeto → etiqueta legible (`objeto_label`).** El campo `objeto_clasificado` viene sucio: MAYÚSCULAS_CON_GUION (`CONSTRUCCION`), pero también con tildes (`CONSULTORÍA`), punto final (`SALUD.`) y formas compuestas (`CONSULTORIA, APOYO, GESTION`). Para no fragmentar una misma categoría en decenas de variantes, se normaliza una **clave canónica**: se toma el **primer segmento** (antes de la primera coma), se pasa a mayúsculas, se quitan **tildes y punto final**, y sobre esa clave limpia se mapea a una de **33 categorías** en español con tildes (`Construcción`, `Consultoría`, `Minas y energía`, …). Los nulos se rotulan `Sin clasificar`; la cola de claves sin mapa explícito cae a `INITCAP` (texto legible). Resultado: el **99,8 % del valor** queda en una categoría canónica; solo un 0,2 % en la cola. Las tres vistas que muestran categorías de objeto —Panorama, ¿Quién contrata? y ¿En qué creció?— usan esta misma columna, así que muestran etiquetas idénticas.
 
 **Departamento → código DANE (mapa).** En `donde_departamento.sql`, el nombre del departamento se normaliza sin tildes ni mayúsculas (`REGEXP_REPLACE(NORMALIZE(LOWER(TRIM(x)), NFD), r'\pM', '')`) y se cruza con un diccionario a código DANE de 2 dígitos. Esto recuperó a Bogotá ("Distrito Capital de Bogotá"), que antes se perdía por la tilde. Ver [Auditoría de datos](06-Auditoria-De-Datos.md).
 
@@ -234,6 +234,8 @@ Las señales son **conteos de coincidencias factuales** entre registros público
 > **Ninguna señal es acusatoria.** Cada una mide una coincidencia que **merece verificación caso por caso** y tiene explicaciones legítimas. Una coincidencia **no** es una irregularidad. Lee [Los cruces](08-Los-Cruces.md) para el porqué.
 
 Las señales usan la tabla **cruda** `contratos` (necesitan columnas fuera de la base, como `fecha_prorroga`, `doc_supervisor`, `entidad_municipio`); el ~0,3 % de duplicados es marginal para estos agregados. Ventana común 2022–2026, `valor > 0`.
+
+> **Anti doble-conteo (fan-out).** Tres señales (`donante_post_eleccion`, `redes_relaciones`, `sancionado_otro_depto`) cruzan contratos con una tabla donde un mismo NIT puede aparecer en **varias filas** (varias campañas, varias relaciones, sanciones en varios departamentos). Un `JOIN` directo sumaría el valor del **mismo contrato una vez por cada coincidencia**, inflando el total. Por eso el lado cruzado se **deduplica** (`DISTINCT` / `EXISTS`) antes de sumar: cada contrato cuenta **una sola vez**. Los conteos de personas/empresas ya eran exactos (`COUNT(DISTINCT …)`). Una guardia de verificación comprueba que **ningún valor de señal supere el total contratado del país**.
 
 ### Grupo ¿Cómo? — magnitud de figuras contractuales
 

@@ -2,7 +2,7 @@
   "kpis": {
     "contratos": 3969440,
     "valor_total": 583796373548818.0,
-    "valor_mediano": 20053333.0,
+    "valor_mediano": 20064083.0,
     "entidades": 4690,
     "contratistas": 954767
   },
@@ -35,49 +35,54 @@
   ],
   "top_sectores": [
     {
-      "sector": "CONSTRUCCION",
-      "contratos": 164713,
-      "valor": 75048229866989.0
+      "sector": "Construcción",
+      "contratos": 166039,
+      "valor": 77337379687776.0
     },
     {
-      "sector": "SALUD",
-      "contratos": 602865,
-      "valor": 59613952379087.0
+      "sector": "Salud",
+      "contratos": 608074,
+      "valor": 60037508083649.0
     },
     {
-      "sector": "SOCIAL",
-      "contratos": 167181,
-      "valor": 44965614827068.0
+      "sector": "Social",
+      "contratos": 168946,
+      "valor": 45162464905196.0
     },
     {
-      "sector": "EDUCACION",
-      "contratos": 224845,
-      "valor": 35795040059686.0
+      "sector": "Educación",
+      "contratos": 229119,
+      "valor": 36189911077994.0
     },
     {
-      "sector": "SEGURIDAD",
-      "contratos": 134454,
-      "valor": 31998188200721.0
+      "sector": "Seguridad",
+      "contratos": 135179,
+      "valor": 32248168653398.0
     },
     {
-      "sector": "ALIMENTACION",
-      "contratos": 99683,
-      "valor": 29735564059292.0
+      "sector": "Consultoría",
+      "contratos": 434535,
+      "valor": 30007891466341.0
     },
     {
-      "sector": "CONSULTORIA",
-      "contratos": 422321,
-      "valor": 29406847927620.0
+      "sector": "Alimentación",
+      "contratos": 99985,
+      "valor": 29810214780742.0
     },
     {
-      "sector": "TECNOLOGIA",
-      "contratos": 147973,
-      "valor": 23832663614607.0
+      "sector": "Tecnología",
+      "contratos": 150826,
+      "valor": 24719552018455.0
     },
     {
-      "sector": "FINANCIERO",
-      "contratos": 113135,
-      "valor": 21003978973068.0
+      "sector": "Financiero",
+      "contratos": 113149,
+      "valor": 21404330491899.0
+    },
+    {
+      "sector": "Jurídico",
+      "contratos": 216192,
+      "valor": 18681563392178.0
     },
     {
       "sector": "Sin clasificar",
@@ -85,14 +90,9 @@
       "valor": 18412782839324.0
     },
     {
-      "sector": "TRANSPORTE",
-      "contratos": 98059,
-      "valor": 18144715612289.0
-    },
-    {
-      "sector": "JURIDICO",
-      "contratos": 208050,
-      "valor": 18061709681685.0
+      "sector": "Transporte",
+      "contratos": 98858,
+      "valor": 18307146517734.0
     }
   ]
 }
