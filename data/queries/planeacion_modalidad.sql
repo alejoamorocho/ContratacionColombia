@@ -27,8 +27,11 @@ latest AS (
 ),
 norm AS (
   SELECT
+    -- En el PAA el grueso de los ítems NO declara modalidad (~39% del valor): es
+    -- dato FALTANTE, no una categoría residual. Se rotula 'No especificada' (no
+    -- 'Otras') para no inducir a leerlo como una modalidad real.
     CASE
-      WHEN modalidad IS NULL THEN 'Otras'
+      WHEN modalidad IS NULL OR TRIM(modalidad) = '' THEN 'No especificada'
       WHEN m LIKE '%DIRECTA%' THEN 'Contratación directa'
       WHEN m LIKE '%REGIMEN%ESPECIAL%' THEN 'Régimen especial'
       WHEN m LIKE '%MINIMA%' THEN 'Mínima cuantía'

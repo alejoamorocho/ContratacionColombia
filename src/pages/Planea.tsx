@@ -34,7 +34,10 @@ export default function Planea() {
       methodology={
         <MethodologyNote>
           PAA deduplicado a la última versión por entidad-año; las categorías se derivan del segmento
-          UNSPSC del ítem; "Otras" incluye ítems sin modalidad declarada; solo existe PAA para 2024–2026.
+          UNSPSC del ítem. En "Por modalidad prevista", <strong>«No especificada»</strong> reúne los
+          ítems que NO declaran modalidad en el plan (cerca del 39 % del valor): es dato faltante, no una
+          modalidad real, y es frecuente en la planeación temprana. El valor del PAA existe sobre todo
+          para 2024–2026.
         </MethodologyNote>
       }
     >

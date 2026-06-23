@@ -82,9 +82,9 @@
   ],
   "por_modalidad": [
     {
-      "modalidad": "Otras",
-      "valor": 22898411035008.0,
-      "items": 16154
+      "modalidad": "No especificada",
+      "valor": 22895089060571.0,
+      "items": 16143
     },
     {
       "modalidad": "Contratación directa",
@@ -115,6 +115,11 @@
       "modalidad": "Concurso de méritos",
       "valor": 396895830507.0,
       "items": 538
+    },
+    {
+      "modalidad": "Otras",
+      "valor": 3321974437.0,
+      "items": 11
     }
   ]
 }

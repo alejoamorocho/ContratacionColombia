@@ -239,6 +239,51 @@ def main() -> int:
             walk(obj)
         coh("todos los campos *pct* en [0,100]", not bad_pct, "; ".join(bad_pct) or "ok")
 
+        # ── 10-bis. GUARDS ESTRUCTURALES (sin BigQuery) — blindaje permanente ──
+        # (a) FRAGMENTACIÓN: ningún array de UNA sola categoría debe tener etiquetas
+        #     repetidas (el síntoma del caso "partidos" sin normalizar). Se ignoran
+        #     los arrays de formato largo (categoría + año/grupo).
+        def _label_key(rows):
+            if not rows or not isinstance(rows[0], dict):
+                return None
+            strk = [k for k, v in rows[0].items() if isinstance(v, str)]
+            dim = [k for k in rows[0] if k in ("anio", "mes", "grupo", "tramo", "p")]
+            return strk[0] if (len(strk) == 1 and not dim) else None
+
+        dup_hits = []
+        for nm in ("panorama", "quien", "como", "donde", "procesos", "planeacion",
+                   "inversion", "ejecucion", "sanciones", "electoral", "cruces", "kpis_extra"):
+            def walk(o):
+                if isinstance(o, list):
+                    lk = _label_key(o)
+                    if lk:
+                        vals = [r.get(lk) for r in o]
+                        if len(vals) != len(set(vals)):
+                            dup_hits.append(f"{nm}:{lk}")
+                    for it in o:
+                        walk(it)
+                elif isinstance(o, dict):
+                    for v in o.values():
+                        walk(v)
+            walk(J(nm))
+        coh("sin etiquetas categóricas DUPLICADAS (anti-fragmentación)", not dup_hits, ", ".join(dup_hits) or "ok")
+
+        # (b) COHERENCIA de desgloses vs totales y monotonías obligatorias.
+        pa = J("panorama")
+        coh("Σ quien.top_entidades en orden desc", all(
+            pa and True for _ in [0]) and all(
+            J("quien")["top_entidades"][i]["valor"] >= J("quien")["top_entidades"][i + 1]["valor"]
+            for i in range(len(J("quien")["top_entidades"]) - 1)), "")
+        ej = J("ejecucion")["kpis"]
+        coh("ejecucion: facturado<=contratado y pagado<=contratado",
+            ej["facturado"] <= ej["contratado"] and ej["pagado"] <= ej["contratado"], "")
+        iv = J("inversion")["kpis"]
+        coh("inversion: pagado<=vigente y pct_ejecucion en [0,1]",
+            iv["valor_pagado"] <= iv["valor_vigente"] and 0 <= iv["pct_ejecucion"] <= 1, "")
+        cm = J("como")
+        coh("como: Σ por_modalidad.pct ≈ 100",
+            99.0 <= sum(m["pct"] for m in cm["por_modalidad"]) <= 101.0, "")
+
         # ── 11. FULL: fuentes no-contratos + 11 señales cruzadas (--full) ─────
         if "--full" in sys.argv:
             import materialize_public as M
