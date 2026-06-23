@@ -17,8 +17,14 @@ from __future__ import annotations
 import re
 import shutil
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
+
+try:
+    sys.stdout.reconfigure(encoding="utf-8")  # consola Windows = cp1252
+except Exception:
+    pass
 
 REPO = "alejoamorocho/ContratacionColombia"
 WIKI_URL = f"https://github.com/{REPO}.wiki.git"
