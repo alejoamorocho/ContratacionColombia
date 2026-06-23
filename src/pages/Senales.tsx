@@ -4,7 +4,7 @@ import { MethodologyNote } from '../components/MethodologyNote';
 import KPICard from '../components/charts/KPICard';
 import VBarChart from '../components/charts/VBarChart';
 import ChartFootnote, { NOTA_ANIO_PARCIAL } from '../components/charts/ChartFootnote';
-import type { SenalesData, SancionesData, ElectoralData } from '../lib/types';
+import type { SenalesData, SancionesData, ElectoralData, KpisExtra } from '../lib/types';
 
 const h2Style = { fontFamily: 'var(--font-heading)', margin: 'var(--space-6) 0 var(--space-3)' } as const;
 const kpiGrid = {
@@ -25,6 +25,7 @@ export default function Senales() {
   const senales = usePublicData<SenalesData>('senales');
   const sanciones = usePublicData<SancionesData>('sanciones');
   const electoral = usePublicData<ElectoralData>('electoral');
+  const extra = usePublicData<KpisExtra>('kpis_extra');
 
   if (senales.loading) return <p style={{ color: 'var(--fg-muted)' }}>Cargando…</p>;
   if (senales.error || !senales.data) return <p style={{ color: 'var(--fg-muted)' }}>No se pudieron cargar los datos.</p>;
@@ -32,6 +33,7 @@ export default function Senales() {
   const s = senales.data;
   const san = sanciones.data;
   const el = electoral.data;
+  const hhi = extra.data?.items.hhi_sector ?? [];
 
   return (
     <PageShell
@@ -79,6 +81,20 @@ export default function Senales() {
         el salto final refleja esa cola (y posibles errores de digitación de cuantía extrema), no el
         contrato típico, que está cerca de la mediana (p50).
       </ChartFootnote>
+
+      {hhi.length > 0 && (
+        <>
+          <h3 style={{ ...h2Style, fontSize: 16 }}>Concentración de proveedores por sector (HHI)</h3>
+          <VBarChart data={hhi.slice(0, 15)} xKey="sector" bars={[{ key: 'hhi', color: 'var(--shell-tone)' }]} layout="horizontal" height={440} />
+          <p style={notaStyle}>
+            El índice Herfindahl-Hirschman (0–10.000) mide qué tan concentrado está el valor entre los
+            proveedores de cada sector. Referencia internacional (DOJ): &lt;1.500 mercado diversificado,
+            1.500–2.500 moderado, &gt;2.500 concentrado. Un HHI alto en un mercado pequeño es esperable
+            (pocos proveedores) y <strong>no implica</strong> colusión ni irregularidad. Solo sectores con
+            ≥50 proveedores.
+          </p>
+        </>
+      )}
 
       {/* 2) Sanciones registradas (SIRI) */}
       <h2 style={h2Style}>Sanciones registradas (SIRI)</h2>

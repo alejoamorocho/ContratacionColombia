@@ -4,7 +4,8 @@ import { usePublicData } from '../hooks/usePublicData';
 import KPICard from '../components/charts/KPICard';
 import VLineChart from '../components/charts/VLineChart';
 import ChartFootnote from '../components/charts/ChartFootnote';
-import type { EjecucionData } from '../lib/types';
+import VBarChart from '../components/charts/VBarChart';
+import type { EjecucionData, KpisExtra } from '../lib/types';
 
 /**
  * ¿Se ejecuta? — compara valor contratado vs facturado vs pagado (SECOP II).
@@ -12,11 +13,14 @@ import type { EjecucionData } from '../lib/types';
  */
 export default function Ejecuta() {
   const { data, loading, error } = usePublicData<EjecucionData>('ejecucion');
+  const { data: extra } = usePublicData<KpisExtra>('kpis_extra');
 
   if (loading) return <p style={{ color: 'var(--fg-muted)' }}>Cargando…</p>;
   if (error || !data) return <p style={{ color: 'var(--fg-muted)' }}>No se pudieron cargar los datos.</p>;
 
   const { kpis, por_anio } = data;
+  const pagoTramos = extra?.items.pago_tramos ?? [];
+  const medianaRatio = extra?.items.pago_mediana_ratio ?? 0;
 
   return (
     <PageShell
@@ -66,6 +70,21 @@ export default function Ejecuta() {
         contratos recién firmados aún no han tenido tiempo de facturarse o pagarse. La caída de
         facturado/pagado en 2026 es ese rezago contable, no una caída real de la ejecución.
       </ChartFootnote>
+
+      {pagoTramos.length > 0 && (
+        <>
+          <h2 style={{ fontFamily: 'var(--font-heading)', margin: 'var(--space-6) 0 var(--space-3)' }}>
+            Cómo se reparte el pago, contrato a contrato
+          </h2>
+          <VBarChart data={pagoTramos} xKey="tramo" bars={[{ key: 'pct', color: 'var(--shell-tone)' }]} />
+          <ChartFootnote>
+            El «% pagado» agregado ({kpis.pct_pagado}%) esconde una realidad <strong>bimodal</strong>:
+            entre los contratos que reportan pago, cerca de la mitad están en 0% (en ejecución o aún sin
+            pagar) y alrededor de un tercio ya están al 100% o más. La mediana del ratio pagado/valor es
+            {' '}{medianaRatio}%. El porcentaje de cada tramo es sobre los contratos con pago reportado.
+          </ChartFootnote>
+        </>
+      )}
     </PageShell>
   );
 }

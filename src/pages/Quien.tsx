@@ -2,15 +2,18 @@ import { PageShell } from '../components/PageShell';
 import { MethodologyNote } from '../components/MethodologyNote';
 import VBarChart from '../components/charts/VBarChart';
 import { usePublicData } from '../hooks/usePublicData';
-import type { QuienData } from '../lib/types';
+import type { QuienData, KpisExtra } from '../lib/types';
 
 export default function Quien() {
   const { data, loading, error } = usePublicData<QuienData>('quien');
+  const { data: extra } = usePublicData<KpisExtra>('kpis_extra');
 
   if (loading) return <p style={{ color: 'var(--fg-muted)' }}>Cargando…</p>;
   if (error || !data) return <p style={{ color: 'var(--fg-muted)' }}>No se pudieron cargar los datos.</p>;
 
   const h2: React.CSSProperties = { fontFamily: 'var(--font-heading)', margin: 'var(--space-6) 0 var(--space-3)' };
+  const nota: React.CSSProperties = { color: 'var(--fg-subtle)', fontSize: 12, lineHeight: 1.5, margin: 'var(--space-2) 0 var(--space-4)', maxWidth: '76ch' };
+  const tamano = extra?.items.tamano_modalidad ?? [];
 
   return (
     <PageShell
@@ -35,6 +38,18 @@ export default function Quien() {
 
       <h2 style={h2}>Por categoría de objeto</h2>
       <VBarChart data={data.por_sector.slice(0, 15)} xKey="sector" bars={[{ key: 'valor' }]} layout="horizontal" height={420} />
+
+      {tamano.length > 0 && (
+        <>
+          <h2 style={h2}>Tamaño típico de contrato por modalidad</h2>
+          <VBarChart data={tamano} xKey="grupo" bars={[{ key: 'p25' }, { key: 'mediana' }, { key: 'p75' }]} layout="horizontal" height={360} />
+          <p style={nota}>
+            Valor por contrato: cuartil inferior (p25), <strong>mediana (p50)</strong> y cuartil superior (p75).
+            La mediana describe el contrato «normal» de cada modalidad y es robusta a cuantías extremas:
+            las modalidades competitivas mueven contratos mucho mayores que la contratación directa.
+          </p>
+        </>
+      )}
     </PageShell>
   );
 }

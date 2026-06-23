@@ -121,6 +121,458 @@
         "contratos": 407334,
         "valor": 51058432529915.0
       }
+    ],
+    "tamano_nivel": [
+      {
+        "grupo": "Nacional",
+        "p25": 16426937.0,
+        "mediana": 32958232.0,
+        "p75": 55319000.0,
+        "n": 1037470
+      },
+      {
+        "grupo": "Corporación Autónoma",
+        "p25": 13200000.0,
+        "mediana": 25722667.0,
+        "p75": 48616000.0,
+        "n": 47647
+      },
+      {
+        "grupo": "No clasificado",
+        "p25": 10429543.0,
+        "mediana": 19600000.0,
+        "p75": 39658916.0,
+        "n": 660796
+      },
+      {
+        "grupo": "Territorial",
+        "p25": 9000000.0,
+        "mediana": 16400000.0,
+        "p75": 31012206.0,
+        "n": 2223527
+      }
+    ],
+    "tamano_modalidad": [
+      {
+        "grupo": "Licitación pública",
+        "p25": 865066336.0,
+        "mediana": 1994670780.0,
+        "p75": 5393916593.0,
+        "n": 14567
+      },
+      {
+        "grupo": "Concurso de méritos",
+        "p25": 156725385.0,
+        "mediana": 358267680.0,
+        "p75": 918733882.0,
+        "n": 9366
+      },
+      {
+        "grupo": "Selección abreviada",
+        "p25": 121752234.0,
+        "mediana": 247085783.0,
+        "p75": 498769757.0,
+        "n": 65131
+      },
+      {
+        "grupo": "Mínima cuantía",
+        "p25": 11000000.0,
+        "mediana": 25509300.0,
+        "p75": 44766628.0,
+        "n": 189212
+      },
+      {
+        "grupo": "Contratación directa",
+        "p25": 10740000.0,
+        "mediana": 19833333.0,
+        "p75": 37333333.0,
+        "n": 3109064
+      },
+      {
+        "grupo": "Otras",
+        "p25": 6795000.0,
+        "mediana": 18900000.0,
+        "p75": 91313800.0,
+        "n": 585
+      },
+      {
+        "grupo": "Régimen especial",
+        "p25": 7000000.0,
+        "mediana": 17047251.0,
+        "p75": 47621871.0,
+        "n": 581515
+      }
+    ],
+    "tamano_objeto": [
+      {
+        "grupo": "Salud",
+        "p25": 8000000.0,
+        "mediana": 16750000.0,
+        "p75": 34200000.0,
+        "n": 608074
+      },
+      {
+        "grupo": "Consultoría",
+        "p25": 11358333.0,
+        "mediana": 21768555.0,
+        "p75": 40000000.0,
+        "n": 434535
+      },
+      {
+        "grupo": "Contratación de personal",
+        "p25": 7500000.0,
+        "mediana": 13400000.0,
+        "p75": 23002000.0,
+        "n": 263950
+      },
+      {
+        "grupo": "Educación",
+        "p25": 12450900.0,
+        "mediana": 25851600.0,
+        "p75": 44440001.0,
+        "n": 229119
+      },
+      {
+        "grupo": "Jurídico",
+        "p25": 15000000.0,
+        "mediana": 28033333.0,
+        "p75": 50110000.0,
+        "n": 216192
+      },
+      {
+        "grupo": "Apoyo a la gestión",
+        "p25": 9000000.0,
+        "mediana": 15180000.0,
+        "p75": 25830000.0,
+        "n": 211678
+      },
+      {
+        "grupo": "Cultura y deporte",
+        "p25": 8750000.0,
+        "mediana": 16000000.0,
+        "p75": 32865000.0,
+        "n": 172469
+      },
+      {
+        "grupo": "Social",
+        "p25": 13328200.0,
+        "mediana": 25447625.0,
+        "p75": 49000000.0,
+        "n": 168946
+      },
+      {
+        "grupo": "Construcción",
+        "p25": 11560000.0,
+        "mediana": 22500000.0,
+        "p75": 51992000.0,
+        "n": 166039
+      },
+      {
+        "grupo": "Tecnología",
+        "p25": 11200000.0,
+        "mediana": 24041967.0,
+        "p75": 47528280.0,
+        "n": 150826
+      },
+      {
+        "grupo": "Seguridad",
+        "p25": 11786424.0,
+        "mediana": 21600000.0,
+        "p75": 42823000.0,
+        "n": 135179
+      },
+      {
+        "grupo": "Financiero",
+        "p25": 14000000.0,
+        "mediana": 27600000.0,
+        "p75": 54150000.0,
+        "n": 113149
+      }
+    ],
+    "pago_tramos": [
+      {
+        "tramo": "0%",
+        "contratos": 1685727,
+        "pct": 46.9
+      },
+      {
+        "tramo": "1-30%",
+        "contratos": 124704,
+        "pct": 3.5
+      },
+      {
+        "tramo": "30-70%",
+        "contratos": 171368,
+        "pct": 4.8
+      },
+      {
+        "tramo": "70-99%",
+        "contratos": 352373,
+        "pct": 9.8
+      },
+      {
+        "tramo": "≥100%",
+        "contratos": 1261809,
+        "pct": 35.1
+      }
+    ],
+    "pago_mediana_ratio": 25.3,
+    "hhi_sector": [
+      {
+        "sector": "Investigacion",
+        "hhi": 6443,
+        "n_prov": 84
+      },
+      {
+        "sector": "Economia",
+        "hhi": 6227,
+        "n_prov": 78
+      },
+      {
+        "sector": "Suministros",
+        "hhi": 4431,
+        "n_prov": 50
+      },
+      {
+        "sector": "Emprendimiento",
+        "hhi": 2768,
+        "n_prov": 53
+      },
+      {
+        "sector": "Servicios públicos",
+        "hhi": 2615,
+        "n_prov": 4171
+      },
+      {
+        "sector": "Cultural",
+        "hhi": 2195,
+        "n_prov": 57
+      },
+      {
+        "sector": "Administracion",
+        "hhi": 1797,
+        "n_prov": 450
+      },
+      {
+        "sector": "Deporte",
+        "hhi": 1714,
+        "n_prov": 341
+      },
+      {
+        "sector": "Gestion",
+        "hhi": 1442,
+        "n_prov": 612
+      },
+      {
+        "sector": "Catastro",
+        "hhi": 1431,
+        "n_prov": 11704
+      },
+      {
+        "sector": "Cultura",
+        "hhi": 1351,
+        "n_prov": 99
+      },
+      {
+        "sector": "Mantenimiento",
+        "hhi": 1344,
+        "n_prov": 22063
+      },
+      {
+        "sector": "Turismo",
+        "hhi": 1069,
+        "n_prov": 81
+      },
+      {
+        "sector": "Ambiental",
+        "hhi": 1025,
+        "n_prov": 264
+      },
+      {
+        "sector": "Apoyo",
+        "hhi": 1015,
+        "n_prov": 311
+      },
+      {
+        "sector": "Deportes",
+        "hhi": 885,
+        "n_prov": 196
+      },
+      {
+        "sector": "Comunicaciones",
+        "hhi": 671,
+        "n_prov": 48224
+      },
+      {
+        "sector": "Comunicacion",
+        "hhi": 491,
+        "n_prov": 391
+      },
+      {
+        "sector": "Logistica",
+        "hhi": 388,
+        "n_prov": 329
+      },
+      {
+        "sector": "Telecomunicaciones",
+        "hhi": 299,
+        "n_prov": 13913
+      },
+      {
+        "sector": "Vivienda",
+        "hhi": 275,
+        "n_prov": 17483
+      },
+      {
+        "sector": "Catastral",
+        "hhi": 240,
+        "n_prov": 53
+      },
+      {
+        "sector": "Aseo",
+        "hhi": 228,
+        "n_prov": 15243
+      },
+      {
+        "sector": "Suministro",
+        "hhi": 208,
+        "n_prov": 15557
+      },
+      {
+        "sector": "Jurídico",
+        "hhi": 198,
+        "n_prov": 84451
+      },
+      {
+        "sector": "Administrativa",
+        "hhi": 195,
+        "n_prov": 81
+      },
+      {
+        "sector": "Minas y energía",
+        "hhi": 183,
+        "n_prov": 3927
+      },
+      {
+        "sector": "Servicios Publicos",
+        "hhi": 180,
+        "n_prov": 63
+      },
+      {
+        "sector": "Alimentación",
+        "hhi": 160,
+        "n_prov": 55451
+      },
+      {
+        "sector": "Tecnología",
+        "hhi": 156,
+        "n_prov": 60373
+      },
+      {
+        "sector": "Agropecuario",
+        "hhi": 147,
+        "n_prov": 48710
+      },
+      {
+        "sector": "Agua y saneamiento",
+        "hhi": 140,
+        "n_prov": 12624
+      },
+      {
+        "sector": "Capacitación y formación",
+        "hhi": 136,
+        "n_prov": 42808
+      },
+      {
+        "sector": "Interventoría",
+        "hhi": 131,
+        "n_prov": 4570
+      },
+      {
+        "sector": "Defensa",
+        "hhi": 113,
+        "n_prov": 5503
+      },
+      {
+        "sector": "Gestión documental",
+        "hhi": 96,
+        "n_prov": 27943
+      },
+      {
+        "sector": "Infraestructura",
+        "hhi": 88,
+        "n_prov": 2925
+      },
+      {
+        "sector": "Apoyo a la gestión",
+        "hhi": 80,
+        "n_prov": 103535
+      },
+      {
+        "sector": "Financiero",
+        "hhi": 74,
+        "n_prov": 51011
+      },
+      {
+        "sector": "Seguridad",
+        "hhi": 73,
+        "n_prov": 67995
+      },
+      {
+        "sector": "Construcción",
+        "hhi": 66,
+        "n_prov": 76228
+      },
+      {
+        "sector": "Medio ambiente",
+        "hhi": 66,
+        "n_prov": 37902
+      },
+      {
+        "sector": "Arrendamiento",
+        "hhi": 43,
+        "n_prov": 49666
+      },
+      {
+        "sector": "Transporte",
+        "hhi": 42,
+        "n_prov": 41758
+      },
+      {
+        "sector": "Consultoría",
+        "hhi": 42,
+        "n_prov": 219621
+      },
+      {
+        "sector": "Salud",
+        "hhi": 39,
+        "n_prov": 199015
+      },
+      {
+        "sector": "Cultura y deporte",
+        "hhi": 38,
+        "n_prov": 75373
+      },
+      {
+        "sector": "Administrativo",
+        "hhi": 24,
+        "n_prov": 1600
+      },
+      {
+        "sector": "Educación",
+        "hhi": 16,
+        "n_prov": 98544
+      },
+      {
+        "sector": "Social",
+        "hhi": 16,
+        "n_prov": 74108
+      },
+      {
+        "sector": "Contratación de personal",
+        "hhi": 12,
+        "n_prov": 134915
+      }
     ]
   }
 }

@@ -111,11 +111,18 @@ export const analisisSchema = z.object({
 });
 
 /** KPIs analíticos nuevos (oleada 1): cadena BPIN, PAA por origen, mezcla por nivel. */
+const quantRow = z.object({ grupo: str, p25: num, mediana: num, p75: num, n: num });
 export const kpisExtraSchema = z.object({
   items: z.object({
     bpin_cadena: z.array(z.object({ anio: num, vigente: num, comprometido: num, obligado: num, pagado: num })),
     paa_origen: z.array(z.object({ origen: str, valor: num, items: num })),
     mezcla_nivel: z.array(z.object({ nivel: str, grupo: str, contratos: num, valor: num })),
+    tamano_nivel: z.array(quantRow),
+    tamano_modalidad: z.array(quantRow),
+    tamano_objeto: z.array(quantRow),
+    pago_tramos: z.array(z.object({ tramo: str, contratos: num, pct: num })),
+    pago_mediana_ratio: num,
+    hhi_sector: z.array(z.object({ sector: str, hhi: num, n_prov: num })),
   }),
 });
 

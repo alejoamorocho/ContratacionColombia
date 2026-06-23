@@ -727,7 +727,56 @@ def _build_kpis_extra(client):  # pragma: no cover - requiere BQ
               FROM `{BASE_TABLE}` GROUP BY 1, 2 ORDER BY 1, 2"""
         )
     ]
-    return {"items": {"bpin_cadena": bpin_cadena, "paa_origen": paa_origen, "mezcla_nivel": mezcla_nivel}}
+
+    # Tamaño típico (p25/mediana/p75 del valor) por dimensión. La mediana es robusta
+    # a contratos de cuantía extrema; se exige N>=20 por grupo para cuantiles estables.
+    def quant(dim, where="", order="mediana DESC", limit=""):
+        sql = (f"WITH g AS (SELECT {dim} grupo, APPROX_QUANTILES(valor, 100) q, COUNT(*) n "
+               f"FROM `{BASE_TABLE}` {where} GROUP BY 1) "
+               f"SELECT grupo, q[OFFSET(25)] p25, q[OFFSET(50)] mediana, q[OFFSET(75)] p75, n "
+               f"FROM g WHERE n >= 20 ORDER BY {order} {limit}")
+        return [{"grupo": _s(r["grupo"], "No clasificado"), "p25": _f(r["p25"]),
+                 "mediana": _f(r["mediana"]), "p75": _f(r["p75"]), "n": _i(r["n"])} for r in rows(sql)]
+
+    tamano_nivel = quant("COALESCE(orden, 'No clasificado')")
+    tamano_modalidad = quant("modalidad_norm")
+    tamano_objeto = quant("objeto_label", where="WHERE objeto_label != 'Sin clasificar'", order="n DESC", limit="LIMIT 12")
+
+    # Distribución del nivel de pago por contrato (entre los que reportan valor_pagado):
+    # separa la heterogeneidad que el agregado SUM/SUM oculta.
+    TRAMOS = ["0%", "1-30%", "30-70%", "70-99%", "≥100%"]
+    pago_n = {r["tramo"]: _i(r["contratos"]) for r in rows(
+        f"""WITH r AS (SELECT SAFE_DIVIDE(valor_pagado, valor) ratio FROM `{BASE_TABLE}`
+              WHERE valor_pagado IS NOT NULL AND valor > 0)
+            SELECT CASE WHEN ratio <= 0 THEN '0%' WHEN ratio < 0.3 THEN '1-30%'
+                        WHEN ratio < 0.7 THEN '30-70%' WHEN ratio < 0.99 THEN '70-99%'
+                        ELSE '≥100%' END tramo, COUNT(*) contratos
+            FROM r GROUP BY 1""")}
+    tot_pago = sum(pago_n.values())
+    pago_tramos = [{"tramo": t, "contratos": pago_n.get(t, 0),
+                    "pct": round(pago_n.get(t, 0) * 100.0 / tot_pago, 1) if tot_pago else 0.0} for t in TRAMOS]
+    pm = rows(f"SELECT ROUND(APPROX_QUANTILES(SAFE_DIVIDE(valor_pagado, valor), 100)[OFFSET(50)] * 100, 1) m "
+              f"FROM `{BASE_TABLE}` WHERE valor_pagado IS NOT NULL AND valor > 0")
+    pago_mediana_ratio = _f(pm[0]["m"]) if pm else 0.0
+
+    # HHI de concentración de proveedores por sector (0-10.000, estándar de competencia).
+    # Solo sectores con >=50 proveedores para no inflar el HHI por escasez de datos.
+    hhi_sector = [{"sector": _s(r["sector"]), "hhi": _i(r["hhi"]), "n_prov": _i(r["n_prov"])}
+                  for r in rows(
+        f"""WITH s AS (SELECT objeto_label sector, contratista_nit, SUM(valor) v FROM `{BASE_TABLE}`
+              WHERE contratista_nit IS NOT NULL AND contratista_nit != '' AND objeto_label != 'Sin clasificar'
+              GROUP BY 1, 2),
+            tot AS (SELECT sector, SUM(v) total, COUNT(*) n_prov FROM s GROUP BY 1)
+            SELECT t.sector, ROUND(SUM(POW(SAFE_DIVIDE(s.v, t.total), 2)) * 10000, 0) hhi,
+              ANY_VALUE(t.n_prov) n_prov
+            FROM s JOIN tot t USING(sector) GROUP BY t.sector HAVING n_prov >= 50 ORDER BY hhi DESC""")]
+
+    return {"items": {
+        "bpin_cadena": bpin_cadena, "paa_origen": paa_origen, "mezcla_nivel": mezcla_nivel,
+        "tamano_nivel": tamano_nivel, "tamano_modalidad": tamano_modalidad, "tamano_objeto": tamano_objeto,
+        "pago_tramos": pago_tramos, "pago_mediana_ratio": pago_mediana_ratio,
+        "hhi_sector": hhi_sector,
+    }}
 
 
 def run() -> None:  # pragma: no cover - requiere credenciales + BQ
