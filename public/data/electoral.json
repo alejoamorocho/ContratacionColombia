@@ -17,8 +17,8 @@
   "top_partidos": [
     {
       "partido": "PARTIDO LIBERAL COLOMBIANO",
-      "monto": 126942472888.70999,
-      "aportes": 29853
+      "monto": 129393195003.11,
+      "aportes": 30384
     },
     {
       "partido": "PARTIDO CENTRO DEMOCRATICO",
@@ -27,8 +27,13 @@
     },
     {
       "partido": "PARTIDO CAMBIO RADICAL",
-      "monto": 95143284722.82,
-      "aportes": 22163
+      "monto": 98100652349.82,
+      "aportes": 22553
+    },
+    {
+      "partido": "COALICIÓN PACTO HISTÓRICO",
+      "monto": 96460796670.2,
+      "aportes": 11191
     },
     {
       "partido": "PARTIDO DE LA UNIÓN POR LA GENTE \"PARTIDO DE LA U\"",
@@ -41,19 +46,14 @@
       "aportes": 13682
     },
     {
-      "partido": "COALICIÓN PACTO HISTÓRICO",
-      "monto": 51997977929.0,
-      "aportes": 4878
-    },
-    {
       "partido": "PARTIDO ALIANZA VERDE",
-      "monto": 48365331774.59,
-      "aportes": 22352
+      "monto": 48563923146.59,
+      "aportes": 22429
     },
     {
       "partido": "PARTIDO CONSERVADOR COLOMBIANO",
-      "monto": 39116607822.899994,
-      "aportes": 12244
+      "monto": 39395964032.899994,
+      "aportes": 12278
     },
     {
       "partido": "COALICION ALIANZA VERDE Y CENTRO ESPERANZA - SENADO NACIONAL",
@@ -66,14 +66,14 @@
       "aportes": 11900
     },
     {
-      "partido": "PACTO HISTÓRICO - SENADO NACIONAL",
-      "monto": 32133421004.0,
-      "aportes": 3824
-    },
-    {
       "partido": "COALICIÓN EQUIPO POR COLOMBIA",
       "monto": 25459398058.0,
       "aportes": 267
+    },
+    {
+      "partido": "PARTIDO ALIANZA SOCIAL INDEPENDIENTE \"ASI\"",
+      "monto": 20978508640.71,
+      "aportes": 9022
     }
   ],
   "por_departamento": [

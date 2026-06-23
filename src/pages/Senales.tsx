@@ -108,12 +108,14 @@ export default function Senales() {
           <h3 style={{ ...h2Style, fontSize: 16 }}>Sanciones por año</h3>
           <VBarChart data={san.por_anio} xKey="anio" bars={[{ key: 'n' }]} />
           <ChartFootnote>{NOTA_ANIO_PARCIAL}</ChartFootnote>
-          <h3 style={{ ...h2Style, fontSize: 16 }}>Calidad del sancionado</h3>
+          <h3 style={{ ...h2Style, fontSize: 16 }}>¿Quién recibe las sanciones? (tipo de sancionado)</h3>
           <VBarChart data={san.por_gravedad} xKey="gravedad" bars={[{ key: 'n' }]} layout="horizontal" />
           <p style={notaStyle}>
-            La columna refleja la <strong>calidad de la persona</strong> sancionada, no la gravedad
-            del hecho. Cerca del 66% de los registros corresponde a la fuerza pública: refleja el
-            volumen de su disciplina interna, no mayor corrupción.
+            El SIRI clasifica al sancionado por su <strong>tipo o «calidad»</strong> —miembro de la
+            fuerza pública, servidor público, particular, contratista—, <strong>no por la gravedad de
+            la falta</strong>. Cerca del 66% son de la fuerza pública: eso refleja el volumen de su
+            <em> régimen disciplinario interno</em> (faltas del servicio), no que cometan más corrupción.
+            Es composición del registro, no un señalamiento.
           </p>
         </>
       ) : (

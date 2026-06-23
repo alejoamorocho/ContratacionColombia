@@ -1,33 +1,33 @@
 {
   "kpis": {
-    "total": 450797,
+    "total": 450977,
     "pct_adjudicado": 44.1,
     "pct_cancelado": 0.7
   },
   "por_modalidad": [
     {
       "modalidad": "Régimen especial",
-      "procesos": 250631,
+      "procesos": 250781,
       "pct_adjudicado": 15.6
     },
     {
       "modalidad": "Contratación directa",
-      "procesos": 148482,
+      "procesos": 148485,
       "pct_adjudicado": 98.6
     },
     {
       "modalidad": "Mínima cuantía",
-      "procesos": 19207,
-      "pct_adjudicado": 53.6
+      "procesos": 19216,
+      "pct_adjudicado": 53.5
     },
     {
       "modalidad": "Otras",
-      "procesos": 15392,
+      "procesos": 15402,
       "pct_adjudicado": 4.8
     },
     {
       "modalidad": "Selección abreviada",
-      "procesos": 13733,
+      "procesos": 13740,
       "pct_adjudicado": 13.2
     },
     {
@@ -37,7 +37,7 @@
     },
     {
       "modalidad": "Concurso de méritos",
-      "procesos": 1365,
+      "procesos": 1366,
       "pct_adjudicado": 14.0
     }
   ]

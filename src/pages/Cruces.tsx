@@ -2,12 +2,13 @@ import { PageShell } from '../components/PageShell';
 import { MethodologyNote } from '../components/MethodologyNote';
 import KPICard from '../components/charts/KPICard';
 import { usePublicData } from '../hooks/usePublicData';
-import { formatCOP, formatNumber } from '../lib/formatters';
-import type { CrucesData, KpisExtra } from '../lib/types';
+import { formatCOP, formatNumber, formatCompact } from '../lib/formatters';
+import type { CrucesData, KpisExtra, ElectoralData } from '../lib/types';
 
 export default function Cruces() {
   const { data, loading, error } = usePublicData<CrucesData>('cruces');
   const { data: extra } = usePublicData<KpisExtra>('kpis_extra');
+  const { data: electoral } = usePublicData<ElectoralData>('electoral');
 
   if (loading) return <p style={{ color: 'var(--fg-muted)' }}>Cargando…</p>;
   if (error || !data) return <p style={{ color: 'var(--fg-muted)' }}>No se pudieron cargar los datos.</p>;
@@ -69,6 +70,37 @@ export default function Cruces() {
         {formatCOP(data.donante.valor)}. Aportar a una campaña es un derecho legal; esta
         coincidencia es solo un dato descriptivo.
       </p>
+
+      {electoral && (() => {
+        const aportes = electoral.kpis.monto_total;
+        const contratado = data.donante.valor;
+        const max = Math.max(aportes, contratado) || 1;
+        const Bar = ({ label, valor, color }: { label: string; valor: number; color: string }) => (
+          <div style={{ margin: 'var(--space-3) 0' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, marginBottom: 4 }}>
+              <span style={{ color: 'var(--fg-muted)' }}>{label}</span>
+              <span style={{ color, fontWeight: 600 }}>{formatCompact(valor)}</span>
+            </div>
+            <div style={{ height: 14, borderRadius: 7, background: 'var(--bg-subtle)', overflow: 'hidden', border: '1px solid var(--border-muted)' }}>
+              <div style={{ height: '100%', width: `${Math.max((valor * 100) / max, 1)}%`, background: color }} />
+            </div>
+          </div>
+        );
+        return (
+          <div style={{ marginTop: 'var(--space-4)' }}>
+            <h3 style={{ ...h2, fontSize: 16, marginTop: 0 }}>Aportes a campañas vs. valor contratado por los aportantes</h3>
+            <Bar label="Aportes a campañas (2022–2023)" valor={aportes} color="var(--tone-context)" />
+            <Bar label="Valor contratado por quienes aportaron" valor={contratado} color="var(--shell-tone)" />
+            <p style={nota}>
+              Para dar escala: el total reportado en aportes de campaña ({formatCOP(aportes)}) es mucho
+              menor que el valor de los contratos firmados por quienes aparecen como aportantes
+              ({formatCOP(contratado)}). Son <strong>universos distintos</strong> —un aporte no es un
+              contrato— y la coincidencia <strong>no implica causalidad</strong>: contratar y aportar son
+              actividades legales independientes.
+            </p>
+          </div>
+        );
+      })()}
 
       <h2 style={h2}>Sancionado ↔ Contratista</h2>
       <div style={grid}>

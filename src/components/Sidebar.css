@@ -92,11 +92,26 @@
 }
 
 .sidebar__foot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
   padding: var(--space-4) var(--space-4) var(--space-2);
+  border-top: 1px solid var(--border-muted);
+}
+.sidebar__docs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--brand);
+  font-size: 13px;
+  font-weight: 500;
+}
+.sidebar__docs:hover { color: var(--brand); text-decoration: underline; }
+.sidebar__docs svg { color: var(--brand); }
+.sidebar__foot-note {
   font-family: var(--font-mono);
   font-size: 11px;
   color: var(--fg-subtle);
-  border-top: 1px solid var(--border-muted);
 }
 
 @media (max-width: 639px) {

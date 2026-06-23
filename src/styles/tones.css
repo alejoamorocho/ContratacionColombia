@@ -13,8 +13,12 @@
   --tone-where: #3fb950;    /* ¿Dónde? — verde */
   --tone-signal: #f0883e;   /* ¿Hay señales? — ámbar */
   --tone-context: #8b949e;  /* contexto — gris */
+  --shell-tone: var(--tone-context); /* default; cada sección lo sobrescribe */
 }
 
+/* IMPORTANTE: NO añadir un catch-all `[data-tone] { --shell-tone: ... }`: tendría
+   la MISMA especificidad que estas reglas y, al ir después, las anularía todas
+   (volviendo gris todo el sitio). El default vive en :root y se hereda. */
 [data-tone='who'] { --shell-tone: var(--tone-who); }
 [data-tone='how'] { --shell-tone: var(--tone-how); }
 [data-tone='plan'] { --shell-tone: var(--tone-plan); }
@@ -23,7 +27,6 @@
 [data-tone='where'] { --shell-tone: var(--tone-where); }
 [data-tone='signal'] { --shell-tone: var(--tone-signal); }
 [data-tone='context'] { --shell-tone: var(--tone-context); }
-[data-tone] { --shell-tone: var(--tone-context); } /* fallback */
 
 /* Encabezado de página (pregunta ciudadana) */
 .shell-overline {

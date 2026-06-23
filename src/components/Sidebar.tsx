@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { Home, Building2, GitBranch, Map, Activity, Info } from 'lucide-react';
+import { Home, Building2, GitBranch, Map, Activity, Info, BookOpen } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import HexLogo from './HexLogo';
 import './Sidebar.css';
@@ -92,7 +92,17 @@ export function Sidebar() {
           ),
         )}
       </ul>
-      <div className="sidebar__foot">Datos abiertos 2022–2026</div>
+      <div className="sidebar__foot">
+        <a
+          className="sidebar__docs"
+          href="https://github.com/alejoamorocho/ContratacionColombia/wiki"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <BookOpen size={15} /> <span>Documentación · Wiki</span>
+        </a>
+        <span className="sidebar__foot-note">Datos abiertos 2022–2026</span>
+      </div>
     </nav>
   );
 }

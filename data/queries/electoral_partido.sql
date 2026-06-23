@@ -10,9 +10,12 @@
 -- variante cruda más frecuente de cada clave, prefiriendo las que NO contienen el
 -- carácter de reemplazo, de forma determinística.
 --
--- NOTA: la normalización une grafías del mismo nombre, pero NO fusiona coaliciones
--- con sus partidos integrantes ni distintas listas (Senado/territorial) de una
--- misma colectividad: se muestran tal como las reporta el CNE.
+-- La CLAVE normaliza para que la MISMA colectividad no se fragmente en barras:
+--   1. mayúsculas, sin acentos (NFD) ni bytes corruptos (mojibake U+FFFD).
+--   2. quita el prefijo "COALICION " (une "Coalición Pacto Histórico" con "Pacto Histórico").
+--   3. quita el sufijo de lista/cámara " - SENADO/CAMARA/ASAMBLEA…" (une las listas
+--      de Senado y Cámara de un mismo partido). Coaliciones con nombre PROPIO
+--      (p.ej. "Equipo por Colombia") conservan su identidad.
 WITH base AS (
   SELECT
     COALESCE(monto_aportado, 0) AS monto,
@@ -26,9 +29,14 @@ norm AS (
     partido_raw,
     CASE
       WHEN partido_raw = 'Sin partido' THEN 'Sin partido'
-      ELSE TRIM(REGEXP_REPLACE(
-             REGEXP_REPLACE(NORMALIZE(UPPER(partido_raw), NFD), r'[^\x00-\x7F]', ''),
-             r'\s+', ' '))
+      ELSE TRIM(
+             REGEXP_REPLACE(            -- 3) sufijo de lista/cámara
+               REGEXP_REPLACE(          -- 2) prefijo COALICION
+                 REGEXP_REPLACE(        -- colapsa espacios
+                   REGEXP_REPLACE(NORMALIZE(UPPER(partido_raw), NFD), r'[^\x00-\x7F]', ''),
+                   r'\s+', ' '),
+                 r'^COALICION ', ''),
+               r'\s-\s.*$', ''))
     END AS partido_key
   FROM base
 ),
@@ -40,7 +48,10 @@ label AS (
     partido_raw AS partido,
     ROW_NUMBER() OVER (
       PARTITION BY partido_key
-      ORDER BY CONTAINS_SUBSTR(partido_raw, '�'), COUNT(*) DESC, partido_raw
+      ORDER BY CONTAINS_SUBSTR(partido_raw, '�'),    -- 1º sin carácter corrupto
+               CONTAINS_SUBSTR(partido_raw, ' - '),  -- 2º sin sufijo de cámara/lista
+               COUNT(*) DESC,                         -- 3º la más frecuente
+               partido_raw                            -- 4º alfabético (determinístico)
     ) AS rn
   FROM norm
   GROUP BY partido_key, partido_raw
