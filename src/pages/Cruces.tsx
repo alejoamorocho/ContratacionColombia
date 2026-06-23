@@ -3,13 +3,16 @@ import { MethodologyNote } from '../components/MethodologyNote';
 import KPICard from '../components/charts/KPICard';
 import { usePublicData } from '../hooks/usePublicData';
 import { formatCOP, formatNumber } from '../lib/formatters';
-import type { CrucesData } from '../lib/types';
+import type { CrucesData, KpisExtra } from '../lib/types';
 
 export default function Cruces() {
   const { data, loading, error } = usePublicData<CrucesData>('cruces');
+  const { data: extra } = usePublicData<KpisExtra>('kpis_extra');
 
   if (loading) return <p style={{ color: 'var(--fg-muted)' }}>Cargando…</p>;
   if (error || !data) return <p style={{ color: 'var(--fg-muted)' }}>No se pudieron cargar los datos.</p>;
+
+  const multas = extra?.items.multas;
 
   const pctDonante = (data.donante.nits * 100) / (data.donante.total_contratistas || 1);
 
@@ -42,12 +45,13 @@ export default function Cruces() {
             diferencias de formato (dígito de verificación, ceros).
           </p>
           <p>
-            <strong>Donante ↔ Contratista:</strong> NIT presente como aportante en Cuentas
-            Claras (CNE) y como contratista. <strong>Sancionado ↔ Contratista:</strong> NIT en
-            el registro de sanciones del SIRI (Procuraduría) que firmó contratos con fecha
-            <em> posterior</em> a su primera sanción registrada. Ninguno de los dos cruces
-            afirma ilegalidad; ambos describen solapamientos temporales que merecen
-            verificación caso por caso.
+            <strong>Los dos cruces NO son del mismo tipo:</strong> el de{' '}
+            <strong>Donante ↔ Contratista</strong> es una <em>coincidencia simple</em> (el NIT
+            aparece como aportante en Cuentas Claras del CNE <em>y</em> como contratista, sin
+            condición de tiempo). El de <strong>Sancionado ↔ Contratista</strong> es{' '}
+            <em>temporal</em>: el NIT firmó contratos con fecha <em>posterior</em> a su primera
+            sanción del SIRI. Por eso no son directamente comparables. Ninguno afirma ilegalidad;
+            ambos son solapamientos que merecen verificación caso por caso.
           </p>
         </MethodologyNote>
       }
@@ -78,6 +82,27 @@ export default function Cruces() {
         sanción disciplinaria no siempre inhabilita para contratar y muchas inhabilidades pueden
         estar cumplidas: este dato <strong>no afirma ilegalidad</strong>, solo invita a verificar.
       </p>
+
+      {multas && (
+        <>
+          <h2 style={h2}>Multa en SECOP ↔ Contratista</h2>
+          <div style={grid}>
+            <KPICard label="Multas registradas" valor={multas.total} />
+            <KPICard label="NITs multados" valor={multas.nits} />
+            <KPICard label="Multados que contratan" valor={multas.cruce_nits} />
+            <KPICard label="Valor contratado por ellos" valor={multas.cruce_valor} unidad="COP" />
+          </div>
+          <p style={nota}>
+            El registro de multas contractuales de SECOP ({formatNumber(multas.total)} multas entre{' '}
+            {multas.anio_min} y {multas.anio_max}) es un mecanismo de cumplimiento distinto al SIRI
+            disciplinario. {formatNumber(multas.cruce_nits)} NITs multados también figuran como
+            contratistas, con {formatCOP(multas.cruce_valor)} contratado en el período. Una multa
+            contractual <strong>no inhabilita</strong> ni implica irregularidad futura; es una
+            coincidencia factual que merece verificación caso por caso. Cobertura parcial: muchas
+            multas no llegan al registro estructurado de SECOP.
+          </p>
+        </>
+      )}
     </PageShell>
   );
 }

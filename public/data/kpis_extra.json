@@ -125,30 +125,30 @@
     "tamano_nivel": [
       {
         "grupo": "Nacional",
-        "p25": 16426937.0,
+        "p25": 16424239.0,
         "mediana": 32958232.0,
-        "p75": 55319000.0,
+        "p75": 55409458.0,
         "n": 1037470
       },
       {
         "grupo": "Corporación Autónoma",
         "p25": 13200000.0,
-        "mediana": 25722667.0,
-        "p75": 48616000.0,
+        "mediana": 25714500.0,
+        "p75": 48666666.0,
         "n": 47647
       },
       {
         "grupo": "No clasificado",
-        "p25": 10429543.0,
+        "p25": 10443867.0,
         "mediana": 19600000.0,
-        "p75": 39658916.0,
+        "p75": 39655000.0,
         "n": 660796
       },
       {
         "grupo": "Territorial",
         "p25": 9000000.0,
         "mediana": 16400000.0,
-        "p75": 31012206.0,
+        "p75": 31000760.0,
         "n": 2223527
       }
     ],
@@ -156,36 +156,36 @@
       {
         "grupo": "Licitación pública",
         "p25": 865066336.0,
-        "mediana": 1994670780.0,
-        "p75": 5393916593.0,
+        "mediana": 1992991510.0,
+        "p75": 5393481788.0,
         "n": 14567
       },
       {
         "grupo": "Concurso de méritos",
-        "p25": 156725385.0,
+        "p25": 156611551.0,
         "mediana": 358267680.0,
-        "p75": 918733882.0,
+        "p75": 918297890.0,
         "n": 9366
       },
       {
         "grupo": "Selección abreviada",
-        "p25": 121752234.0,
-        "mediana": 247085783.0,
-        "p75": 498769757.0,
+        "p25": 121617762.0,
+        "mediana": 247100000.0,
+        "p75": 498825000.0,
         "n": 65131
       },
       {
         "grupo": "Mínima cuantía",
         "p25": 11000000.0,
-        "mediana": 25509300.0,
-        "p75": 44766628.0,
+        "mediana": 25537400.0,
+        "p75": 44760600.0,
         "n": 189212
       },
       {
         "grupo": "Contratación directa",
         "p25": 10740000.0,
-        "mediana": 19833333.0,
-        "p75": 37333333.0,
+        "mediana": 19800000.0,
+        "p75": 37317129.0,
         "n": 3109064
       },
       {
@@ -198,8 +198,8 @@
       {
         "grupo": "Régimen especial",
         "p25": 7000000.0,
-        "mediana": 17047251.0,
-        "p75": 47621871.0,
+        "mediana": 17077561.0,
+        "p75": 47600000.0,
         "n": 581515
       }
     ],
@@ -207,35 +207,35 @@
       {
         "grupo": "Salud",
         "p25": 8000000.0,
-        "mediana": 16750000.0,
+        "mediana": 16750800.0,
         "p75": 34200000.0,
         "n": 608074
       },
       {
         "grupo": "Consultoría",
-        "p25": 11358333.0,
-        "mediana": 21768555.0,
+        "p25": 11357280.0,
+        "mediana": 21750000.0,
         "p75": 40000000.0,
         "n": 434535
       },
       {
         "grupo": "Contratación de personal",
         "p25": 7500000.0,
-        "mediana": 13400000.0,
-        "p75": 23002000.0,
+        "mediana": 13372800.0,
+        "p75": 23000000.0,
         "n": 263950
       },
       {
         "grupo": "Educación",
-        "p25": 12450900.0,
-        "mediana": 25851600.0,
-        "p75": 44440001.0,
+        "p25": 12414246.0,
+        "mediana": 25826667.0,
+        "p75": 44385356.0,
         "n": 229119
       },
       {
         "grupo": "Jurídico",
         "p25": 15000000.0,
-        "mediana": 28033333.0,
+        "mediana": 28050000.0,
         "p75": 50110000.0,
         "n": 216192
       },
@@ -243,49 +243,49 @@
         "grupo": "Apoyo a la gestión",
         "p25": 9000000.0,
         "mediana": 15180000.0,
-        "p75": 25830000.0,
+        "p75": 25800000.0,
         "n": 211678
       },
       {
         "grupo": "Cultura y deporte",
         "p25": 8750000.0,
         "mediana": 16000000.0,
-        "p75": 32865000.0,
+        "p75": 32877600.0,
         "n": 172469
       },
       {
         "grupo": "Social",
         "p25": 13328200.0,
-        "mediana": 25447625.0,
+        "mediana": 25480000.0,
         "p75": 49000000.0,
         "n": 168946
       },
       {
         "grupo": "Construcción",
-        "p25": 11560000.0,
+        "p25": 11550000.0,
         "mediana": 22500000.0,
-        "p75": 51992000.0,
+        "p75": 51958832.0,
         "n": 166039
       },
       {
         "grupo": "Tecnología",
-        "p25": 11200000.0,
-        "mediana": 24041967.0,
-        "p75": 47528280.0,
+        "p25": 11204317.0,
+        "mediana": 24053333.0,
+        "p75": 47528279.0,
         "n": 150826
       },
       {
         "grupo": "Seguridad",
         "p25": 11786424.0,
         "mediana": 21600000.0,
-        "p75": 42823000.0,
+        "p75": 42824335.0,
         "n": 135179
       },
       {
         "grupo": "Financiero",
         "p25": 14000000.0,
         "mediana": 27600000.0,
-        "p75": 54150000.0,
+        "p75": 54166667.0,
         "n": 113149
       }
     ],
@@ -316,7 +316,7 @@
         "pct": 35.1
       }
     ],
-    "pago_mediana_ratio": 25.3,
+    "pago_mediana_ratio": 25.1,
     "hhi_sector": [
       {
         "sector": "Investigacion",
@@ -559,19 +559,343 @@
         "n_prov": 1600
       },
       {
-        "sector": "Educación",
-        "hhi": 16,
-        "n_prov": 98544
-      },
-      {
         "sector": "Social",
         "hhi": 16,
         "n_prov": 74108
       },
       {
+        "sector": "Educación",
+        "hhi": 16,
+        "n_prov": 98544
+      },
+      {
         "sector": "Contratación de personal",
         "hhi": 12,
         "n_prov": 134915
+      }
+    ],
+    "multas": {
+      "total": 1866,
+      "valor_multas": 1064276657799.3197,
+      "nits": 1233,
+      "anio_min": 2010,
+      "anio_max": 2026,
+      "por_anio": [
+        {
+          "anio": 2015,
+          "n": 185
+        },
+        {
+          "anio": 2016,
+          "n": 229
+        },
+        {
+          "anio": 2017,
+          "n": 175
+        },
+        {
+          "anio": 2018,
+          "n": 191
+        },
+        {
+          "anio": 2019,
+          "n": 129
+        },
+        {
+          "anio": 2020,
+          "n": 77
+        },
+        {
+          "anio": 2021,
+          "n": 78
+        },
+        {
+          "anio": 2022,
+          "n": 112
+        },
+        {
+          "anio": 2023,
+          "n": 104
+        },
+        {
+          "anio": 2024,
+          "n": 123
+        },
+        {
+          "anio": 2025,
+          "n": 189
+        },
+        {
+          "anio": 2026,
+          "n": 8
+        }
+      ],
+      "cruce_nits": 270,
+      "cruce_valor": 12313542737010.0
+    },
+    "antiguedad": {
+      "mediana_anios": 6.3,
+      "cobertura_pct": 41.5,
+      "n": 1648282,
+      "tramos": [
+        {
+          "tramo": "<1 año",
+          "n": 151598,
+          "pct": 9.2
+        },
+        {
+          "tramo": "1-3",
+          "n": 286756,
+          "pct": 17.4
+        },
+        {
+          "tramo": "3-5",
+          "n": 252605,
+          "pct": 15.3
+        },
+        {
+          "tramo": "5-10",
+          "n": 409834,
+          "pct": 24.9
+        },
+        {
+          "tramo": "10+",
+          "n": 547489,
+          "pct": 33.2
+        }
+      ]
+    },
+    "percapita": [
+      {
+        "dane": "11",
+        "departamento": "Bogotá D.C.",
+        "poblacion": 8034000,
+        "valor_per_capita": 27878185.0,
+        "contratos_per_capita": 0.1233
+      },
+      {
+        "dane": "91",
+        "departamento": "Amazonas",
+        "poblacion": 82000,
+        "valor_per_capita": 12939148.0,
+        "contratos_per_capita": 0.1528
+      },
+      {
+        "dane": "15",
+        "departamento": "Boyacá",
+        "poblacion": 1259000,
+        "valor_per_capita": 11072639.0,
+        "contratos_per_capita": 0.0903
+      },
+      {
+        "dane": "27",
+        "departamento": "Chocó",
+        "poblacion": 568000,
+        "valor_per_capita": 10887963.0,
+        "contratos_per_capita": 0.0403
+      },
+      {
+        "dane": "05",
+        "departamento": "Antioquia",
+        "poblacion": 6995000,
+        "valor_per_capita": 10569980.0,
+        "contratos_per_capita": 0.0581
+      },
+      {
+        "dane": "85",
+        "departamento": "Casanare",
+        "poblacion": 480000,
+        "valor_per_capita": 10403500.0,
+        "contratos_per_capita": 0.1257
+      },
+      {
+        "dane": "17",
+        "departamento": "Caldas",
+        "poblacion": 1026000,
+        "valor_per_capita": 9295430.0,
+        "contratos_per_capita": 0.0687
+      },
+      {
+        "dane": "50",
+        "departamento": "Meta",
+        "poblacion": 1092000,
+        "valor_per_capita": 8956960.0,
+        "contratos_per_capita": 0.0927
+      },
+      {
+        "dane": "19",
+        "departamento": "Cauca",
+        "poblacion": 1524000,
+        "valor_per_capita": 8813670.0,
+        "contratos_per_capita": 0.0441
+      },
+      {
+        "dane": "44",
+        "departamento": "La Guajira",
+        "poblacion": 992000,
+        "valor_per_capita": 8145400.0,
+        "contratos_per_capita": 0.0236
+      },
+      {
+        "dane": "81",
+        "departamento": "Arauca",
+        "poblacion": 302000,
+        "valor_per_capita": 7915856.0,
+        "contratos_per_capita": 0.0535
+      },
+      {
+        "dane": "66",
+        "departamento": "Risaralda",
+        "poblacion": 982000,
+        "valor_per_capita": 7911418.0,
+        "contratos_per_capita": 0.0829
+      },
+      {
+        "dane": "13",
+        "departamento": "Bolívar",
+        "poblacion": 2180000,
+        "valor_per_capita": 7519864.0,
+        "contratos_per_capita": 0.0577
+      },
+      {
+        "dane": "68",
+        "departamento": "Santander",
+        "poblacion": 2335000,
+        "valor_per_capita": 7357592.0,
+        "contratos_per_capita": 0.0849
+      },
+      {
+        "dane": "73",
+        "departamento": "Tolima",
+        "poblacion": 1335000,
+        "valor_per_capita": 7336674.0,
+        "contratos_per_capita": 0.0851
+      },
+      {
+        "dane": "76",
+        "departamento": "Valle del Cauca",
+        "poblacion": 4589000,
+        "valor_per_capita": 7285954.0,
+        "contratos_per_capita": 0.0911
+      },
+      {
+        "dane": "08",
+        "departamento": "Atlántico",
+        "poblacion": 2866000,
+        "valor_per_capita": 7111375.0,
+        "contratos_per_capita": 0.0481
+      },
+      {
+        "dane": "63",
+        "departamento": "Quindío",
+        "poblacion": 575000,
+        "valor_per_capita": 6877045.0,
+        "contratos_per_capita": 0.1435
+      },
+      {
+        "dane": "47",
+        "departamento": "Magdalena",
+        "poblacion": 1454000,
+        "valor_per_capita": 6695758.0,
+        "contratos_per_capita": 0.0656
+      },
+      {
+        "dane": "20",
+        "departamento": "Cesar",
+        "poblacion": 1320000,
+        "valor_per_capita": 6551421.0,
+        "contratos_per_capita": 0.0343
+      },
+      {
+        "dane": "86",
+        "departamento": "Putumayo",
+        "poblacion": 367000,
+        "valor_per_capita": 6212541.0,
+        "contratos_per_capita": 0.0716
+      },
+      {
+        "dane": "25",
+        "departamento": "Cundinamarca",
+        "poblacion": 3634000,
+        "valor_per_capita": 5999870.0,
+        "contratos_per_capita": 0.0594
+      },
+      {
+        "dane": "18",
+        "departamento": "Caquetá",
+        "poblacion": 419000,
+        "valor_per_capita": 5820155.0,
+        "contratos_per_capita": 0.0507
+      },
+      {
+        "dane": "41",
+        "departamento": "Huila",
+        "poblacion": 1215000,
+        "valor_per_capita": 5524340.0,
+        "contratos_per_capita": 0.0554
+      },
+      {
+        "dane": "88",
+        "departamento": "San Andrés y Providencia",
+        "poblacion": 64000,
+        "valor_per_capita": 5506760.0,
+        "contratos_per_capita": 0.1464
+      },
+      {
+        "dane": "54",
+        "departamento": "Norte de Santander",
+        "poblacion": 1643000,
+        "valor_per_capita": 5363066.0,
+        "contratos_per_capita": 0.0672
+      },
+      {
+        "dane": "70",
+        "departamento": "Sucre",
+        "poblacion": 967000,
+        "valor_per_capita": 3870064.0,
+        "contratos_per_capita": 0.0339
+      },
+      {
+        "dane": "23",
+        "departamento": "Córdoba",
+        "poblacion": 1828000,
+        "valor_per_capita": 3625356.0,
+        "contratos_per_capita": 0.0159
+      },
+      {
+        "dane": "52",
+        "departamento": "Nariño",
+        "poblacion": 1650000,
+        "valor_per_capita": 3377583.0,
+        "contratos_per_capita": 0.0401
+      },
+      {
+        "dane": "94",
+        "departamento": "Guainía",
+        "poblacion": 53000,
+        "valor_per_capita": 3304726.0,
+        "contratos_per_capita": 0.0465
+      },
+      {
+        "dane": "97",
+        "departamento": "Vaupés",
+        "poblacion": 47000,
+        "valor_per_capita": 3186633.0,
+        "contratos_per_capita": 0.0261
+      },
+      {
+        "dane": "99",
+        "departamento": "Vichada",
+        "poblacion": 117000,
+        "valor_per_capita": 2858883.0,
+        "contratos_per_capita": 0.0681
+      },
+      {
+        "dane": "95",
+        "departamento": "Guaviare",
+        "poblacion": 90000,
+        "valor_per_capita": 2538403.0,
+        "contratos_per_capita": 0.0309
       }
     ]
   }

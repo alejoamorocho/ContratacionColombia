@@ -14,6 +14,7 @@ export default function Quien() {
   const h2: React.CSSProperties = { fontFamily: 'var(--font-heading)', margin: 'var(--space-6) 0 var(--space-3)' };
   const nota: React.CSSProperties = { color: 'var(--fg-subtle)', fontSize: 12, lineHeight: 1.5, margin: 'var(--space-2) 0 var(--space-4)', maxWidth: '76ch' };
   const tamano = extra?.items.tamano_modalidad ?? [];
+  const antiguedad = extra?.items.antiguedad;
 
   return (
     <PageShell
@@ -47,6 +48,20 @@ export default function Quien() {
             Valor por contrato: cuartil inferior (p25), <strong>mediana (p50)</strong> y cuartil superior (p75).
             La mediana describe el contrato «normal» de cada modalidad y es robusta a cuantías extremas:
             las modalidades competitivas mueven contratos mucho mayores que la contratación directa.
+          </p>
+        </>
+      )}
+
+      {antiguedad && antiguedad.n > 0 && (
+        <>
+          <h2 style={h2}>Antigüedad del contratista al firmar</h2>
+          <VBarChart data={antiguedad.tramos} xKey="tramo" bars={[{ key: 'pct', color: 'var(--shell-tone)' }]} />
+          <p style={nota}>
+            Años entre la matrícula mercantil (RUES) y la firma del contrato. La empresa contratista
+            <strong> mediana tiene {antiguedad.mediana_anios} años</strong> al firmar. Solo cubre las
+            empresas con matrícula RUES cruzable por NIT exacto ({antiguedad.cobertura_pct}% de los
+            contratos); el resto son personas naturales u otros sin matrícula. Describe la madurez del
+            proveedor, no su capacidad ni su desempeño.
           </p>
         </>
       )}

@@ -3,15 +3,17 @@ import { MethodologyNote } from '../components/MethodologyNote';
 import MapaColombia from '../components/MapaColombia';
 import VBarChart from '../components/charts/VBarChart';
 import { usePublicData } from '../hooks/usePublicData';
-import type { DondeData } from '../lib/types';
+import type { DondeData, KpisExtra } from '../lib/types';
 
 export default function Donde() {
   const { data, loading, error } = usePublicData<DondeData>('donde');
+  const { data: extra } = usePublicData<KpisExtra>('kpis_extra');
 
   if (loading) return <p style={{ color: 'var(--fg-muted)' }}>Cargando…</p>;
   if (error || !data) return <p style={{ color: 'var(--fg-muted)' }}>No se pudieron cargar los datos.</p>;
 
   const topValor = [...data.por_departamento].sort((a, b) => b.valor - a.valor).slice(0, 15);
+  const percapita = extra?.items.percapita ?? [];
 
   return (
     <PageShell
@@ -38,6 +40,21 @@ export default function Donde() {
         Top departamentos por valor
       </h2>
       <VBarChart data={topValor} xKey="departamento" bars={[{ key: 'valor' }]} layout="horizontal" height={480} />
+
+      {percapita.length > 0 && (
+        <>
+          <h2 style={{ fontFamily: 'var(--font-heading)', marginTop: 'var(--space-6)' }}>
+            Contratación per cápita por departamento
+          </h2>
+          <VBarChart data={percapita.slice(0, 15)} xKey="departamento" bars={[{ key: 'valor_per_capita', color: 'var(--shell-tone)' }]} layout="horizontal" height={420} />
+          <p style={{ color: 'var(--fg-subtle)', fontSize: 12, lineHeight: 1.5, margin: 'var(--space-2) 0 var(--space-4)', maxWidth: '76ch' }}>
+            Valor contratado por habitante (población: proyección DANE 2023, catálogo estático citado
+            para reproducibilidad). Reordena la lectura: deja de dominar solo el tamaño absoluto. Es
+            población del departamento de la <strong>entidad contratante</strong>, no del lugar de
+            ejecución; Bogotá se infla por concentrar entidades del orden nacional.
+          </p>
+        </>
+      )}
     </PageShell>
   );
 }

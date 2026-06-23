@@ -677,6 +677,20 @@ def _build_senales_extra(client):  # pragma: no cover - requiere BQ
     return {"items": items}
 
 
+# Población por departamento (código DANE) — Proyección DANE 2023 (post-CNPV 2018),
+# aprox. al millar. Catálogo ESTÁTICO de referencia para métricas per cápita; no es
+# un dato del proyecto. Fuente: DANE. Cualquier fork puede afinarlo.
+POBLACION_DANE = {
+    "05": 6_995_000, "08": 2_866_000, "11": 8_034_000, "13": 2_180_000, "15": 1_259_000,
+    "17": 1_026_000, "18": 419_000, "19": 1_524_000, "20": 1_320_000, "23": 1_828_000,
+    "25": 3_634_000, "27": 568_000, "41": 1_215_000, "44": 992_000, "47": 1_454_000,
+    "50": 1_092_000, "52": 1_650_000, "54": 1_643_000, "63": 575_000, "66": 982_000,
+    "68": 2_335_000, "70": 967_000, "73": 1_335_000, "76": 4_589_000, "81": 302_000,
+    "85": 480_000, "86": 367_000, "88": 64_000, "91": 82_000, "94": 53_000,
+    "95": 90_000, "97": 47_000, "99": 117_000,
+}
+
+
 def _build_kpis_extra(client):  # pragma: no cover - requiere BQ
     """KPIs analíticos nuevos (oleada 1). Agregados nacionales, neutrales:
     - bpin_cadena: cadena de ejecución BPIN (vigente→comprometido→obligado→pagado).
@@ -771,11 +785,85 @@ def _build_kpis_extra(client):  # pragma: no cover - requiere BQ
               ANY_VALUE(t.n_prov) n_prov
             FROM s JOIN tot t USING(sector) GROUP BY t.sector HAVING n_prov >= 50 ORDER BY hhi DESC""")]
 
+    # Multas SECOP: panorama factual + cruce por NIT con contratistas (neutral).
+    mk = rows(
+        f"""SELECT COUNT(*) total, SUM(valor_multa) valor_multas,
+            COUNT(DISTINCT nit_sancionado) nits,
+            MIN(EXTRACT(YEAR FROM fecha_sancion)) anio_min, MAX(EXTRACT(YEAR FROM fecha_sancion)) anio_max
+          FROM `{P}.{D}.multas_secop`
+          WHERE nit_sancionado IS NOT NULL
+            -- acota fechas basura de la fuente (hay registros con año 2027/2028).
+            AND EXTRACT(YEAR FROM fecha_sancion) BETWEEN 2010 AND 2026"""
+    )[0]
+    m_anio = [{"anio": _i(r["anio"]), "n": _i(r["n"])} for r in rows(
+        f"""SELECT EXTRACT(YEAR FROM fecha_sancion) anio, COUNT(*) n FROM `{P}.{D}.multas_secop`
+          WHERE fecha_sancion IS NOT NULL AND EXTRACT(YEAR FROM fecha_sancion) BETWEEN 2015 AND 2026
+          GROUP BY 1 ORDER BY 1"""
+    )]
+    mc = rows(
+        f"""WITH m AS (SELECT DISTINCT CAST(nit_sancionado AS STRING) nit FROM `{P}.{D}.multas_secop`
+              WHERE nit_sancionado IS NOT NULL)
+            SELECT COUNT(DISTINCT c.contratista_nit) nits, SUM(c.valor) valor
+            FROM m JOIN `{BASE_TABLE}` c ON c.contratista_nit = m.nit"""
+    )[0]
+    multas = {
+        "total": _i(mk["total"]), "valor_multas": _f(mk["valor_multas"]), "nits": _i(mk["nits"]),
+        "anio_min": _i(mk["anio_min"]), "anio_max": _i(mk["anio_max"]),
+        "por_anio": m_anio, "cruce_nits": _i(mc["nits"]), "cruce_valor": _f(mc["valor"]),
+    }
+
+    # Antigüedad del contratista al firmar (RUES): madurez del proveedor. Solo
+    # empresas con matrícula RUES cruzable por NIT exacto (cobertura parcial).
+    TR_ANT = ["<1 año", "1-3", "3-5", "5-10", "10+"]
+    ant_n = {r["tramo"]: _i(r["n"]) for r in rows(
+        f"""WITH r AS (SELECT CAST(nit AS STRING) nit, SAFE.PARSE_DATE('%Y-%m-%d', fecha_matricula) fm
+              FROM `{P}.{D}.rues_empresas` WHERE fecha_matricula IS NOT NULL
+              QUALIFY ROW_NUMBER() OVER (PARTITION BY nit ORDER BY fecha_matricula) = 1),
+            j AS (SELECT DATE_DIFF(c.fecha_firma, r.fm, DAY)/365.25 anios
+              FROM `{BASE_TABLE}` c JOIN r ON c.contratista_nit = r.nit
+              WHERE r.fm IS NOT NULL AND DATE_DIFF(c.fecha_firma, r.fm, DAY) BETWEEN 0 AND 36500)
+            SELECT CASE WHEN anios < 1 THEN '<1 año' WHEN anios < 3 THEN '1-3'
+                        WHEN anios < 5 THEN '3-5' WHEN anios < 10 THEN '5-10' ELSE '10+' END tramo,
+              COUNT(*) n FROM j GROUP BY 1"""
+    )}
+    tot_ant = sum(ant_n.values())
+    am = rows(
+        f"""WITH r AS (SELECT CAST(nit AS STRING) nit, SAFE.PARSE_DATE('%Y-%m-%d', fecha_matricula) fm
+              FROM `{P}.{D}.rues_empresas` WHERE fecha_matricula IS NOT NULL
+              QUALIFY ROW_NUMBER() OVER (PARTITION BY nit ORDER BY fecha_matricula) = 1)
+            SELECT ROUND(APPROX_QUANTILES(DATE_DIFF(c.fecha_firma, r.fm, DAY)/365.25, 100)[OFFSET(50)], 1) m
+            FROM `{BASE_TABLE}` c JOIN r ON c.contratista_nit = r.nit
+            WHERE r.fm IS NOT NULL AND DATE_DIFF(c.fecha_firma, r.fm, DAY) BETWEEN 0 AND 36500"""
+    )
+    base_n = rows(f"SELECT COUNT(*) n FROM `{BASE_TABLE}`")[0]["n"]
+    antiguedad = {
+        "mediana_anios": _f(am[0]["m"]) if am else 0.0,
+        "cobertura_pct": round(tot_ant * 100.0 / base_n, 1) if base_n else 0.0,
+        "n": tot_ant,
+        "tramos": [{"tramo": t, "n": ant_n.get(t, 0),
+                    "pct": round(ant_n.get(t, 0) * 100.0 / tot_ant, 1) if tot_ant else 0.0} for t in TR_ANT],
+    }
+
+    # Contratación per cápita por departamento (catálogo DANE 2023 embebido).
+    percapita = []
+    for r in [dict(x) for x in client.query(_sql("donde_departamento.sql")).result()]:
+        pob = POBLACION_DANE.get(_s(r.get("dane")))
+        if not pob:
+            continue
+        percapita.append({
+            "dane": _s(r.get("dane")), "departamento": _s(r.get("departamento")),
+            "poblacion": pob,
+            "valor_per_capita": round(_f(r.get("valor")) / pob, 0),
+            "contratos_per_capita": round(_i(r.get("contratos")) / pob, 4),
+        })
+    percapita.sort(key=lambda x: x["valor_per_capita"], reverse=True)
+
     return {"items": {
         "bpin_cadena": bpin_cadena, "paa_origen": paa_origen, "mezcla_nivel": mezcla_nivel,
         "tamano_nivel": tamano_nivel, "tamano_modalidad": tamano_modalidad, "tamano_objeto": tamano_objeto,
         "pago_tramos": pago_tramos, "pago_mediana_ratio": pago_mediana_ratio,
         "hhi_sector": hhi_sector,
+        "multas": multas, "antiguedad": antiguedad, "percapita": percapita,
     }}
 
 

@@ -123,6 +123,15 @@ export const kpisExtraSchema = z.object({
     pago_tramos: z.array(z.object({ tramo: str, contratos: num, pct: num })),
     pago_mediana_ratio: num,
     hhi_sector: z.array(z.object({ sector: str, hhi: num, n_prov: num })),
+    multas: z.object({
+      total: num, valor_multas: num, nits: num, anio_min: num, anio_max: num,
+      por_anio: z.array(z.object({ anio: num, n: num })), cruce_nits: num, cruce_valor: num,
+    }),
+    antiguedad: z.object({
+      mediana_anios: num, cobertura_pct: num, n: num,
+      tramos: z.array(z.object({ tramo: str, n: num, pct: num })),
+    }),
+    percapita: z.array(z.object({ dane: str, departamento: str, poblacion: num, valor_per_capita: num, contratos_per_capita: num })),
   }),
 });
 
