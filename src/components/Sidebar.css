@@ -51,6 +51,21 @@
   color: var(--fg-default);
 }
 
+/* Botón hamburguesa: solo visible en móvil (ver @media). */
+.sidebar__toggle {
+  display: none;
+  margin-left: auto;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius);
+  color: var(--fg-default);
+  padding: 7px;
+  cursor: pointer;
+}
+.sidebar__toggle:hover { background: var(--bg-subtle); }
+
 .sidebar ul {
   list-style: none;
   margin: 0;
@@ -115,29 +130,39 @@
 }
 
 @media (max-width: 639px) {
+  /* Barra superior pegajosa con menú colapsable (hamburguesa). */
   .sidebar {
-    position: static;
+    position: sticky;
+    top: 0;
+    z-index: 20;
     width: 100%;
     min-width: 0;
     height: auto;
+    max-height: 100vh;
+    overflow-y: auto;
     border-right: none;
     border-bottom: 1px solid var(--border-default);
+    background: var(--bg-overlay);
+    padding: 0;
   }
-  .sidebar ul {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+  .sidebar__brand {
+    padding: var(--space-3) var(--space-4);
   }
-  .sidebar li { flex: 0 0 auto; }
-  .sidebar a {
-    border-left: none;
-    border-bottom: 2px solid transparent;
-    white-space: nowrap;
-  }
-  .sidebar a.active {
-    border-left: none;
-    border-bottom-color: var(--shell-tone, var(--brand));
-  }
+  .sidebar__toggle { display: inline-flex; }
+
+  /* Colapsado por defecto: solo marca + hamburguesa. Se despliega con --open. */
+  .sidebar > ul,
   .sidebar__foot { display: none; }
+  .sidebar--open > ul { display: block; padding-bottom: var(--space-3); }
+  .sidebar--open .sidebar__foot {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  /* Targets táctiles cómodos (≥44px) en la navegación. */
+  .sidebar a { padding-top: var(--space-3); padding-bottom: var(--space-3); }
 }

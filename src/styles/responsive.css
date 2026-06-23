@@ -1,0 +1,38 @@
+/**
+ * Salvaguardas responsive globales (mobile-first). Se importa al final en
+ * main.tsx. NO redefine tonos (eso vive en tones.css con el default en :root).
+ */
+
+/* Nada multimedia debe desbordar el ancho de la pantalla. */
+img,
+canvas,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Cadenas largas (NITs, nombres de entidad) parten en vez de empujar el layout. */
+body {
+  overflow-wrap: break-word;
+}
+
+/* Las gráficas Recharts nunca exceden el ancho del contenedor. */
+.recharts-responsive-container {
+  max-width: 100% !important;
+}
+
+@media (max-width: 639px) {
+  /* Aprovechar el ancho: menos relleno en tarjetas/callouts. */
+  .shell-callout {
+    padding: 14px 16px;
+    margin: var(--space-4) 0;
+  }
+}
+
+/* Respeta quien prefiere menos movimiento: sin animaciones del logo/transiciones. */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

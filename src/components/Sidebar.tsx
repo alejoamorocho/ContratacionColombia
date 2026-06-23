@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Home, Building2, GitBranch, Map, Activity, Info, BookOpen } from 'lucide-react';
+import { Home, Building2, GitBranch, Map, Activity, Info, BookOpen, Menu, X } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import HexLogo from './HexLogo';
 import './Sidebar.css';
@@ -60,13 +61,23 @@ const NAV: Entry[] = [
 ];
 
 export function Sidebar() {
+  const [open, setOpen] = useState(false);
   return (
-    <nav className="sidebar">
+    <nav className={open ? 'sidebar sidebar--open' : 'sidebar'}>
       <div className="sidebar__brand">
         <HexLogo size={22} animated />
         <span className="sidebar__wordmark">VECTOR<span className="vi-colombia">VI</span></span>
+        <button
+          type="button"
+          className="sidebar__toggle"
+          aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
+          aria-expanded={open}
+          onClick={() => setOpen((v) => !v)}
+        >
+          {open ? <X size={20} /> : <Menu size={20} />}
+        </button>
       </div>
-      <ul>
+      <ul onClick={() => setOpen(false)}>
         {NAV.map((e) =>
           e.type === 'link' ? (
             <li key={e.to}>

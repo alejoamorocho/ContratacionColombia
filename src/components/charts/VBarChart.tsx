@@ -12,6 +12,7 @@ import {
 } from 'recharts';
 import { axisStyle, chartPalette, tooltipStyle, truncateLabel } from '../../lib/chartTheme';
 import { formatCOP, formatNumber, formatCompact } from '../../lib/formatters';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 /** Definicion de una barra en el grafico. */
 interface BarDef {
@@ -37,11 +38,9 @@ interface VBarChartProps {
   onBarClick?: (item: Record<string, unknown>) => void;
 }
 
-const TICK_MAX = 24;
-
-function TruncatedTick({ x = 0, y = 0, payload = { value: '' } }: { x?: number; y?: number; payload?: { value: unknown } }) {
+function TruncatedTick({ x = 0, y = 0, payload = { value: '' }, max = 24 }: { x?: number; y?: number; payload?: { value: unknown }; max?: number }) {
   const text = String(payload.value || '');
-  const truncated = truncateLabel(text, TICK_MAX);
+  const truncated = truncateLabel(text, max);
   return (
     <g transform={`translate(${x},${y})`}>
       <title>{text}</title>
@@ -59,9 +58,9 @@ function TruncatedTick({ x = 0, y = 0, payload = { value: '' } }: { x?: number; 
   );
 }
 
-function AngledTick({ x = 0, y = 0, payload = { value: '' } }: { x?: number; y?: number; payload?: { value: unknown } }) {
+function AngledTick({ x = 0, y = 0, payload = { value: '' }, max = 24 }: { x?: number; y?: number; payload?: { value: unknown }; max?: number }) {
   const text = String(payload.value || '');
-  const truncated = truncateLabel(text, TICK_MAX);
+  const truncated = truncateLabel(text, max);
   return (
     <g transform={`translate(${x},${y})`}>
       <title>{text}</title>
@@ -100,18 +99,25 @@ function smartFormat(value: unknown, name: unknown): string {
  * @param props.layout - Orientacion del grafico
  */
 function VBarChart({ data, xKey, bars, height = 300, layout = 'vertical', onBarClick }: VBarChartProps) {
+  const isMobile = useIsMobile();
   if (!data?.length) return (
     <div style={{ padding: 24, textAlign: 'center', color: 'var(--fg-subtle)', fontSize: 13 }}>
       Sin datos disponibles
     </div>
   );
 
+  // En móvil, un eje de categorías ancho aplastaría las barras: se reduce su ancho
+  // y se trunca más la etiqueta (el texto completo sigue en el tooltip <title>).
+  const yWidth = isMobile ? 108 : 186;
+  const tickMax = isMobile ? 13 : 24;
+  const chartHeight = isMobile && layout === 'vertical' && height > 320 ? Math.round(height * 0.85) : height;
+
   return (
-    <ResponsiveContainer width="100%" height={height}>
+    <ResponsiveContainer width="100%" height={chartHeight}>
       <BarChart
         data={data}
         layout={layout === 'horizontal' ? 'vertical' : 'horizontal'}
-        margin={{ top: 8, right: 16, left: 8, bottom: layout === 'vertical' ? 48 : 24 }}
+        margin={{ top: 8, right: isMobile ? 8 : 16, left: isMobile ? 0 : 8, bottom: layout === 'vertical' ? 48 : 24 }}
       >
         <CartesianGrid strokeDasharray="3 3" stroke="var(--border-muted)" />
         {layout === 'horizontal' ? (
@@ -119,15 +125,15 @@ function VBarChart({ data, xKey, bars, height = 300, layout = 'vertical', onBarC
             <YAxis
               dataKey={xKey}
               type="category"
-              width={186}
-              tick={<TruncatedTick />}
+              width={yWidth}
+              tick={<TruncatedTick max={tickMax} />}
             />
             <XAxis type="number" {...axisStyle} tickFormatter={(value: number) => formatCompact(value)} />
           </>
         ) : (
           <>
-            <XAxis dataKey={xKey} tick={<AngledTick />} interval={0} height={60} />
-            <YAxis {...axisStyle} width={52} tickFormatter={(value: number) => formatCompact(value)} />
+            <XAxis dataKey={xKey} tick={<AngledTick max={tickMax} />} interval={0} height={60} />
+            <YAxis {...axisStyle} width={isMobile ? 44 : 52} tickFormatter={(value: number) => formatCompact(value)} />
           </>
         )}
         <Tooltip {...tooltipStyle} formatter={(value: unknown, name: unknown) => smartFormat(value, name)} />
