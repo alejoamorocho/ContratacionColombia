@@ -73,6 +73,12 @@ export default function Senales() {
         xKey="p"
         bars={[{ key: 'valor', color: 'var(--shell-tone)' }]}
       />
+      <ChartFootnote>
+        La distribución del valor por contrato tiene una <strong>cola muy larga</strong>: el percentil
+        99 vale decenas de veces la mediana. Las barras no crecen de forma lineal entre percentiles;
+        el salto final refleja esa cola (y posibles errores de digitación de cuantía extrema), no el
+        contrato típico, que está cerca de la mediana (p50).
+      </ChartFootnote>
 
       {/* 2) Sanciones registradas (SIRI) */}
       <h2 style={h2Style}>Sanciones registradas (SIRI)</h2>

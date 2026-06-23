@@ -110,6 +110,15 @@ export const analisisSchema = z.object({
   ),
 });
 
+/** KPIs analíticos nuevos (oleada 1): cadena BPIN, PAA por origen, mezcla por nivel. */
+export const kpisExtraSchema = z.object({
+  items: z.object({
+    bpin_cadena: z.array(z.object({ anio: num, vigente: num, comprometido: num, obligado: num, pagado: num })),
+    paa_origen: z.array(z.object({ origen: str, valor: num, items: num })),
+    mezcla_nivel: z.array(z.object({ nivel: str, grupo: str, contratos: num, valor: num })),
+  }),
+});
+
 /** Registro seccion→esquema; `usePublicData` valida si encuentra una entrada. */
 export const SCHEMAS: Record<string, z.ZodTypeAny> = {
   meta: metaSchema,
@@ -127,6 +136,7 @@ export const SCHEMAS: Record<string, z.ZodTypeAny> = {
   cruces: crucesSchema,
   senales_extra: senalesExtraSchema,
   analisis: analisisSchema,
+  kpis_extra: kpisExtraSchema,
 };
 
 export type MetaData = z.infer<typeof metaSchema>;
@@ -144,3 +154,4 @@ export type ElectoralData = z.infer<typeof electoralSchema>;
 export type CrucesData = z.infer<typeof crucesSchema>;
 export type SenalesExtra = z.infer<typeof senalesExtraSchema>;
 export type AnalisisData = z.infer<typeof analisisSchema>;
+export type KpisExtra = z.infer<typeof kpisExtraSchema>;

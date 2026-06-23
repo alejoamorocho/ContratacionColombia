@@ -4,12 +4,14 @@
 -- (prestación de servicios); es un fenómeno administrativo, no una señal.
 -- pct_contratos_enero / pct_valor_diciembre = participación del mes en el total.
 -- ratio_enero_promedio = cuántas veces el volumen de enero supera al mes medio.
+-- Solo 2023-2025: se EXCLUYE 2022 (1er semestre con cobertura severamente baja en
+-- SECOP II, que inflaba artificialmente enero/Q1) y 2026 (parcial). Patrón limpio.
 WITH base AS (
   SELECT
     EXTRACT(MONTH FROM fecha_firma) AS mes,
     valor
   FROM `{p}.{d}.contratos`
-  WHERE EXTRACT(YEAR FROM fecha_firma) BETWEEN 2022 AND 2025
+  WHERE EXTRACT(YEAR FROM fecha_firma) BETWEEN 2023 AND 2025
     AND valor IS NOT NULL AND valor > 0
 ),
 por_mes AS (

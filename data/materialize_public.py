@@ -677,6 +677,59 @@ def _build_senales_extra(client):  # pragma: no cover - requiere BQ
     return {"items": items}
 
 
+def _build_kpis_extra(client):  # pragma: no cover - requiere BQ
+    """KPIs analíticos nuevos (oleada 1). Agregados nacionales, neutrales:
+    - bpin_cadena: cadena de ejecución BPIN (vigente→comprometido→obligado→pagado).
+    - paa_origen: composición del PAA por origen de recursos (última versión).
+    - mezcla_nivel: mezcla competitiva/directa por nivel de gobierno (conteo Y valor).
+    K3 lee la base limpia (tiene modalidad_norm/orden); K1/K2 sus propias tablas.
+    """
+    P, D = PROJECT, DATASET
+
+    def rows(sql):
+        return [dict(r) for r in client.query(sql).result()]
+
+    bpin_cadena = [
+        {"anio": _i(r["anio"]), "vigente": _f(r["vigente"]), "comprometido": _f(r["comprometido"]),
+         "obligado": _f(r["obligado"]), "pagado": _f(r["pagado"])}
+        for r in rows(
+            f"""WITH dedup AS (SELECT * FROM `{P}.{D}.bpin_ejecucion`
+                WHERE SAFE_CAST(vigencia AS INT64) BETWEEN 2025 AND 2026
+                QUALIFY ROW_NUMBER() OVER (PARTITION BY id ORDER BY fecha_ingesta DESC) = 1)
+              SELECT SAFE_CAST(vigencia AS INT64) anio,
+                SUM(COALESCE(valor_vigente,0)) vigente, SUM(COALESCE(valor_comprometido,0)) comprometido,
+                SUM(COALESCE(valor_obligado,0)) obligado, SUM(COALESCE(valor_pagado,0)) pagado
+              FROM dedup GROUP BY anio ORDER BY anio"""
+        )
+    ]
+    paa_origen = [
+        {"origen": _s(r["origen"]), "valor": _f(r["valor"]), "items": _i(r["items"])}
+        for r in rows(
+            f"""WITH dd AS (SELECT * EXCEPT(rn) FROM (SELECT origen_recursos, valor_total_esperado,
+                  paa_encabezado_id, version_paa, ROW_NUMBER() OVER (PARTITION BY id ORDER BY fecha_ingesta DESC) rn
+                FROM `{P}.{D}.paa` WHERE anio BETWEEN 2024 AND 2026) WHERE rn = 1),
+              maxv AS (SELECT paa_encabezado_id, MAX(version_paa) mv FROM dd GROUP BY 1),
+              latest AS (SELECT d.* FROM dd d JOIN maxv m ON d.paa_encabezado_id = m.paa_encabezado_id AND d.version_paa = m.mv)
+              SELECT COALESCE(NULLIF(TRIM(origen_recursos), ''), 'Sin especificar') origen,
+                SUM(valor_total_esperado) valor, COUNT(*) items
+              FROM latest WHERE valor_total_esperado > 0 GROUP BY 1 ORDER BY valor DESC"""
+        )
+    ]
+    mezcla_nivel = [
+        {"nivel": _s(r["nivel"], "No clasificado"), "grupo": _s(r["grupo"]),
+         "contratos": _i(r["contratos"]), "valor": _f(r["valor"])}
+        for r in rows(
+            f"""SELECT COALESCE(orden, 'No clasificado') nivel,
+                CASE WHEN modalidad_norm = 'Contratación directa' THEN 'Directa'
+                     WHEN modalidad_norm = 'Régimen especial' THEN 'Régimen especial'
+                     ELSE 'Competitiva' END grupo,
+                COUNT(*) contratos, SUM(valor) valor
+              FROM `{BASE_TABLE}` GROUP BY 1, 2 ORDER BY 1, 2"""
+        )
+    ]
+    return {"items": {"bpin_cadena": bpin_cadena, "paa_origen": paa_origen, "mezcla_nivel": mezcla_nivel}}
+
+
 def run() -> None:  # pragma: no cover - requiere credenciales + BQ
     """Ejecuta todas las queries y escribe los seis JSON del snapshot."""
     OUT.mkdir(parents=True, exist_ok=True)
@@ -761,6 +814,7 @@ def _run_aggregates(client) -> None:  # pragma: no cover - requiere BQ
     ))
     _write("senales_extra", _build_senales_extra(client))
     _write("analisis", _build_analisis(client))
+    _write("kpis_extra", _build_kpis_extra(client))
 
     corte_rows = [
         dict(r)

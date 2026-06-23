@@ -7,7 +7,8 @@ WITH base AS (
     EXTRACT(MONTH FROM fecha_firma) AS mes_num,
     valor
   FROM `{p}.{d}.contratos`
-  WHERE EXTRACT(YEAR FROM fecha_firma) BETWEEN 2022 AND 2025
+  -- Solo años completos y bien cubiertos: 2023-2025 (excluye 2022-H1 y 2026 parcial).
+  WHERE EXTRACT(YEAR FROM fecha_firma) BETWEEN 2023 AND 2025
     AND valor IS NOT NULL AND valor > 0
 )
 SELECT

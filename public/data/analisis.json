@@ -119,71 +119,71 @@
     },
     "estacionalidad": {
       "kpis": {
-        "pct_contratos_enero": 19.4,
-        "pct_valor_diciembre": 18.1,
-        "ratio_enero_promedio": 2.3,
-        "pct_contratos_q1": 40.5
+        "pct_contratos_enero": 13.6,
+        "pct_valor_diciembre": 17.3,
+        "ratio_enero_promedio": 1.6,
+        "pct_contratos_q1": 38.3
       },
       "serie": [
         {
           "mes": "Ene",
-          "contratos": 662919,
-          "valor": 53188705254724.0
+          "contratos": 369644,
+          "valor": 36414033337568.0
         },
         {
           "mes": "Feb",
-          "contratos": 459312,
-          "valor": 52407160843188.0
+          "contratos": 418384,
+          "valor": 47218990734488.0
         },
         {
           "mes": "Mar",
-          "contratos": 260166,
-          "valor": 34808553575591.0
+          "contratos": 251038,
+          "valor": 30052524638467.0
         },
         {
           "mes": "Abr",
-          "contratos": 185969,
-          "valor": 30982702903944.0
+          "contratos": 178399,
+          "valor": 28136241476684.0
         },
         {
           "mes": "May",
-          "contratos": 205129,
-          "valor": 35663200082505.0
+          "contratos": 196627,
+          "valor": 29375271377981.0
         },
         {
           "mes": "Jun",
-          "contratos": 211258,
-          "valor": 41045807349391.0
+          "contratos": 198725,
+          "valor": 35302341930159.0
         },
         {
           "mes": "Jul",
-          "contratos": 237850,
-          "valor": 34871733501888.0
+          "contratos": 184339,
+          "valor": 27320127613014.0
         },
         {
           "mes": "Ago",
-          "contratos": 253794,
-          "valor": 32214491602163.0
+          "contratos": 182351,
+          "valor": 24222797952695.0
         },
         {
           "mes": "Sep",
-          "contratos": 266812,
-          "valor": 34086768616024.0
+          "contratos": 205897,
+          "valor": 28192753483604.0
         },
         {
           "mes": "Oct",
-          "contratos": 257222,
-          "valor": 34705687002373.0
+          "contratos": 204891,
+          "valor": 28032444608595.0
         },
         {
           "mes": "Nov",
-          "contratos": 247911,
-          "valor": 46222647299333.0
+          "contratos": 193230,
+          "valor": 35412602342805.0
         },
         {
           "mes": "Dic",
-          "contratos": 168498,
-          "valor": 95239956661467.0
+          "contratos": 130163,
+          "valor": 73107248740908.0
         }
       ]
     },

@@ -5,15 +5,17 @@ import VBarChart from '../components/charts/VBarChart';
 import VPieChart from '../components/charts/VPieChart';
 import { usePublicData } from '../hooks/usePublicData';
 import { formatCOP } from '../lib/formatters';
-import type { PlaneacionData } from '../lib/types';
+import type { PlaneacionData, KpisExtra } from '../lib/types';
 
 export default function Planea() {
   const { data, loading, error } = usePublicData<PlaneacionData>('planeacion');
+  const { data: extra } = usePublicData<KpisExtra>('kpis_extra');
 
   if (loading) return <p style={{ color: 'var(--fg-muted)' }}>Cargando…</p>;
   if (error || !data) return <p style={{ color: 'var(--fg-muted)' }}>No se pudieron cargar los datos.</p>;
 
   const { kpis } = data;
+  const origen = extra?.items.paa_origen ?? [];
 
   return (
     <PageShell
@@ -71,6 +73,20 @@ export default function Planea() {
         Por modalidad prevista
       </h2>
       <VPieChart data={data.por_modalidad} nameKey="modalidad" valueKey="valor" />
+
+      {origen.length > 0 && (
+        <>
+          <h2 style={{ fontFamily: 'var(--font-heading)', margin: 'var(--space-6) 0 var(--space-3)' }}>
+            Por origen de los recursos
+          </h2>
+          <VBarChart data={origen} xKey="origen" bars={[{ key: 'valor' }]} layout="horizontal" height={300} />
+          <p style={{ color: 'var(--fg-subtle)', fontSize: 12, lineHeight: 1.5, margin: 'var(--space-2) 0 var(--space-4)' }}>
+            Con qué bolsa pública se planea comprar (lado «planeado» de la financiación). Regalías
+            concentra mucho valor en pocos ítems (alto valor unitario). «Sin especificar» = ítems sin
+            origen declarado.
+          </p>
+        </>
+      )}
     </PageShell>
   );
 }

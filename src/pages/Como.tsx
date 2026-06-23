@@ -7,13 +7,31 @@ import VLineChart from '../components/charts/VLineChart';
 import VBarChart from '../components/charts/VBarChart';
 import ChartFootnote, { NOTA_ANIO_PARCIAL } from '../components/charts/ChartFootnote';
 import { usePublicData } from '../hooks/usePublicData';
-import type { ComoData, ProcesosData } from '../lib/types';
+import type { ComoData, ProcesosData, KpisExtra } from '../lib/types';
 
 const OTRAS = 'Otras';
 
 export default function Como() {
   const { data: como, loading: lc, error: ec } = usePublicData<ComoData>('como');
   const { data: procesos, loading: lp, error: ep } = usePublicData<ProcesosData>('procesos');
+  const { data: extra } = usePublicData<KpisExtra>('kpis_extra');
+
+  // Mezcla por nivel: % de CONTRATOS por grupo (Directa/Competitiva/Régimen especial).
+  const mezclaNivel = useMemo(() => {
+    const by = new Map<string, { nivel: string; Directa: number; Competitiva: number; especial: number; total: number }>();
+    for (const r of extra?.items.mezcla_nivel ?? []) {
+      const e = by.get(r.nivel) ?? { nivel: r.nivel, Directa: 0, Competitiva: 0, especial: 0, total: 0 };
+      if (r.grupo === 'Directa') e.Directa += r.contratos;
+      else if (r.grupo === 'Competitiva') e.Competitiva += r.contratos;
+      else e.especial += r.contratos;
+      e.total += r.contratos;
+      by.set(r.nivel, e);
+    }
+    const pct = (n: number, t: number) => (t ? Math.round((n * 1000) / t) / 10 : 0);
+    return [...by.values()]
+      .sort((a, b) => b.total - a.total)
+      .map((e) => ({ nivel: e.nivel, Directa: pct(e.Directa, e.total), Competitiva: pct(e.Competitiva, e.total), 'Régimen especial': pct(e.especial, e.total) }));
+  }, [extra]);
 
   // Pivota modalidad_por_anio (formato largo) a formato ANCHO:
   // una fila por año, una columna numérica por cada modalidad (top 4 + "Otras").
@@ -120,6 +138,26 @@ export default function Como() {
         bars={[{ key: 'pct_adjudicado', color: 'var(--shell-tone)' }]}
         layout="horizontal"
       />
+
+      {mezclaNivel.length > 0 && (
+        <>
+          <h2 style={{ fontFamily: 'var(--font-heading)', margin: 'var(--space-6) 0 var(--space-3)' }}>
+            Mezcla de modalidades por nivel de gobierno
+          </h2>
+          <VBarChart
+            data={mezclaNivel}
+            xKey="nivel"
+            bars={[{ key: 'Directa' }, { key: 'Competitiva' }, { key: 'Régimen especial' }]}
+            layout="horizontal"
+            height={300}
+          />
+          <p style={{ color: 'var(--fg-subtle)', fontSize: 12, lineHeight: 1.5, margin: 'var(--space-2) 0 var(--space-4)' }}>
+            Porcentaje del <strong>número de contratos</strong> por grupo de modalidad en cada nivel.
+            La composición difiere entre el nivel nacional y el territorial; la contratación directa
+            es legal en numerosos supuestos, así que esto describe el mix, no juzga.
+          </p>
+        </>
+      )}
     </PageShell>
   );
 }

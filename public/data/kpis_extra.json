@@ -1,0 +1,126 @@
+{
+  "items": {
+    "bpin_cadena": [
+      {
+        "anio": 2025,
+        "vigente": 204503357112156.94,
+        "comprometido": 156697585942493.78,
+        "obligado": 120547783028649.36,
+        "pagado": 122354601615702.89
+      },
+      {
+        "anio": 2026,
+        "vigente": 220345845909464.28,
+        "comprometido": 82972758143038.28,
+        "obligado": 24877508460513.84,
+        "pagado": 22172610693053.35
+      }
+    ],
+    "paa_origen": [
+      {
+        "origen": "Recursos propios",
+        "valor": 32239249030553.0,
+        "items": 110592
+      },
+      {
+        "origen": "Presupuesto de entidad nacional",
+        "valor": 10847203853162.0,
+        "items": 21991
+      },
+      {
+        "origen": "Regalias",
+        "valor": 8205114479059.0,
+        "items": 947
+      },
+      {
+        "origen": "Sistema General de Participaciones",
+        "valor": 4538091505897.0,
+        "items": 14901
+      },
+      {
+        "origen": "Sin especificar",
+        "valor": 2157685355873.0,
+        "items": 6695
+      },
+      {
+        "origen": "Recursos de credito",
+        "valor": 658296803392.0,
+        "items": 227
+      }
+    ],
+    "mezcla_nivel": [
+      {
+        "nivel": "Corporación Autónoma",
+        "grupo": "Competitiva",
+        "contratos": 2828,
+        "valor": 3989077527075.0
+      },
+      {
+        "nivel": "Corporación Autónoma",
+        "grupo": "Directa",
+        "contratos": 39818,
+        "valor": 2681923214239.0
+      },
+      {
+        "nivel": "Corporación Autónoma",
+        "grupo": "Régimen especial",
+        "contratos": 5001,
+        "valor": 7444944308412.0
+      },
+      {
+        "nivel": "Nacional",
+        "grupo": "Competitiva",
+        "contratos": 90875,
+        "valor": 63928444373683.0
+      },
+      {
+        "nivel": "Nacional",
+        "grupo": "Directa",
+        "contratos": 862343,
+        "valor": 99196996548873.0
+      },
+      {
+        "nivel": "Nacional",
+        "grupo": "Régimen especial",
+        "contratos": 84252,
+        "valor": 50573977333292.0
+      },
+      {
+        "nivel": "No clasificado",
+        "grupo": "Competitiva",
+        "contratos": 62651,
+        "valor": 35495628596172.0
+      },
+      {
+        "nivel": "No clasificado",
+        "grupo": "Directa",
+        "contratos": 513217,
+        "valor": 30104331212575.0
+      },
+      {
+        "nivel": "No clasificado",
+        "grupo": "Régimen especial",
+        "contratos": 84928,
+        "valor": 18313522652782.0
+      },
+      {
+        "nivel": "Territorial",
+        "grupo": "Competitiva",
+        "contratos": 122507,
+        "valor": 88596096848013.0
+      },
+      {
+        "nivel": "Territorial",
+        "grupo": "Directa",
+        "contratos": 1693686,
+        "valor": 132412998403787.0
+      },
+      {
+        "nivel": "Territorial",
+        "grupo": "Régimen especial",
+        "contratos": 407334,
+        "valor": 51058432529915.0
+      }
+    ]
+  }
+}

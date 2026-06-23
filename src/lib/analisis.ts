@@ -69,7 +69,7 @@ export const ANALISIS: Record<string, AnalisisConfig> = {
       layout: 'horizontal',
       titulo: 'Participación PYME dentro de cada modalidad (% de contratos)',
     },
-    nota: 'es_pyme es autodeclarado por el contratista en SECOP II, no auditado. El porcentaje por modalidad es sobre el total de contratos de esa modalidad.',
+    nota: 'es_pyme es autodeclarado por el contratista en SECOP II, no auditado. El 12,8% nacional MEZCLA universos: el denominador incluye la contratación directa (≈78% del total, dominada por personas naturales donde el concepto PYME casi no aplica), lo que diluye la cifra. El indicador más informativo es la participación PYME DENTRO de las modalidades competitivas, mucho más alta. El porcentaje por modalidad es sobre el total de contratos de esa modalidad.',
   },
   duracion: {
     label: 'Duración',
@@ -95,8 +95,8 @@ export const ANALISIS: Record<string, AnalisisConfig> = {
     label: 'Estacionalidad',
     tone: 'how',
     pregunta: '¿En qué meses se mueve la contratación pública?',
-    contexto: 'Distribución de los contratos por mes de firma, agregando los años completos 2022–2025 (se excluye 2026 por ser una vigencia parcial).',
-    callout: 'Enero concentra el 19,4% de los contratos del cuatrienio: 2,3 veces un mes promedio. Diciembre firma pocos contratos pero el mayor valor del año (18,1% del total).',
+    contexto: 'Distribución de los contratos por mes de firma, agregando los años completos 2023–2025. Se excluyen 2022 (su primer semestre tuvo cobertura severamente baja en SECOP II, que inflaba enero) y 2026 (vigencia parcial).',
+    callout: 'Enero concentra el 13,6% de los contratos (1,6 veces un mes promedio): es el arranque de vigencia. Diciembre firma pocos contratos pero el mayor valor del año (17,3%), muy influido por unos pocos contratos de cuantía extrema.',
     kpis: [
       { metric: 'pct_contratos_enero', label: 'Contratos firmados en enero', unidad: '%' },
       { metric: 'ratio_enero_promedio', label: 'Enero vs. mes promedio (×)' },
@@ -108,7 +108,7 @@ export const ANALISIS: Record<string, AnalisisConfig> = {
       series: [{ key: 'contratos', label: 'Contratos firmados' }],
       titulo: 'Contratos por mes de firma (2022–2025 agregados)',
     },
-    nota: 'Enero concentra las firmas de inicio de vigencia (prestación de servicios): es un fenómeno administrativo del calendario presupuestal, no una señal por sí mismo.',
+    nota: 'Calculado solo sobre 2023–2025 (años bien cubiertos): incluir 2022 inflaba enero por el subreporte del 1.er semestre. Enero concentra las firmas de inicio de vigencia (prestación de servicios): es un fenómeno administrativo del calendario presupuestal, no una señal. El pico de VALOR de diciembre es sensible a unos pocos contratos de cuantía extrema.',
   },
   financiacion: {
     label: 'Financiación',

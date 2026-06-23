@@ -19,6 +19,7 @@ export type {
   CrucesData,
   SenalesExtra,
   AnalisisData,
+  KpisExtra,
 } from './schemas';
 
 import type { MetaData, PanoramaData, QuienData, ComoData, DondeData, SenalesData } from './schemas';
