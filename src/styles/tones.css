@@ -68,6 +68,16 @@
 .tone-topbar {
   position: absolute;
   top: 0; left: 0; right: 0;
-  height: 2px;
+  height: 3px;
   background: linear-gradient(90deg, var(--shell-tone), transparent);
+}
+
+/* Tarjeta-pregunta de Inicio: reacciona al color de su tono al pasar el cursor. */
+.q-card {
+  transition: border-color 0.15s ease, transform 0.15s ease, background 0.15s ease;
+}
+.q-card:hover {
+  border-color: color-mix(in srgb, var(--shell-tone) 60%, var(--border-default));
+  background: color-mix(in srgb, var(--shell-tone) 7%, var(--bg-overlay));
+  transform: translateY(-2px);
 }

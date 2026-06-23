@@ -62,7 +62,10 @@ const NAV: Entry[] = [
 export function Sidebar() {
   return (
     <nav className="sidebar">
-      <div className="sidebar__brand"><HexLogo size={22} animated /> <span>VECTORVI</span></div>
+      <div className="sidebar__brand">
+        <HexLogo size={22} animated />
+        <span className="sidebar__wordmark">VECTOR<span className="vi-colombia">VI</span></span>
+      </div>
       <ul>
         {NAV.map((e) =>
           e.type === 'link' ? (

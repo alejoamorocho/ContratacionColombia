@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import { Building2, GitBranch, ClipboardList, TrendingUp, Wallet, Map, Activity, Network } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { usePublicData } from '../hooks/usePublicData';
 import type { PanoramaData, MetaData } from '../lib/types';
 import KPICard from '../components/charts/KPICard';
@@ -6,15 +8,15 @@ import VLineChart from '../components/charts/VLineChart';
 import ChartFootnote, { NOTA_ANIO_PARCIAL } from '../components/charts/ChartFootnote';
 import { DisclaimerFooter } from '../components/DisclaimerFooter';
 
-const MODULOS: { to: string; tone: string; q: string; blurb: string }[] = [
-  { to: '/quien', tone: 'who', q: '¿Quién contrata?', blurb: 'Qué entidades gastan más y qué contratistas reciben más recursos del Estado.' },
-  { to: '/como', tone: 'how', q: '¿Cómo contrata?', blurb: 'Por qué mecanismos se contrata y qué tan competidas son las licitaciones.' },
-  { to: '/planea', tone: 'plan', q: '¿Qué se planea?', blurb: 'Lo que las entidades planean comprar según su Plan Anual de Adquisiciones.' },
-  { to: '/invierte', tone: 'invest', q: '¿En qué se invierte?', blurb: 'Ejecución de los proyectos de inversión pública por sector y vigencia.' },
-  { to: '/ejecuta', tone: 'exec', q: '¿Se ejecuta?', blurb: 'Cuánto se factura y se paga frente a lo que se contrata.' },
-  { to: '/donde', tone: 'where', q: '¿Dónde?', blurb: 'Cómo se distribuye la contratación por departamento, en un mapa de Colombia.' },
-  { to: '/senales', tone: 'signal', q: '¿Hay señales?', blurb: 'Concentración, sanciones y financiación electoral. Estadística descriptiva, sin juicios.' },
-  { to: '/cruces', tone: 'signal', q: '¿Se cruzan los datos?', blurb: 'Coincidencias factuales entre registros (donantes, sancionados). Sin acusar a nadie.' },
+const MODULOS: { to: string; tone: string; q: string; blurb: string; icon: LucideIcon }[] = [
+  { to: '/quien', tone: 'who', icon: Building2, q: '¿Quién contrata?', blurb: 'Qué entidades gastan más y qué contratistas reciben más recursos del Estado.' },
+  { to: '/como', tone: 'how', icon: GitBranch, q: '¿Cómo contrata?', blurb: 'Por qué mecanismos se contrata y qué tan competidas son las licitaciones.' },
+  { to: '/planea', tone: 'plan', icon: ClipboardList, q: '¿Qué se planea?', blurb: 'Lo que las entidades planean comprar según su Plan Anual de Adquisiciones.' },
+  { to: '/invierte', tone: 'invest', icon: TrendingUp, q: '¿En qué se invierte?', blurb: 'Ejecución de los proyectos de inversión pública por sector y vigencia.' },
+  { to: '/ejecuta', tone: 'exec', icon: Wallet, q: '¿Se ejecuta?', blurb: 'Cuánto se factura y se paga frente a lo que se contrata.' },
+  { to: '/donde', tone: 'where', icon: Map, q: '¿Dónde?', blurb: 'Cómo se distribuye la contratación por departamento, en un mapa de Colombia.' },
+  { to: '/senales', tone: 'signal', icon: Activity, q: '¿Hay señales?', blurb: 'Concentración, sanciones y financiación electoral. Estadística descriptiva, sin juicios.' },
+  { to: '/cruces', tone: 'signal', icon: Network, q: '¿Se cruzan los datos?', blurb: 'Coincidencias factuales entre registros (donantes, sancionados). Sin acusar a nadie.' },
 ];
 
 export default function Inicio() {
@@ -93,7 +95,7 @@ export default function Inicio() {
             key={m.to}
             to={m.to}
             data-tone={m.tone}
-            className="card"
+            className="card q-card"
             style={{
               position: 'relative',
               overflow: 'hidden',
@@ -106,6 +108,22 @@ export default function Inicio() {
             }}
           >
             <span className="tone-topbar" />
+            <span
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 40,
+                height: 40,
+                borderRadius: 10,
+                marginBottom: 'var(--space-3)',
+                background: 'color-mix(in srgb, var(--shell-tone) 16%, transparent)',
+                border: '1px solid color-mix(in srgb, var(--shell-tone) 30%, transparent)',
+                color: 'var(--shell-tone)',
+              }}
+            >
+              <m.icon size={20} strokeWidth={2} />
+            </span>
             <h3
               style={{
                 fontFamily: 'var(--font-heading)',

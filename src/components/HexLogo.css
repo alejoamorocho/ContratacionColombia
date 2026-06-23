@@ -25,3 +25,19 @@
 @media (prefers-reduced-motion: reduce) {
   .hexlogo--animated .hexnode { animation: none; }
 }
+
+/* El texto "VI" del wordmark recorre amarillo -> azul -> rojo (Colombia) EN
+   SINCRONÍA con el nodo central del logo (mismo ciclo de 5s y mismo delay). */
+.vi-colombia {
+  animation: vi-colombia 5s infinite;
+  animation-delay: 0.75s;
+}
+@keyframes vi-colombia {
+  0%, 22%  { color: #ffcd00; } /* amarillo */
+  33%, 55% { color: #3a86ff; } /* azul */
+  66%, 88% { color: #ef3340; } /* rojo */
+  100%     { color: #ffcd00; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vi-colombia { animation: none; color: #3a86ff; }
+}

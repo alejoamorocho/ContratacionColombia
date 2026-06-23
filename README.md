@@ -32,7 +32,7 @@ El dashboard se organiza por **preguntas ciudadanas** (cada una con su color):
 | **Se cruzan los datos** | ¿Se cruzan? | Coincidencias factuales (donante↔contratista, sancionado↔contratista) |
 | **Acerca** | — | Metodología, fuentes y límites |
 
-📚 **Documentación completa en la [wiki](wiki/Home.md)** — fuentes, metodología, cruces, glosario, arquitectura, despliegue, auditoría de datos y caveats.
+📚 **Documentación completa en la [Wiki](https://github.com/alejoamorocho/ContratacionColombia/wiki)** (o en la carpeta [`wiki/`](wiki/Home.md)) — fuentes, metodología, cómo se calcula todo, cruces, glosario, arquitectura, despliegue, auditoría de datos y caveats. La Wiki de GitHub se publica con [`scripts/publish_wiki.py`](scripts/publish_wiki.py).
 
 ## Fork en 5 minutos
 
