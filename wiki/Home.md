@@ -6,6 +6,7 @@
 
 ### Empezar
 - **[Qué es](00-Que-Es.md)** — qué hace el proyecto, para quién, y qué NO es.
+- **[La historia del proyecto](14-La-Historia.md)** — el relato completo: de dónde viene, por qué existe y a dónde va.
 - **[Las secciones](07-Las-Secciones.md)** — las 10 preguntas que organizan el dashboard.
 
 ### Datos
@@ -16,6 +17,7 @@
 
 ### Entender
 - **[Metodología](03-Metodologia.md)** — qué calculamos y qué NO (sin scoring, sin juicios).
+- **[Cómo se calcula todo](13-Como-Se-Calcula-Todo.md)** — la referencia completa: la fórmula exacta de cada KPI, análisis y señal.
 - **[Los cruces](08-Los-Cruces.md)** — cómo se relacionan donantes, sancionados y contratistas.
 - **[Glosario](10-Glosario.md)** — términos de contratación pública en lenguaje claro.
 
